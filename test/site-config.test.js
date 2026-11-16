@@ -22,6 +22,8 @@ test("URL 패턴이 실제 주소와 맞는다", () => {
   assert.match("https://tickets.interpark.com/onestop/api/seatMeta?goodsCode=1", new RegExp(site.net.metaUrlPattern));
   assert.match("https://tickets.interpark.com/onestop/api/seatStatus?goodsCode=1", new RegExp(site.net.statusUrlPattern));
   assert.doesNotMatch("https://tickets.interpark.com/onestop/api/seatMeta?x", new RegExp(site.net.statusUrlPattern));
+  assert.match("https://tickets.interpark.com/onestop/gql", new RegExp(site.pageState.gqlUrlPattern));
+  assert.doesNotMatch("https://tickets.interpark.com/onestop/api/seatStatus?x", new RegExp(site.pageState.gqlUrlPattern));
 });
 
 test("필터: 배열이 아닌 grades는 경고와 함께 []", () => {

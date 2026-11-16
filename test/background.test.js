@@ -55,7 +55,13 @@ function makeChrome() {
       clear: (id) => { calls.cleared.push(id); },
       onClicked: makeEvent(),
     },
-    tabs: { onRemoved: makeEvent(), update: async (id, info) => { calls.tabs.push([id, info]); } },
+    tabs: {
+      onRemoved: makeEvent(),
+      update: async (id, info) => { calls.tabs.push([id, info]); },
+      openIds: new Set(),
+      async get(id) { if (!chrome.tabs.openIds.has(id)) throw new Error(`No tab with id: ${id}`); return { id }; },
+    },
+    alarms: { created: [], create(name, info) { this.created.push([name, info]); }, onAlarm: makeEvent() },
     windows: { update: async (id, info) => { calls.windows.push([id, info]); } },
   };
   return chrome;
@@ -103,11 +109,13 @@ test("리스너가 최상위에서 등록된다", async () => {
   assert.equal(chrome.notifications.onClicked.listeners.length, 1);
   assert.equal(chrome.tabs.onRemoved.listeners.length, 1);
   assert.equal(chrome.runtime.onConnect.listeners.length, 1);
+  assert.equal(chrome.alarms.onAlarm.listeners.length, 1);
+  assert.deepEqual(chrome.alarms.created, [["nca-health", { periodInMinutes: 0.5 }]]);
 });
 
 /** content script 포트 흉내 */
 function connect(name, sender) {
-  const port = { name, sender, onMessage: makeEvent(), sent: [], disconnected: false, disconnect() { this.disconnected = true; }, postMessage(m) { this.sent.push(m); } };
+  const port = { name, sender, onMessage: makeEvent(), onDisconnect: makeEvent(), sent: [], disconnected: false, disconnect() { this.disconnected = true; }, postMessage(m) { this.sent.push(m); } };
   chrome.runtime.onConnect.listeners[0](port);
   return port;
 }
@@ -124,7 +132,56 @@ test("content 포트: 연결하면 사이트 설정(URL 패턴)을 보내준다"
   const port = connect("nca-content", { id: "ext-id", url: "https://tickets.interpark.com/onestop/seat", tab: { id: 40, windowId: 1 } });
   await new Promise((r) => setTimeout(r, 10));
   const site = JSON.parse(fs.readFileSync(path.join(EXT, "config/site.nol.json"), "utf8"));
-  assert.deepEqual(port.sent[0], { type: "CONFIG", net: { metaUrlPattern: site.net.metaUrlPattern, statusUrlPattern: site.net.statusUrlPattern } });
+  assert.deepEqual(port.sent[0], {
+    type: "CONFIG",
+    net: { metaUrlPattern: site.net.metaUrlPattern, statusUrlPattern: site.net.statusUrlPattern },
+    pageState: { gqlUrlPattern: site.pageState.gqlUrlPattern, expiredOperation: site.pageState.expiredOperation },
+    seatPageUrlPattern: site.seatMapFrame.urlPattern,
+  });
+});
+
+test("content 포트: LEAVE 메시지·포트 끊김이면 탭을 조용히 IDLE로", async () => {
+  await loaded;
+  const sender = { id: "ext-id", url: "https://tickets.interpark.com/onestop/seat", tab: { id: 41, windowId: 1 } };
+  await chrome.storage.session.set({ "tab:41": { watch: "WATCHING", blindReason: null, frames: {}, seatMapFrameId: null, lastOkAt: 1 } });
+  const before = chrome.calls.notifications.length;
+  const port = connect("nca-content", sender);
+  port.onMessage.listeners[0]({ type: "LEAVE" });
+  await new Promise((r) => setTimeout(r, 10));
+  assert.equal(chrome.storage.session.data["tab:41"].watch, "IDLE");
+  await chrome.storage.session.set({ "tab:41": { ...chrome.storage.session.data["tab:41"], watch: "WATCHING" } });
+  port.onDisconnect.listeners[0]();
+  await new Promise((r) => setTimeout(r, 10));
+  assert.equal(chrome.storage.session.data["tab:41"].watch, "IDLE");
+  assert.equal(chrome.calls.notifications.length, before);
+  delete chrome.storage.session.data["tab:41"];
+});
+
+test("생존 확인 알람: 30초 넘게 응답 없는 감시 탭은 감시 불능 알림, 닫힌 탭은 정리", async () => {
+  await loaded;
+  await chrome.storage.local.set({ userConfig: { targets: [{ goodsCode: "26015783", playSeq: [], filter: {} }], notify: { sound: false, desktop: true, telegram: { enabled: false, token: "", chatId: "" } }, profile: {} } });
+  const old = Date.now() - 60_000;
+  await chrome.storage.session.set({
+    "tab:51": { watch: "WATCHING", blindReason: null, frames: {}, seatMapFrameId: null, lastOkAt: old, goodsCode: "26015783", playSeq: "001", windowId: 6 },
+    "tab:52": { watch: "WATCHING", blindReason: null, frames: {}, seatMapFrameId: null, lastOkAt: Date.now(), goodsCode: "26015783", playSeq: "001", windowId: 6 },
+    "tab:53": { watch: "FOUND", blindReason: null, frames: {}, seatMapFrameId: null, lastOkAt: old, goodsCode: "26015783", playSeq: "001", windowId: 6 },
+    "tab:54": { watch: "WATCHING", blindReason: null, frames: {}, seatMapFrameId: null, lastOkAt: old, goodsCode: "26015783", playSeq: "001", windowId: 6 },
+  });
+  chrome.tabs.openIds = new Set([51, 52, 53]); // 54는 닫힘
+  const before = chrome.calls.notifications.length;
+  chrome.alarms.onAlarm.listeners[0]({ name: "nca-health" });
+  await new Promise((r) => setTimeout(r, 30));
+  const added = chrome.calls.notifications.slice(before);
+  assert.equal(added.length, 1);
+  assert.match(added[0].id, /^blind:51:6:\d+$/);
+  assert.match(added[0].o.message, /30초 동안 좌석맵 응답이 없습니다/);
+  assert.equal(chrome.storage.session.data["tab:51"].blindReason, "stale");
+  assert.equal(chrome.storage.session.data["tab:52"].watch, "WATCHING");
+  assert.equal(chrome.storage.session.data["tab:53"].watch, "FOUND"); // 좌석을 찾은 상태는 건드리지 않음
+  assert.equal("tab:54" in chrome.storage.session.data, false);
+  delete chrome.storage.local.data.userConfig;
+  for (const k of Object.keys(chrome.storage.session.data)) if (/:5[1-4]$|:5[1-4]:/.test(k)) delete chrome.storage.session.data[k];
+  for (const k of Object.keys(chrome.storage.local.data)) if (k.startsWith("log:")) delete chrome.storage.local.data[k];
 });
 
 test("content 포트: 매진 → 좌석 풀림 스냅샷이 오면 '취소표 생김' 알림", async () => {

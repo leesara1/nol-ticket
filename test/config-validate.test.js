@@ -154,6 +154,7 @@ function filledSite() {
   return {
     seatMapFrame: { urlPattern: "^https://example\\.com/seat" },
     net: { metaUrlPattern: "/api/seatMeta\\?", statusUrlPattern: "/api/seatStatus\\?", statusEncoding: "hex-msb" },
+    pageState: { gqlUrlPattern: "/gql$", expiredOperation: "ExpiredSession" },
     assist: { confirmButtonSelector: "#confirm" },
   };
 }
@@ -172,6 +173,13 @@ test("validateSiteConfig: 비었거나 TODO거나 정규식 오류면 missing", 
   assert.deepEqual(missing.sort(), ["assist.confirmButtonSelector", "net.metaUrlPattern", "net.statusUrlPattern", "seatMapFrame.urlPattern"]);
 });
 
+test("validateSiteConfig: 페이지 상태 항목(GraphQL·만료 operation)도 필수", () => {
+  const site = filledSite();
+  site.pageState.gqlUrlPattern = "(";
+  site.pageState.expiredOperation = "";
+  assert.deepEqual(validateSiteConfig(site).missing.sort(), ["pageState.expiredOperation", "pageState.gqlUrlPattern"]);
+});
+
 test("validateSiteConfig: 상태 인코딩은 hex-msb만 지원", () => {
   const site = filledSite();
   site.net.statusEncoding = "hex-lsb";
@@ -180,7 +188,7 @@ test("validateSiteConfig: 상태 인코딩은 hex-msb만 지원", () => {
 
 test("validateSiteConfig: 사이트가 객체가 아니면 필수 경로 전부 missing", () => {
   const { missing } = validateSiteConfig(null);
-  assert.equal(missing.length, 5);
+  assert.equal(missing.length, 7);
 });
 
 test("validateSiteConfig: 입력을 변경하지 않는다", () => {

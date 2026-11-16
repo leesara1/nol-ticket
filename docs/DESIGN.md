@@ -1,6 +1,6 @@
 # 설계: NOL 취소표 알리미 (`nol-cancel-alert`)
 
-- 상태: r3 (2026-11-16, 사전 조사 결과 반영 — [research/03](../research/03-target-26015783.md))
+- 상태: r4 (2026-11-16, 6단계: 대기열·만료·응답 끊김 판정 — [research/03](../research/03-target-26015783.md))
 - 요구사항: [README.md](../README.md) (FR/NFR 번호는 README 기준)
 - 근거 자료: [research/](../research/README.md)
 
@@ -62,7 +62,7 @@
 │                     ▲ NCA_CONFIG            │ NCA_NET                                 │
 │  [ISOLATED world]  shared/*.js + content/*.js                                         │
 │     ├─ adapters/net.js, adapters/dom.js  : → Snapshot                                 │
-│     ├─ page-state.js     : frame 단위 상태 판정, 1분마다 HEARTBEAT                     │
+│     ├─ page-signals.js   : 세션 만료 응답 해석 (8절)                                     │
 │     ├─ assist/highlight.js, assist/autofill.js                                        │
 │                     │ chrome.runtime.Port (끊기면 재연결)                              │
 └─────────────────────┼─────────────────────────────────────────────────────────────────┘
@@ -183,12 +183,18 @@ README FR-2의 필드 이름은 이 정의를 따른다 (`seenAt`, `playSeq`, `b
 | `selector_mismatch`, `parse_failed` | 좌석맵 frame의 보고만 반영 |
 | `HIGHLIGHT` | 좌석맵 frame의 포트로만 보낸다 |
 
-### 5.3 생존 확인 (health.js, FR-12)
+### 5.3 생존 확인 (health.js, FR-12) — 6단계
 
-- 좌석맵은 약 3.8초마다 좌석 상태를 받으므로 스냅샷이 계속 온다. 다만 사용자가 다른 화면(결제 등)으로 넘어가면 끊기므로 HEARTBEAT로 "페이지는 살아 있음"을 따로 알린다.
-- 그래서 **"정상적으로 읽음" = 스냅샷 수신 또는 `HEARTBEAT {state: "ok"}` 수신**으로 정의한다.
-- content script(page-state.js)는 1분마다 HEARTBEAT를 보낸다. 백그라운드 탭에서 타이머가 1분 주기로 제한돼도 동작한다.
-- `health.js`는 30초 주기 `chrome.alarms`(MV3 최소 주기)로 탭마다 마지막 수신 시각을 확인하고, 좌석맵 frame에서 **30초** 동안 스냅샷이 없으면 `stale`로 BLIND 처리한다 (3.8초 주기의 약 8배).
+| 상황 | 신호 | 처리 |
+|---|---|---|
+| 좌석 화면에 있고 정상 | 스냅샷이 약 3.8초마다 옴 | `lastOkAt` 갱신 |
+| 페이지를 떠남 (결제로 이동, 닫기, 새로고침) | content 포트 끊김 (`port.onDisconnect`) | 조용히 `IDLE` (알림 없음) |
+| 좌석 화면인데 응답이 끊김 (만료 팝업, 오류 등) | `WATCHING`인데 30초간 스냅샷 없음 | `stale`로 BLIND, 1회 알림 |
+
+- `health.js`: 30초 주기 `chrome.alarms`(MV3 최소 주기, 이름 `nca-health`)로 탭마다 `lastOkAt`을 확인한다. 알람은 SW 최상위에서 `chrome.alarms.create`로 등록한다 (같은 이름은 덮어쓰므로 중복되지 않음)
+- 탭이 이미 없으면(`chrome.tabs.get` 실패) 상태를 지운다
+- **백그라운드 탭 주의:** 크롬은 5분 넘게 숨겨진 탭의 타이머를 1분에 한 번으로 줄인다. 좌석 탭이 뒤에 있으면 갱신이 느려져 `stale`이 울릴 수 있다. `stale` 문구에 "좌석 탭을 화면 앞에 두세요"를 넣고, README 사용 안내에도 적는다
+- HEARTBEAT는 쓰지 않는다 (r3까지의 설계). 페이지를 떠난 것은 포트 끊김으로 알 수 있고, 좌석 화면에서는 스냅샷 자체가 생존 신호다
 
 ## 6. 감지 로직 (shared/detector.js)
 
@@ -283,20 +289,22 @@ parse(input, site)
 - 필수 셀렉터나 응답 필드가 없으면 → `selector_mismatch`
 - **실패한 스냅샷은 `prev`를 덮어쓰지 않는다.** 덮어쓰면 복구 직후 모든 좌석이 "생김"으로 쏟아진다
 
-## 8. 페이지 상태 판정 (page-state.js)
+## 8. 페이지 상태 판정 (shared/page-signals.js) — 6단계
 
-설정의 `pageState` 규칙(URL 패턴 + 셀렉터 + 텍스트)을 위에서부터 평가한다. frame 단위로 판정하고 SW가 합친다 (5.2).
+사전 조사로 확인한 요청 (research/03). **두 요청 모두 정상 입장 때도 호출되므로, 요청이 왔다는 것만으로 판정하지 않고 응답 값을 본다.**
 
-| 상태 | 판정 예 `[미확인]` |
-|---|---|
-| `logged_out` | 로그인 페이지 URL, 로그인 버튼 존재 |
-| `queue` | 대기열(NetFunnel 등) 화면 요소 |
-| `expired` | "세션이 만료" / "시간이 초과" 팝업 |
-| `no_seat_map` | 좌석맵 frame 없음 (SW 판정) |
-| `selector_mismatch` | 어댑터의 필수 셀렉터·필드 없음 |
-| `parse_failed` | `totalSeats === 0` |
-| `stale` | 좌석맵 frame에서 30초간 스냅샷 없음 (SW 판정, 5.3) |
-| `ok` | 위에 해당하지 않음 |
+| 상태 | 신호 | 판정 |
+|---|---|---|
+| `queue` | `GET ent-waiting-api.interpark.com/waiting/api/rank` 응답 `{totalRank, myRank, …}` | **보류.** 정상 입장 때 `myRank: 1, totalRank: 0`이었고 실제 대기 중 값은 본 적이 없어 규칙을 정할 근거가 없다. 대기열에 있는 동안은 좌석 화면이 아니라 감시할 것도 없다 (README FR-9 보류) |
+| `expired` | `POST /onestop/gql` `operationName: "ExpiredSession"` 응답 `{data: {isExpiredSession}}` | `true`면 만료. 입장 때는 확인 질의로 호출됨 |
+| `stale` | 30초간 스냅샷 없음 (SW, 5.3) | |
+| `selector_mismatch`·`parse_failed` | 좌석 응답 형식 이상 (7절) | |
+
+- 순수 함수 `opName(requestBody) → string | null`, `parseExpired(responseBody) → boolean | null`
+- net-tap은 GraphQL 요청 본문에서 `operationName`만 읽고, **설정에 지정된 operation(`ExpiredSession`)의 응답만** 넘긴다. 보안문자(`VerifyCaptcha`) 등 다른 GraphQL 응답은 넘기지 않는다
+- `logged_out`, `no_seat_map`은 쓰지 않는다 (좌석 화면 진입에 로그인과 보안문자가 필요하므로 좌석 화면에 있다는 것 자체가 로그인 상태)
+
+**알림 억제:** 좌석을 이미 찾은 상태(`FOUND`·`ASSISTING`)에서 `expired`·`stale`이 오면 상태만 바꾸고 알리지 않는다. 사용자가 좌석을 고르거나 결제 중일 수 있기 때문이다.
 
 ## 9. 새로고침 — 만들지 않음
 
@@ -374,15 +382,15 @@ parse(input, site)
     "statusUrlPattern": "/onestop/api/seatStatus\\?",
     "statusEncoding": "hex-msb"
   },
-  "pageState": [
-    { "state": "queue", "urlPattern": "ent-waiting-api\\.interpark\\.com/" },
-    { "state": "expired", "gqlOperation": "ExpiredSession" }
-  ],
+  "pageState": {
+    "gqlUrlPattern": "/onestop/gql(\\?|$)",
+    "expiredOperation": "ExpiredSession"
+  },
   "assist": { "confirmButtonSelector": "TODO: 선택 완료 버튼 셀렉터 (7단계)" }
 }
 ```
 
-`pageState` 규칙은 6단계에서 쓴다. `queue`는 대기열 순번 API 요청, `expired`는 GraphQL `ExpiredSession` 요청으로 판정한다 (research/03).
+`pageState`는 8절 판정에 쓴다. 요청이 아니라 **응답 값**으로 판정한다 (`isExpiredSession === true`).
 
 ### 12.2 사용자 설정 — 옵션 페이지 → `chrome.storage.local` (커밋 안 함)
 
@@ -447,13 +455,15 @@ ES module. `chrome.storage.session`을 감싸는 `createStore(area)` — `area`�
 
 | 방향 | 타입 | 내용 |
 |---|---|---|
-| ISOLATED → MAIN | `NCA_CONFIG` (`postMessage`) | `{urlPatterns: [metaUrlPattern, statusUrlPattern]}` |
+| ISOLATED → MAIN | `NCA_CONFIG` (`postMessage`) | `{urlPatterns: [meta, status], gqlPattern, gqlOps: ["ExpiredSession"]}` |
+| MAIN → ISOLATED | `NCA_NET` (`postMessage`) — GraphQL | `{url, status, body, op}` (`op`이 `gqlOps`에 있을 때만) |
 | MAIN → ISOLATED | `NCA_NET` (`postMessage`) | `{url, status, body}` (패턴 일치분만) |
-| SW → content | `CONFIG` | `{net: {metaUrlPattern, statusUrlPattern}}` — 포트가 연결되면 바로 보낸다. content script는 확장 파일을 `fetch`로 읽을 수 없고, `web_accessible_resources`로 공개하면 사이트가 확장 설치를 알아챌 수 있어 쓰지 않는다 (실제 크롬 점검에서 확인, 2026-11-16) |
+| SW → content | `CONFIG` | `{net: {metaUrlPattern, statusUrlPattern}, pageState: {gqlUrlPattern, expiredOperation}, seatPageUrlPattern}` — 포트가 연결되면 바로 보낸다. content script는 확장 파일을 `fetch`로 읽을 수 없고, `web_accessible_resources`로 공개하면 사이트가 확장 설치를 알아챌 수 있어 쓰지 않는다 (실제 크롬 점검에서 확인, 2026-11-16) |
 | content → SW | `HELLO` | `{frameUrl}` (연결·재연결 시) |
 | content → SW | `SNAPSHOT` | `{goodsCode, snapshot: Snapshot, newBlocks: string[]}` |
-| content → SW | `PAGE_STATE` | `{state, detail}` |
-| content → SW | `HEARTBEAT` | `{state}` (1분마다) |
+| content → SW | `BLIND` | `{reason, detail?, goodsCode?, playSeq?}` (만료·형식 이상) |
+| content → SW | `LEAVE` | 주소가 좌석 화면(`seatMapFrame.urlPattern`)에서 벗어남 → `IDLE` (예매 단계가 한 페이지 안에서 주소만 바뀌는 경우) |
+| (포트 끊김) | — | 페이지를 떠남 → SW가 그 탭을 `IDLE`로 |
 | content → SW | `USER_SEAT_CLICK` | `{seatKey}` (ASSISTING 전환·autofill 조건) |
 | SW → content | `HIGHLIGHT` | `{seatKeys}` |
 | SW → content | `AUTOFILL` | `{profile}` |
@@ -473,10 +483,10 @@ extension/                    # 확장 루트 (chrome://extensions에서 이 폴
   manifest.json
   background.js               # SW 진입점 (ES module)
   config/ site.nol.json
-  shared/ types.js detector.js config-validate.js format.js seat-parse.js page-state-rules.js   # 순수 모듈 (2.1 형식)
+  shared/ types.js detector.js config-validate.js format.js seat-parse.js page-signals.js   # 순수 모듈 (2.1 형식)
   sw/ watch.js tab-registry.js health.js notifier.js focus.js log.js store.js
   content/ net-tap.js         # MAIN world
-  content/ page-state.js highlight.js autofill.js content.js
+  content/ net-tap.js content.js highlight.js autofill.js
   content/ highlight.css
   offscreen/ offscreen.html offscreen.js   # WebAudio 신호음, 소리 파일 없음
   options/ options.html options.js form-model.js
@@ -565,7 +575,8 @@ test/
 | D5 | 좌석 클릭·선택완료는 사용자 | 자동 클릭 | README R-X1 |
 | D6 | 픽셀 감시 보류 | 기존 스크립트 포팅 | 좌석맵이 저절로 안 바뀌면 효과 없음. 캔버스일 때만 재검토 |
 | D7 | SW 상태는 `storage.session` | 메모리 | SW가 30초 유휴 후 종료되면 상태가 사라져 취소표를 놓침 |
-| D8 | 생존 판정에 HEARTBEAT 포함 | 스냅샷만 | 결제 등 다른 화면으로 넘어간 경우와 페이지가 죽은 경우를 구분 |
+| D8 | 페이지 이탈은 포트 끊김, 응답 끊김은 30초 stale (r4) | HEARTBEAT | 포트 끊김으로 이탈을 바로 알 수 있고, 좌석 화면에서는 스냅샷이 생존 신호라 HEARTBEAT가 필요 없음 |
+| D11 | 만료는 요청이 아니라 응답 값으로 판정, 대기열 판정은 보류 | 요청 발생으로 판정 | 두 요청 모두 정상 입장 때도 호출됨. 대기열 응답은 정상 입장에서도 `myRank: 1`이라 규칙을 정할 근거 없음 (HAR 확인) |
 | D9 | 구역별 최신 상태를 누적해 스냅샷 생성 | 응답 하나 = 스냅샷 하나 | 보이는 구역만 응답에 오므로, 화면 이동 때 "사라짐"을 오인하지 않게 |
 | D10 | 처음 보는 구역의 기존 빈 좌석은 기준으로만 (`newBlocks`) | 처음부터 알림 | 지도를 움직일 때마다 이미 있던 빈 좌석이 "생김"으로 쏟아지지 않게 |
 
@@ -591,6 +602,6 @@ test/
 3. notifier (크롬 알림, offscreen 소리, 텔레그램), focus, log + 내보내기, 툴바 아이콘·상태 팝업 (10.1, 16.1, 16A)
 4. **사전 조사** → `extension/config/site.nol.json` 채우기 (완료, 19절)
 5. `net-tap.js` + `shared/seat-parse.js` + 테스트 → `content.js` → SW `sw/watch.js`(감지·알림·로그 연결) + 매니페스트 content script. fixture는 HAR에서 좌석 응답만 잘라 `fixtures/*.json`
-6. page-state(대기열·만료) + health(30초 stale) + BLIND 처리
+6. `shared/page-signals.js`(만료; 대기열은 보류) + net-tap GraphQL 처리 + SW health(30초 stale)·포트 끊김 → IDLE + 알림 억제
 7. highlight → (필요 시) autofill
 8. ~~scheduler + refresh-banner~~ — 만들지 않음 (9절)

@@ -160,3 +160,64 @@ test("감시 불능: 대상 공연이 아니면 알리지 않는다", async () =
   assert.equal(r.notified, false);
   assert.equal(calls.notify.length, 0);
 });
+
+// ── 6단계: 이탈·응답 끊김·만료 ──────────────────────────
+
+test("이탈: handleLeave면 IDLE, 알림 없음", async () => {
+  const { watcher, store, calls } = await setup([target("26015783")]);
+  const [m1] = soldoutThenRelease([]);
+  await watcher.handleSnapshot(TAB, m1);
+  await watcher.handleLeave(TAB);
+  assert.equal((await store.getTab(7)).watch, "IDLE");
+  assert.equal(calls.notify.length, 0);
+});
+
+test("응답 끊김: 30초 넘게 스냅샷이 없으면 stale 1회 알림, 그 전엔 없음", async () => {
+  const { createStore } = await import("../extension/sw/store.js");
+  const { createWatcher } = await import("../extension/sw/watch.js");
+  let t = 1000;
+  const calls = [];
+  const store = createStore(fakeArea());
+  const watcher = createWatcher({
+    store, log: { append: async () => {} },
+    notifier: { notify: async (kind, text, opts) => { calls.push({ kind, text, opts }); } },
+    focus: async () => {}, loadUserConfig: async () => ({ targets: [target("26015783")] }),
+    detector, seatParse, format, now: () => t,
+  });
+  const [m1] = soldoutThenRelease([]);
+  await watcher.handleSnapshot(TAB, m1);
+  const alive = async () => true;
+  t += 29_000;
+  assert.deepEqual(await watcher.checkStale(alive), []);
+  t += 2_000;
+  assert.deepEqual(await watcher.checkStale(alive), [7]);
+  assert.equal(calls.length, 1);
+  assert.equal(calls[0].kind, "blind");
+  assert.deepEqual(calls[0].opts, { tabId: 7, windowId: 2 });
+  // 이미 BLIND면 다시 알리지 않는다 (WATCHING이 아니므로 대상에서 빠짐)
+  t += 60_000;
+  assert.deepEqual(await watcher.checkStale(alive), []);
+  assert.equal(calls.length, 1);
+});
+
+test("좌석을 찾은 뒤(FOUND)의 만료는 상태만 바꾸고 알리지 않는다", async () => {
+  const { watcher, calls, store } = await setup([target("26015783")]);
+  const [m1, m2] = soldoutThenRelease([66233]);
+  await watcher.handleSnapshot(TAB, m1);
+  await watcher.handleSnapshot(TAB, m2);
+  assert.equal((await store.getTab(7)).watch, "FOUND");
+  const n = calls.notify.length;
+  const r = await watcher.handleBlind(TAB, { reason: "expired" });
+  assert.equal(r.quiet, true);
+  assert.equal(calls.notify.length, n);
+  assert.equal((await store.getTab(7)).watch, "BLIND");
+});
+
+test("감시 중 만료(goodsCode 없이 와도 탭 상태의 공연으로 대상 확인)", async () => {
+  const { watcher, calls } = await setup([target("26015783")]);
+  const [m1] = soldoutThenRelease([]);
+  await watcher.handleSnapshot(TAB, m1);
+  const r = await watcher.handleBlind(TAB, { reason: "expired" });
+  assert.equal(r.notified, true);
+  assert.match(calls.notify.at(-1).text, /좌석 선택 시간이 끝났습니다/);
+});

@@ -189,7 +189,16 @@ chrome.runtime.onConnect.addListener((port) => {
   const ref = { id: tab.id, windowId: tab.windowId };
   // content script는 확장 파일을 직접 못 읽으므로 사이트 설정을 보내준다 (DESIGN 13)
   loadSiteConfig().then(
-    (site) => { try { port.postMessage({ type: "CONFIG", net: { metaUrlPattern: site.net.metaUrlPattern, statusUrlPattern: site.net.statusUrlPattern } }); } catch { /* 이미 끊김 */ } },
+    (site) => {
+      try {
+        port.postMessage({
+          type: "CONFIG",
+          net: { metaUrlPattern: site.net.metaUrlPattern, statusUrlPattern: site.net.statusUrlPattern },
+          pageState: { gqlUrlPattern: site.pageState?.gqlUrlPattern, expiredOperation: site.pageState?.expiredOperation },
+          seatPageUrlPattern: site.seatMapFrame?.urlPattern,
+        });
+      } catch { /* 이미 끊김 */ }
+    },
     (e) => console.error("[nca] 사이트 설정을 읽지 못했습니다", e),
   );
   port.onMessage.addListener((msg) => {
@@ -197,8 +206,33 @@ chrome.runtime.onConnect.addListener((port) => {
       watcher.handleSnapshot(ref, msg).catch((e) => console.error("[nca] 스냅샷 처리 실패", e));
     } else if (msg?.type === "BLIND" && typeof msg.reason === "string") {
       watcher.handleBlind(ref, msg).catch((e) => console.error("[nca] 감시 불능 처리 실패", e));
+    } else if (msg?.type === "LEAVE") {
+      watcher.handleLeave(ref).catch((e) => console.error("[nca] 이탈 처리 실패", e));
     }
+  });
+  // 페이지를 떠나면(이동·닫기·새로고침) 포트가 끊긴다 → 조용히 IDLE (DESIGN 5.3)
+  port.onDisconnect.addListener(() => {
+    watcher.handleLeave(ref).catch((e) => console.error("[nca] 이탈 처리 실패", e));
   });
 });
 
-// 이후 단계에서 추가: alarms.onAlarm(health, 30초 stale 판정). 이 파일 최상위에 등록한다.
+// ── 생존 확인: 30초 주기로 응답 끊김(stale) 판정 (DESIGN 5.3) ──
+
+const HEALTH_ALARM = "nca-health";
+// 같은 이름은 덮어쓰므로 SW가 다시 떠도 중복되지 않는다. 0.5분 = MV3 최소 주기
+chrome.alarms.create(HEALTH_ALARM, { periodInMinutes: 0.5 });
+
+/** @param {number} tabId */
+async function tabExists(tabId) {
+  try {
+    await chrome.tabs.get(tabId);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+chrome.alarms.onAlarm.addListener((alarm) => {
+  if (alarm.name !== HEALTH_ALARM) return;
+  watcher.checkStale(tabExists).catch((e) => console.error("[nca] 생존 확인 실패", e));
+});

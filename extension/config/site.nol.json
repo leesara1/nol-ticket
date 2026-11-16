@@ -8,16 +8,10 @@
     "statusUrlPattern": "/onestop/api/seatStatus\\?",
     "statusEncoding": "hex-msb"
   },
-  "pageState": [
-    {
-      "state": "queue",
-      "urlPattern": "ent-waiting-api\\.interpark\\.com/"
-    },
-    {
-      "state": "expired",
-      "gqlOperation": "ExpiredSession"
-    }
-  ],
+  "pageState": {
+    "gqlUrlPattern": "/onestop/gql(\\?|$)",
+    "expiredOperation": "ExpiredSession"
+  },
   "assist": {
     "confirmButtonSelector": "TODO: 선택 완료 버튼 셀렉터 (7단계)"
   }

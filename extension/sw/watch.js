@@ -1,6 +1,7 @@
 // @ts-check
 // 좌석 스냅샷 처리 (DESIGN 5.1, 6, 7.1, 10, 16). content script → SW.
 // 대상 공연 확인 → 기준 보정(newBlocks) → 감지 → 상태 저장 → 알림·포커스·로그.
+// 6단계: 페이지 이탈(LEAVE·포트 끊김) → IDLE, 30초 응답 끊김 → stale, 좌석을 찾은 뒤의 만료·끊김은 알리지 않음.
 // 의존성을 주입받아 Node에서 테스트한다.
 
 /**
@@ -21,6 +22,12 @@
  *
  * @typedef {{ id: number, windowId: number }} TabRef
  */
+
+export const STALE_MS = 30_000;
+
+/** 좌석을 이미 찾았거나 고르는 중이면 만료·끊김을 알리지 않는다 (DESIGN 8) */
+const QUIET_WHEN = new Set(["FOUND", "ASSISTING"]);
+const QUIET_REASONS = new Set(["expired", "stale"]);
 
 /** @param {WatchDeps} deps */
 export function createWatcher(deps) {
@@ -91,6 +98,9 @@ export function createWatcher(deps) {
         before = structuredClone(t);
         t.lastOkAt = now();
         t.blindReason = null;
+        t.goodsCode = msg.goodsCode;
+        t.playSeq = snap.playSeq;
+        t.windowId = tab.windowId;
         if (found.length > 0) t.watch = "FOUND";
         else if (t.watch === "FOUND" && nextAlerted.size === 0) t.watch = "WATCHING";
         else if (t.watch !== "FOUND" && t.watch !== "ASSISTING") t.watch = "WATCHING";
@@ -118,9 +128,11 @@ export function createWatcher(deps) {
    */
   function handleBlind(tab, msg) {
     return serial(tab.id, async () => {
-      if (msg.goodsCode) {
+      const current = await deps.store.getTab(tab.id);
+      const goodsCode = msg.goodsCode || current.goodsCode || "";
+      if (goodsCode) {
         const config = await deps.loadUserConfig();
-        if (!config.targets.some((/** @type {any} */ t) => t.goodsCode === msg.goodsCode)) return { notified: false, ignored: "대상 공연 아님" };
+        if (!config.targets.some((/** @type {any} */ t) => t.goodsCode === goodsCode)) return { notified: false, ignored: "대상 공연 아님" };
       }
       /** @type {TabState | null} */
       let before = null;
@@ -131,13 +143,49 @@ export function createWatcher(deps) {
       });
       const b = /** @type {TabState} */ (/** @type {unknown} */ (before));
       if (b.watch === "BLIND" && b.blindReason === msg.reason) return { notified: false };
+      if (QUIET_WHEN.has(b.watch) && QUIET_REASONS.has(msg.reason)) return { notified: false, quiet: true };
       await deps.notifier.notify("blind", deps.format.formatBlind(msg.reason), { tabId: tab.id, windowId: tab.windowId });
       await deps.log.append({
-        t: now(), kind: "blind", goodsCode: msg.goodsCode ?? "", playSeq: msg.playSeq ?? "", matched: false, seats: [], reason: msg.reason,
+        t: now(), kind: "blind", goodsCode, playSeq: msg.playSeq || current.playSeq || "", matched: false, seats: [], reason: msg.reason,
       }).catch(() => {});
       return { notified: true };
     });
   }
 
-  return { handleSnapshot, handleBlind };
+  /**
+   * 페이지를 떠남 (좌석 화면이 아닌 주소로 이동, 포트 끊김). 조용히 IDLE로 (DESIGN 5.3).
+   * @param {TabRef} tab
+   */
+  function handleLeave(tab) {
+    return serial(tab.id, async () => {
+      await deps.store.updateTab(tab.id, (t) => {
+        t.watch = "IDLE";
+        t.blindReason = null;
+      });
+    });
+  }
+
+  /**
+   * 30초 주기 알람에서 호출: 감시 중인데 응답이 끊긴 탭을 stale로 (DESIGN 5.3).
+   * 닫힌 탭은 상태를 지운다.
+   * @param {(tabId: number) => Promise<boolean>} tabExists
+   * @returns {Promise<number[]>} stale로 바꾼 탭
+   */
+  async function checkStale(tabExists) {
+    /** @type {number[]} */
+    const staled = [];
+    for (const tabId of await deps.store.listTabIds()) {
+      if (!(await tabExists(tabId))) {
+        await deps.store.clearTab(tabId);
+        continue;
+      }
+      const t = await deps.store.getTab(tabId);
+      if (t.watch !== "WATCHING" || t.lastOkAt === null || now() - t.lastOkAt <= STALE_MS) continue;
+      await handleBlind({ id: tabId, windowId: t.windowId ?? -1 }, { reason: "stale" });
+      staled.push(tabId);
+    }
+    return staled;
+  }
+
+  return { handleSnapshot, handleBlind, handleLeave, checkStale };
 }

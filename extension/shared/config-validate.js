@@ -228,12 +228,13 @@
     /** @param {string} path */
     const get = (path) => path.split(".").reduce((o, k) => (isPlainObject(o) ? o[k] : undefined), /** @type {any} */ (s));
 
-    for (const path of ["seatMapFrame.urlPattern", "net.metaUrlPattern", "net.statusUrlPattern"]) {
+    for (const path of ["seatMapFrame.urlPattern", "net.metaUrlPattern", "net.statusUrlPattern", "pageState.gqlUrlPattern"]) {
       const v = get(path);
       if (isBlankOrTodo(v)) { missing.push(path); continue; }
       try { new RegExp(/** @type {string} */ (v)); } catch { missing.push(path); }
     }
     if (get("net.statusEncoding") !== "hex-msb") missing.push("net.statusEncoding");
+    if (isBlankOrTodo(get("pageState.expiredOperation"))) missing.push("pageState.expiredOperation");
     if (isBlankOrTodo(get("assist.confirmButtonSelector"))) missing.push("assist.confirmButtonSelector");
     return { missing };
   }
