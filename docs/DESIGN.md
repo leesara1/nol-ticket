@@ -391,10 +391,13 @@ ES module. `chrome.storage.session`을 감싸는 `createStore(area)` — `area`�
 
 ### 12.5 옵션 페이지
 
-- classic script: `shared/types.js` → `shared/detector.js` → `shared/config-validate.js` → `options.js`
+- classic script: `shared/types.js` → `shared/detector.js` → `shared/config-validate.js` → `options/form-model.js` → `options.js`
+- `form-model.js`: 폼 값 ↔ 설정 변환 순수 함수 (`configToForm`, `formToConfig`). Node에서 왕복 테스트
+- 저장하면 입력이 사라지는 경우는 **저장하지 않고 오류 표시**: 상품코드 없이 조건만 입력, 열 범위 한쪽만 입력
+- 폼은 첫 대상 공연만 편집하고, `targets[1]` 이후는 저장된 값을 그대로 보존
+- 시간대 구분자는 `-`와 `~` 모두 허용
 - 사용자 설정은 `chrome.storage.local`의 `userConfig` 키 하나에 저장
 - 저장 시 `validateUserConfig` → 고쳐진 값으로 저장하고 경고 목록 표시
-- 대상 공연은 우선 1개만 편집 (UI). 데이터 구조는 배열 유지
 
 ## 13. 메시지 프로토콜
 

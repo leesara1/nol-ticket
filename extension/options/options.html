@@ -33,7 +33,7 @@
         <p class="note">좌석맵이 저절로 갱신되지 않을 때만 켜세요. 최소 30초, 지정한 시간대에만 동작합니다.</p>
         <label class="check"><input name="refreshEnabled" type="checkbox"> 사용</label>
         <label>간격(초) <input name="intervalSec" type="number" min="30" value="60"></label>
-        <label>시간대 <textarea name="windows" rows="3" placeholder="한 줄에 하나. 예: 08:55-09:30"></textarea></label>
+        <label>시간대 <textarea name="windows" rows="3" placeholder="한 줄에 하나. 예: 08:55-09:30 또는 08:55~09:30"></textarea></label>
       </fieldset>
 
       <fieldset>
@@ -63,6 +63,7 @@
   <script src="../shared/types.js"></script>
   <script src="../shared/detector.js"></script>
   <script src="../shared/config-validate.js"></script>
+  <script src="form-model.js"></script>
   <script src="options.js"></script>
 </body>
 </html>

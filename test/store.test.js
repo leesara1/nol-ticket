@@ -97,3 +97,33 @@ test("clearTab은 해당 탭 키만 지운다", async () => {
   assert.deepEqual(Object.keys(area.data).sort(), ["prev:12:001", "tab:12"]);
   assert.deepEqual(await s.listTabIds(), [12]);
 });
+
+test("updateTab 진행 중에 clearTab이 와도 닫힌 탭 상태가 되살아나지 않는다", async () => {
+  const { createStore } = await load();
+  const area = fakeArea();
+  const s = createStore(area);
+  /** @type {() => void} */
+  let release = () => {};
+  const gate = new Promise((r) => { release = () => r(undefined); });
+  const updating = s.updateTab(5, async (t) => { await gate; t.watch = "WATCHING"; });
+  const clearing = s.clearTab(5);
+  release();
+  await Promise.all([updating, clearing]);
+  assert.equal("tab:5" in area.data, false);
+});
+
+test("updateTab은 async 콜백의 반환값을 저장한다", async () => {
+  const { createStore } = await load();
+  const s = createStore(fakeArea());
+  await s.updateTab(6, async (t) => ({ ...t, watch: "BLIND", blindReason: "queue" }));
+  const t = await s.getTab(6);
+  assert.equal(t.watch, "BLIND");
+  assert.equal(t.blindReason, "queue");
+});
+
+test("메서드를 꺼내 써도 동작한다 (this에 의존하지 않음)", async () => {
+  const { createStore } = await load();
+  const { updateTab, getTab } = createStore(fakeArea());
+  await updateTab(8, (t) => { t.watch = "FOUND"; });
+  assert.equal((await getTab(8)).watch, "FOUND");
+});

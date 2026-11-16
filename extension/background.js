@@ -10,11 +10,17 @@ import { createStore } from "./sw/store.js";
 const store = createStore(chrome.storage.session);
 const { configValidate } = /** @type {any} */ (globalThis).NCA;
 
-/** 사용자 설정을 읽어 검증된 값으로 돌려준다. */
+/**
+ * 사용자 설정을 읽어 검증된 설정 객체를 돌려준다. 경고는 콘솔에만 남긴다 (옵션 페이지가 따로 보여줌).
+ * 3단계 이후 감시·알림 모듈에서 쓴다.
+ */
 async function loadUserConfig() {
   const { userConfig } = await chrome.storage.local.get("userConfig");
-  return configValidate.validateUserConfig(userConfig ?? configValidate.defaultUserConfig());
+  const { config, warnings } = configValidate.validateUserConfig(userConfig ?? configValidate.defaultUserConfig());
+  if (warnings.length > 0) console.warn("[nca] 설정 경고", warnings);
+  return config;
 }
+void loadUserConfig; // 아직 호출하는 곳 없음
 
 // 설치·업데이트: 사용자 설정이 없으면 기본값을 저장하고, 처음 설치면 옵션 페이지를 연다.
 chrome.runtime.onInstalled.addListener(async ({ reason }) => {
@@ -22,7 +28,7 @@ chrome.runtime.onInstalled.addListener(async ({ reason }) => {
   if (!userConfig) {
     await chrome.storage.local.set({ userConfig: configValidate.defaultUserConfig() });
   }
-  if (reason === chrome.runtime.OnInstalledReason.INSTALL) {
+  if (reason === "install") {
     await chrome.runtime.openOptionsPage();
   }
 });

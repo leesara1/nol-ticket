@@ -1,103 +1,39 @@
 // @ts-check
-// 옵션 페이지 (DESIGN 12.5). 폼 ↔ userConfig 변환, 저장 시 검증하고 경고를 보여준다.
+// 옵션 페이지 (DESIGN 12.5). 폼 ↔ 값 변환은 form-model.js, 검증은 config-validate.js가 맡는다.
 "use strict";
 
 (function () {
-  const { configValidate } = /** @type {any} */ (globalThis).NCA;
+  const { configValidate, formModel } = /** @type {any} */ (globalThis).NCA;
   const form = /** @type {HTMLFormElement} */ (document.getElementById("form"));
   const statusEl = /** @type {HTMLElement} */ (document.getElementById("status"));
   const warningsEl = /** @type {HTMLUListElement} */ (document.getElementById("warnings"));
 
+  /** 마지막으로 저장된 설정. 폼에 없는 대상 공연(targets[1] 이후)을 보존하는 데 쓴다. */
+  let saved = configValidate.defaultUserConfig();
+
   /** @param {string} name */
   const field = (name) => /** @type {HTMLInputElement} */ (form.elements.namedItem(name));
 
-  /** "a, b ,c" → ["a","b","c"] @param {string} s */
-  const list = (s) => s.split(",").map((x) => x.trim()).filter(Boolean);
-
-  /** 빈 문자열이면 null, 아니면 숫자 @param {string} s */
-  const numOrNull = (s) => (s.trim() === "" ? null : Number(s));
-
-  /** userConfig → 폼 @param {any} c */
-  function fill(c) {
-    const t = c.targets[0] ?? { goodsCode: "", playSeq: [], filter: {} };
-    const f = t.filter ?? {};
-    field("goodsCode").value = t.goodsCode ?? "";
-    field("playSeq").value = (t.playSeq ?? []).join(", ");
-    field("grades").value = (f.grades ?? []).join(", ");
-    field("zones").value = (f.zones ?? []).join(", ");
-    field("rowFrom").value = f.rowRange ? String(f.rowRange.from) : "";
-    field("rowTo").value = f.rowRange ? String(f.rowRange.to) : "";
-    field("rows").value = (f.rows ?? []).join(", ");
-    field("adjacent").value = String(f.adjacent ?? 1);
-    field("regex").value = f.regex ?? "";
-    field("alertOnFirst").checked = !!f.alertOnFirst;
-
-    field("refreshEnabled").checked = !!c.refresh.enabled;
-    field("intervalSec").value = String(c.refresh.intervalSec);
-    field("windows").value = c.refresh.windows.map((/** @type {any} */ w) => `${w.from}-${w.to}`).join("\n");
-
-    field("sound").checked = !!c.notify.sound;
-    field("desktop").checked = !!c.notify.desktop;
-    field("telegramEnabled").checked = !!c.notify.telegram.enabled;
-    field("telegramToken").value = c.notify.telegram.token ?? "";
-    field("telegramChatId").value = c.notify.telegram.chatId ?? "";
-
-    field("profileName").value = c.profile.name ?? "";
-    field("profilePhone").value = c.profile.phone ?? "";
-    field("profileEmail").value = c.profile.email ?? "";
+  /** @param {Record<string, string | boolean>} values */
+  function writeForm(values) {
+    for (const [name, value] of Object.entries(values)) {
+      const el = field(name);
+      if (!el) continue;
+      if (typeof value === "boolean") el.checked = value;
+      else el.value = value;
+    }
   }
 
-  /** 폼 → userConfig (검증 전 원본) */
-  function read() {
-    const goodsCode = field("goodsCode").value.trim();
-    const rowFrom = numOrNull(field("rowFrom").value);
-    const rowTo = numOrNull(field("rowTo").value);
-    const rows = list(field("rows").value);
-    const windows = field("windows").value
-      .split("\n")
-      .map((line) => line.trim())
-      .filter(Boolean)
-      .map((line) => {
-        const [from = "", to = ""] = line.split("-").map((x) => x.trim());
-        return { from, to };
-      });
-
-    return {
-      targets: goodsCode
-        ? [{
-            goodsCode,
-            playSeq: list(field("playSeq").value),
-            filter: {
-              grades: list(field("grades").value),
-              zones: list(field("zones").value),
-              rowRange: rowFrom === null && rowTo === null ? null : { from: rowFrom, to: rowTo },
-              rows: rows.length > 0 ? rows : null,
-              adjacent: Number(field("adjacent").value),
-              regex: field("regex").value.trim() || null,
-              alertOnFirst: field("alertOnFirst").checked,
-            },
-          }]
-        : [],
-      refresh: {
-        enabled: field("refreshEnabled").checked,
-        intervalSec: Number(field("intervalSec").value),
-        windows,
-      },
-      notify: {
-        sound: field("sound").checked,
-        desktop: field("desktop").checked,
-        telegram: {
-          enabled: field("telegramEnabled").checked,
-          token: field("telegramToken").value.trim(),
-          chatId: field("telegramChatId").value.trim(),
-        },
-      },
-      profile: {
-        name: field("profileName").value,
-        phone: field("profilePhone").value,
-        email: field("profileEmail").value,
-      },
-    };
+  /** @returns {any} */
+  function readForm() {
+    const empty = formModel.configToForm(configValidate.defaultUserConfig());
+    /** @type {Record<string, string | boolean>} */
+    const out = {};
+    for (const [name, def] of Object.entries(empty)) {
+      const el = field(name);
+      out[name] = typeof def === "boolean" ? !!el?.checked : el?.value ?? "";
+    }
+    return out;
   }
 
   /** @param {string[]} warnings */
@@ -112,25 +48,37 @@
     warningsEl.hidden = warnings.length === 0;
   }
 
+  /** @param {string} text @param {boolean} [sticky] */
+  function setStatus(text, sticky = false) {
+    statusEl.textContent = text;
+    if (!sticky) setTimeout(() => { if (statusEl.textContent === text) statusEl.textContent = ""; }, 3000);
+  }
+
   async function load() {
     const { userConfig } = await chrome.storage.local.get("userConfig");
     const { config, warnings } = configValidate.validateUserConfig(userConfig ?? configValidate.defaultUserConfig());
-    fill(config);
+    saved = config;
+    writeForm(formModel.configToForm(config));
     showWarnings(warnings);
   }
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const { config, warnings } = configValidate.validateUserConfig(read());
+    const { input, error } = formModel.formToConfig(readForm(), saved);
+    if (error) {
+      setStatus(error, true); // 입력은 그대로 두고 저장하지 않는다
+      return;
+    }
+    const { config, warnings } = configValidate.validateUserConfig(input);
     await chrome.storage.local.set({ userConfig: config });
-    fill(config); // 고쳐진 값을 화면에 반영
+    saved = config;
+    writeForm(formModel.configToForm(config)); // 고쳐진 값을 화면에 반영
     showWarnings(warnings);
-    statusEl.textContent = warnings.length > 0 ? "저장됨 (일부 값을 고쳤습니다)" : "저장됨";
-    setTimeout(() => (statusEl.textContent = ""), 3000);
+    setStatus(warnings.length > 0 ? "저장됨 (일부 값을 고쳤습니다)" : "저장됨");
   });
 
   load().catch((err) => {
-    statusEl.textContent = "설정을 불러오지 못했습니다";
+    setStatus("설정을 불러오지 못했습니다", true);
     console.error("[nca] options load 실패", err);
   });
 })();

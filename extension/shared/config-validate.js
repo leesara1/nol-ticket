@@ -6,7 +6,8 @@
 
   /** @type {{ normalizeFilter: (filter: import("./types.js").Filter | undefined) => Required<import("./types.js").Filter> }} */
   const detector =
-    typeof module === "object" && module.exports ? require("./detector.js") : root.NCA.detector;
+    typeof module === "object" && module.exports ? require("./detector.js") : root.NCA?.detector;
+  if (!detector) throw new Error("[nca] config-validate.js보다 shared/detector.js를 먼저 불러와야 합니다");
 
   /**
    * @typedef {import("./types.js").Filter} Filter
