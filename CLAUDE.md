@@ -20,7 +20,7 @@
 - 개발: WSL2 (Linux), Python 3.14
 - 실행: Windows의 Chrome (사용자 프로필, 로그인 상태)
 - 주 구성요소: Chrome MV3 확장 (JavaScript). Python은 예비 수단(픽셀 감시)과 오프라인 분석용
-- 기존 픽셀 감시 스크립트 `nol_screen_alert.py`는 작업 폴더에서 삭제됨, git 기록에 있음. Windows 전용(`winsound`)
+- 기존 픽셀 감시 스크립트 `nol_screen_alert.py`는 삭제됨. 필요하면 `git show 3cfc5e6:nol_screen_alert.py`로 확인. Windows 전용(`winsound`)
 
 ## 디렉터리 (계획)
 
