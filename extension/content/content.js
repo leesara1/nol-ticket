@@ -26,6 +26,9 @@
   // (web_accessible_resources로 공개하면 사이트가 확장을 알아챌 수 있어 쓰지 않음), SW는 읽을 수 있다.
   /** @type {chrome.runtime.Port | null} */
   let port = null;
+  /** 좌석 강조 (content/highlight.js, 7단계) */
+  /** @type {any} */
+  let highlighter = null;
 
   function connect() {
     port = chrome.runtime.connect({ name: "nca-content" });
@@ -34,6 +37,11 @@
       if (msg?.type === "CONFIG") {
         applyConfig(msg.net, msg.pageState);
         if (typeof msg.seatPageUrlPattern === "string") watchLocation(msg.seatPageUrlPattern);
+        if (msg.assist && typeof NCA.createHighlighter === "function" && !highlighter) {
+          highlighter = NCA.createHighlighter(msg.assist);
+        }
+      } else if (msg?.type === "HIGHLIGHT") {
+        highlighter?.apply(msg);
       }
     });
     return port;
@@ -141,7 +149,10 @@
     let onSeat = re.test(location.href);
     locTimer = setInterval(() => {
       const now = re.test(location.href);
-      if (onSeat && !now) send({ type: "LEAVE" });
+      if (onSeat && !now) {
+        send({ type: "LEAVE" });
+        highlighter?.clear();
+      }
       onSeat = now;
     }, 2000);
   }

@@ -7,6 +7,7 @@ const path = require("node:path");
 const detector = require("../extension/shared/detector.js");
 const seatParse = require("../extension/shared/seat-parse.js");
 const format = require("../extension/shared/format.js");
+const assistPlan = require("../extension/shared/assist-plan.js");
 const soldout = require(path.join(__dirname, "../fixtures/seat-soldout.json"));
 const musical = require(path.join(__dirname, "../fixtures/seat-musical.json"));
 
@@ -28,7 +29,7 @@ function fakeArea() {
 async function setup(targets) {
   const { createStore } = await import("../extension/sw/store.js");
   const { createWatcher } = await import("../extension/sw/watch.js");
-  const calls = { notify: [], log: [], focus: [] };
+  const calls = { notify: [], log: [], focus: [], highlight: [] };
   const store = createStore(fakeArea());
   const watcher = createWatcher({
     store,
@@ -36,7 +37,8 @@ async function setup(targets) {
     notifier: { notify: async (kind, text, opts) => { calls.notify.push({ kind, text, opts }); } },
     focus: async (tabId, windowId) => { calls.focus.push([tabId, windowId]); },
     loadUserConfig: async () => ({ targets }),
-    detector, seatParse, format,
+    detector, seatParse, format, assistPlan,
+    highlight: (tabId, plan) => { calls.highlight.push({ tabId, plan }); },
     now: () => 1000,
   });
   return { watcher, store, calls };
@@ -220,4 +222,22 @@ test("감시 중 만료(goodsCode 없이 와도 탭 상태의 공연으로 대�
   const r = await watcher.handleBlind(TAB, { reason: "expired" });
   assert.equal(r.notified, true);
   assert.match(calls.notify.at(-1).text, /좌석 선택 시간이 끝났습니다/);
+});
+
+// ── 7단계: 강조 ──────────────────────────────────────────
+
+test("강조: 좌석이 풀리면 좌표와 안내를 보내고, 다시 팔리면 지우라고 보낸다", async () => {
+  const { watcher, calls } = await setup([target("26015783", { grades: ["VIP"], adjacent: 2 })]);
+  const [m1, m2, m3] = soldoutThenRelease([66233, 66234]);
+  await watcher.handleSnapshot(TAB, m1);
+  assert.equal(calls.highlight.length, 0);
+  await watcher.handleSnapshot(TAB, m2);
+  assert.equal(calls.highlight.length, 1);
+  const { tabId, plan } = calls.highlight[0];
+  assert.equal(tabId, 7);
+  assert.equal(plan.add.length, 2);
+  assert.ok(plan.add.every((t) => t.best && t.x > 0 && t.y > 0));
+  assert.equal(plan.banner, "취소표: VIP석(현장수령) FLOOR A구역 10열 10·11번 (2연석) — 깜빡이는 곳을 누르세요");
+  await watcher.handleSnapshot(TAB, m3);
+  assert.deepEqual(calls.highlight[1].plan.remove.sort(), plan.add.map((t) => t.key).sort());
 });

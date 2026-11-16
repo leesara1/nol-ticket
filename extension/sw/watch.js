@@ -18,6 +18,8 @@
  * @property {{ detect: Function }} detector
  * @property {{ withBaseline: Function }} seatParse
  * @property {{ formatSeatEvent: Function, formatBlind: Function, formatRecovered: Function }} format
+ * @property {{ planHighlight: Function }} [assistPlan]
+ * @property {(tabId: number, plan: { add: any[], remove: string[], banner: string | null }) => void} [highlight]  좌석 화면에 강조 전송 (7단계)
  * @property {() => number} [now]
  *
  * @typedef {{ id: number, windowId: number }} TabRef
@@ -109,6 +111,11 @@ export function createWatcher(deps) {
 
       for (const e of events) {
         await deps.log.append(logEntry(e, msg.goodsCode, snap.playSeq)).catch((err) => console.error("[nca] 로그 실패", err));
+      }
+      // 강조는 알림보다 먼저 보낸다 (탭을 앞으로 가져왔을 때 이미 표시돼 있도록)
+      if (deps.assistPlan && deps.highlight) {
+        const plan = deps.assistPlan.planHighlight(events);
+        if (plan.add.length > 0 || plan.remove.length > 0) deps.highlight(tab.id, plan);
       }
       for (const e of found) {
         await deps.notifier.notify("found", deps.format.formatSeatEvent(e), { tabId: tab.id, windowId: tab.windowId });

@@ -7,13 +7,14 @@ import "./shared/detector.js";
 import "./shared/config-validate.js";
 import "./shared/format.js";
 import "./shared/seat-parse.js";
+import "./shared/assist-plan.js";
 import { createStore } from "./sw/store.js";
 import { createLog } from "./sw/log.js";
 import { createNotifier, parseNotificationId } from "./sw/notifier.js";
 import { focusTab } from "./sw/focus.js";
 import { createWatcher } from "./sw/watch.js";
 
-const { configValidate, format, detector, seatParse } = /** @type {any} */ (globalThis).NCA;
+const { configValidate, format, detector, seatParse, assistPlan } = /** @type {any} */ (globalThis).NCA;
 
 const store = createStore(chrome.storage.session);
 const log = createLog(chrome.storage.local, { dayKey: format.dayKey });
@@ -160,6 +161,10 @@ chrome.tabs.onRemoved.addListener((tabId) => {
 
 // ── 좌석 화면 content script 포트 (DESIGN 7.1, 13) ───────
 
+/** 좌석 화면 탭의 content 포트 (강조 전송용). SW가 재시작되면 비지만 content가 다시 연결한다 */
+/** @type {Map<number, chrome.runtime.Port>} */
+const contentPorts = new Map();
+
 const watcher = createWatcher({
   store,
   log,
@@ -169,6 +174,10 @@ const watcher = createWatcher({
   detector,
   seatParse,
   format,
+  assistPlan,
+  highlight: (tabId, plan) => {
+    try { contentPorts.get(tabId)?.postMessage({ type: "HIGHLIGHT", ...plan }); } catch { /* 끊긴 포트 */ }
+  },
 });
 
 /** @type {Promise<any> | null} */
@@ -187,6 +196,7 @@ chrome.runtime.onConnect.addListener((port) => {
   // 좌석 화면 탭에서 온 포트만 받는다 (확장 내부 페이지·다른 확장 제외)
   if (!tab || tab.id === undefined || port.sender?.id !== chrome.runtime.id) { port.disconnect(); return; }
   const ref = { id: tab.id, windowId: tab.windowId };
+  contentPorts.set(tab.id, port);
   // content script는 확장 파일을 직접 못 읽으므로 사이트 설정을 보내준다 (DESIGN 13)
   loadSiteConfig().then(
     (site) => {
@@ -196,6 +206,7 @@ chrome.runtime.onConnect.addListener((port) => {
           net: { metaUrlPattern: site.net.metaUrlPattern, statusUrlPattern: site.net.statusUrlPattern },
           pageState: { gqlUrlPattern: site.pageState?.gqlUrlPattern, expiredOperation: site.pageState?.expiredOperation },
           seatPageUrlPattern: site.seatMapFrame?.urlPattern,
+          assist: site.assist,
         });
       } catch { /* 이미 끊김 */ }
     },
@@ -212,6 +223,7 @@ chrome.runtime.onConnect.addListener((port) => {
   });
   // 페이지를 떠나면(이동·닫기·새로고침) 포트가 끊긴다 → 조용히 IDLE (DESIGN 5.3)
   port.onDisconnect.addListener(() => {
+    if (contentPorts.get(ref.id) === port) contentPorts.delete(ref.id);
     watcher.handleLeave(ref).catch((e) => console.error("[nca] 이탈 처리 실패", e));
   });
 });

@@ -12,9 +12,9 @@ test("site.nol.json은 JSON으로 읽히고 site가 nol이다", () => {
   assert.equal(site.site, "nol");
 });
 
-test("사전 조사로 확정된 항목은 채워져 있고, 선택완료 버튼(7단계)만 남았다", () => {
+test("사이트 설정의 필수 항목이 모두 채워져 있다", () => {
   const { missing } = validateSiteConfig(site);
-  assert.deepEqual(missing, ["assist.confirmButtonSelector"]);
+  assert.deepEqual(missing, []);
 });
 
 test("URL 패턴이 실제 주소와 맞는다", () => {

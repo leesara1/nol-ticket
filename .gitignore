@@ -6,6 +6,9 @@
 research/raw/*.html
 fixtures/*.har
 fixtures/**/*.har
+# 좌석 화면 HTML 원본 (개인정보·세션 값이 있을 수 있음)
+fixtures/*.txt
+fixtures/*.html
 
 # Node / Python
 node_modules/

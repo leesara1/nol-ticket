@@ -61,7 +61,15 @@ function release(seatInfoIdSuffix) {
 }
 
 const PAGE = `<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>가짜 좌석 화면</title></head>
-<body><h1>e2e 가짜 좌석 화면</h1><button>선택 완료</button>
+<body style="margin:0;font-family:sans-serif"><h1 style="font-size:16px;margin:8px">e2e 가짜 좌석 화면 (실제 구조를 흉내)</h1>
+<section class="SeatPlan_svgWrap__e2e" style="position:relative;width:900px;height:860px;overflow:hidden;background:#eef0f3">
+  <div class="EntZoomableWrapper_wrapper__e2e"><div class="EntZoomableWrapper_content__e2e" style="transform: translate(0px, 0px) scale(1); transform-origin: 0 0;">
+    <div class="SeatMap_seatMap__e2e" style="position:relative;width:880px;height:830px">
+      <div class="SeatMap_seatGroup__e2e"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1010 1046" preserveAspectRatio="none" style="position:absolute; width: 791px; height: 819px; left: 44px; top: 0px;"><rect x="300" y="200" width="680" height="800" fill="#c7c2f5"></rect><g></g></svg></div>
+    </div>
+  </div></div>
+</section>
+<button class="EntButton_button__e2e EntButton_primary__e2e" disabled style="margin:12px;padding:12px 40px">선택 완료</button>
 <script>
   function xhr(url) {
     return new Promise((ok) => { const x = new XMLHttpRequest(); x.open("GET", url); x.onload = () => ok(x.responseText); x.send(); });
@@ -183,6 +191,8 @@ try {
   // 가짜 좌석 화면 열기
   const { targetId } = await send("Target.createTarget", { url: "https://tickets.interpark.com/onestop/seat" });
   const page = await attach(targetId);
+  await send("Page.enable", {}, page).catch(() => {});
+  await send("Emulation.setDeviceMetricsOverride", { width: 960, height: 960, deviceScaleFactor: 1, mobile: false }, page).catch(() => {});
   await send("Log.enable", {}, page).catch(() => {});
   const tapped = await waitFor(page, "document.readyState === 'complete' && document.title");
   check("가짜 좌석 화면 열림 (host-resolver-rules)", tapped === "가짜 좌석 화면", String(tapped));
@@ -220,6 +230,24 @@ try {
   check("취소표 생김 → 크롬 알림 생성", !!found, String(found));
   const state = await evalIn(swS, "chrome.storage.session.get(null).then(d => Object.entries(d).filter(([k]) => k.startsWith('tab:')).map(([, v]) => v.watch))");
   check("탭 상태 FOUND", state.includes("FOUND"), JSON.stringify(state));
+
+  // 7단계: 강조 (겹침 SVG·안내·선택완료 버튼). 클릭은 만들지 않는다
+  const seat66233 = seats.find((x) => x.seatInfoId.endsWith(":66233"));
+  const ov = await waitFor(page, `(() => {
+    const ov = document.getElementById("nca-overlay");
+    if (!ov) return null;
+    const dots = [...ov.querySelectorAll("g[data-nca-key]")].map((g) => ({ key: g.dataset.ncaKey, cx: Number(g.lastChild.getAttribute("cx")), cy: Number(g.lastChild.getAttribute("cy")) }));
+    return { parent: ov.parentElement.className, viewBox: ov.getAttribute("viewBox"), style: ov.getAttribute("style"), dots };
+  })()`, 5000);
+  check("겹침 SVG가 지도 안에 같은 viewBox로 생김", !!ov && ov.parent.startsWith("SeatMap_seatMap__") && ov.viewBox === "0 0 1010 1046" && /pointer-events:none/.test(ov.style), JSON.stringify(ov && { parent: ov.parent, viewBox: ov.viewBox }));
+  const dot = ov?.dots.find((d) => d.key.endsWith(":66233"));
+  check("풀린 좌석 좌표에 표시 (posLeft·posTop)", ov?.dots.length === 2 && !!dot && dot.cx === seat66233.posLeft && dot.cy === seat66233.posTop, JSON.stringify(ov?.dots));
+  const banner = await evalIn(page, "document.getElementById('nca-banner')?.textContent ?? null");
+  check("안내 배너", /^취소표: VIP석\(현장수령\) FLOOR A구역 10열 10·11번 \(2연석\) — 깜빡이는 곳을 누르세요/.test(banner ?? ""), String(banner));
+  const btn = await evalIn(page, "(() => { const b = document.querySelector('button[class*=EntButton_primary__]'); return { hl: b.classList.contains('nca-confirm-highlight'), disabled: b.disabled }; })()");
+  check("선택완료 버튼 강조 (누르지 않음: 그대로 disabled)", btn.hl === true && btn.disabled === true, JSON.stringify(btn));
+  const shot = await send("Page.captureScreenshot", { format: "png" }, page).catch(() => null);
+  if (shot) { const out = path.join(os.tmpdir(), "nca-seat-e2e-highlight.png"); fs.writeFileSync(out, Buffer.from(shot.data, "base64")); log("스크린샷:", out); }
   const logs = await evalIn(swS, "chrome.storage.local.get(null).then(d => Object.entries(d).filter(([k]) => k.startsWith('log:')).flatMap(([, v]) => v))");
   const hit = logs.find((e) => e.kind === "appeared" && e.matched);
   check("이벤트 로그 기록", !!hit && hit.seats.map((s) => s.col).join(",") === "10,11", JSON.stringify(hit?.seats));
@@ -230,6 +258,8 @@ try {
   await evalIn(page, "history.pushState({}, '', '/onestop/price'), true");
   const idle = await waitFor(swS, "chrome.storage.session.get(null).then(d => Object.entries(d).filter(([k]) => k.startsWith('tab:')).some(([, v]) => v.watch === 'IDLE'))", 6000);
   check("좌석 화면을 벗어나면(LEAVE) IDLE, 알림 없음", idle === true && (await notes()).length === notesBefore, JSON.stringify(await tabWatch()));
+  const cleared = await evalIn(page, "!document.getElementById('nca-overlay') && !document.getElementById('nca-banner')");
+  check("좌석 화면을 벗어나면 강조도 지움", cleared === true);
   if (results.some((r) => !r.ok)) log("페이지 콘솔:\n  " + pageConsole.slice(-15).join("\n  "));
 } catch (e) {
   check("실행", false, e.stack ?? String(e));

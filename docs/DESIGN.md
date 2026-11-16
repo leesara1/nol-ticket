@@ -356,10 +356,31 @@ parse(input, site)
 1. 좌석이 생기면 `chrome.windows.update(winId, {focused: true, drawAttention: true})`, `chrome.tabs.update(tabId, {active: true})`
    - Windows는 백그라운드에서 창을 앞으로 가져오는 것을 막는 경우가 많다. 그러면 작업표시줄 깜빡임으로 대신한다
    - **알림을 클릭하면** 다시 포커스한다. 사용자 동작에서 나온 포커스는 대부분 허용된다
-2. 좌석맵 frame에 `HIGHLIGHT {seatKeys}` 전달
-3. 해당 좌석 요소로 `scrollIntoView({block: "center"})`, 굵은 외곽선 + 깜빡임 CSS
-4. '선택완료' 버튼에도 외곽선. **클릭 이벤트는 발생시키지 않는다**
-5. 캔버스 좌석맵이면 좌석 좌표에 오버레이 표시 `[미확인]`
+2. 좌석 화면 포트로 `HIGHLIGHT {targets: [{key, x, y, label}], best, banner}` 전달 (7단계)
+3. 좌석 위에 **겹침 SVG**를 그린다 (`content/highlight.js`) — 아래 11.1.1
+4. '선택 완료' 버튼에 외곽선. **클릭 이벤트는 발생시키지 않는다**
+5. 화면 위쪽에 고정 안내: "취소표: VIP석 FLOOR A구역 10열 10·11번 — 깜빡이는 곳을 누르세요"
+
+#### 11.1.1 좌석 화면 구조와 겹침 표시 (2026-11-16 확인, 사용자 HTML)
+
+```
+section.SeatPlan_svgWrap__*
+ └ div.EntZoomableWrapper_wrapper__*
+    └ div.EntZoomableWrapper_content__*   style="transform: translate(…) scale(…)"   ← 확대·이동
+       └ div.SeatMap_seatMap__*
+          ├ div.SeatMap_placeImg__*   <img alt="background" style="width;height;left;top">
+          ├ div.SeatMap_seatGroup__*  <svg viewBox="0 0 1010 1046" style="width;height;left;top">  ← 좌석 (확대해야 그려짐)
+          └ div.SeatMap_blockImg__*   <img alt="blockImg">                    ← 구역 그림
+button.EntButton_primary__*  "선택 완료" (좌석 고르기 전 disabled)
+```
+
+- 좌석 배치 응답의 `posLeft`·`posTop`은 이 SVG `viewBox` 좌표다 (성시경 x 320~957, y 218~971 ⊂ 1010×1046)
+- 확장은 `SeatMap_seatMap__*` 안에 **같은 `viewBox`·`style`을 복사한 SVG를 하나 더** 넣고(`pointer-events: none`) 좌표에 깜빡이는 원을 그린다. 확대 컨테이너 안이므로 사이트가 확대·이동하면 같이 움직인다. 클릭은 아래 사이트 요소로 그대로 전달된다
+- 전체 보기에서도 위치가 보이므로, 사용자가 그곳을 누르면 사이트가 그 구역을 확대하고 표시는 좌석 위에 남는다
+- **자동 확대는 하지 않는다**: 확대 상태는 사이트 내부(React) 값이라 `transform`만 바꾸면 좌석이 그려지지 않을 가능성이 크고, 구역 클릭을 흉내 내는 프로그램 클릭(`isTrusted: false`)은 무시·탐지될 수 있다
+- 클래스 이름 뒤의 해시(`__3ktuQ`)는 배포마다 바뀔 수 있으므로 `[class*="SeatMap_seatMap__"]`처럼 앞부분으로 찾는다 (사이트 설정 `assist`)
+- 여러 좌석이 풀리면 1순위: 연석이 긴 것 → 앞 열(숫자 작은 열) → 번호 작은 것. 1순위는 더 크게 표시
+- 좌석이 다시 팔리면(`disappeared`) 그 표시를 지운다. 사용자가 닫기 전까지 안내는 남긴다
 
 ### 11.2 예매자 정보 채우기 (FR-15)
 
@@ -386,7 +407,12 @@ parse(input, site)
     "gqlUrlPattern": "/onestop/gql(\\?|$)",
     "expiredOperation": "ExpiredSession"
   },
-  "assist": { "confirmButtonSelector": "TODO: 선택 완료 버튼 셀렉터 (7단계)" }
+  "assist": {
+    "seatMapSelector": "[class*='SeatMap_seatMap__']",
+    "seatSvgSelector": "[class*='SeatMap_seatGroup__'] svg",
+    "confirmButtonSelector": "button[class*='EntButton_primary__']",
+    "confirmButtonText": "선택 완료"
+  }
 }
 ```
 
@@ -465,7 +491,7 @@ ES module. `chrome.storage.session`을 감싸는 `createStore(area)` — `area`�
 | content → SW | `LEAVE` | 주소가 좌석 화면(`seatMapFrame.urlPattern`)에서 벗어남 → `IDLE` (예매 단계가 한 페이지 안에서 주소만 바뀌는 경우) |
 | (포트 끊김) | — | 페이지를 떠남 → SW가 그 탭을 `IDLE`로 |
 | content → SW | `USER_SEAT_CLICK` | `{seatKey}` (ASSISTING 전환·autofill 조건) |
-| SW → content | `HIGHLIGHT` | `{seatKeys}` |
+| SW → content | `HIGHLIGHT` | `{targets: [{key, x, y, best}], banner, assist}` (빈 `targets`면 지움) |
 | SW → content | `AUTOFILL` | `{profile}` |
 | SW → offscreen | `PLAY` | `{pattern: "found" \| "blind"}` |
 | popup → SW | `GET_STATUS` | 응답 `{targets, channels, tabs: [{tabId, watch, blindReason}]}` |
@@ -590,8 +616,8 @@ test/
 | 좌석 ID·열·번호·블록 | `seatInfoId`, `rowNo`, `seatNo`, `blockKey`, `colIdx`(통로 판단) | research/03 |
 | 회차 식별 | `playSeq` 쿼리 | research/03 |
 | 대기열·만료 | 대기열 순번 API, GraphQL `ExpiredSession` | research/03 |
-| 좌석맵이 DOM인가 캔버스인가 | `[미확인]` — 강조(7단계)에 필요 | |
-| 선택완료 버튼 셀렉터 | `[미확인]` — 7단계 | |
+| 좌석맵이 DOM인가 캔버스인가 | SVG (캔버스 아님) | 사용자 HTML |
+| 좌석 화면 DOM 구조·선택완료 버튼 | 이미지 + SVG 겹침, 확대 컨테이너, `button.EntButton_primary__*` (11.1.1) | 사용자 HTML |
 | 예매자 정보 미리 채움 | `[미확인]` | |
 
 ## 20. 구현 순서
@@ -603,5 +629,5 @@ test/
 4. **사전 조사** → `extension/config/site.nol.json` 채우기 (완료, 19절)
 5. `net-tap.js` + `shared/seat-parse.js` + 테스트 → `content.js` → SW `sw/watch.js`(감지·알림·로그 연결) + 매니페스트 content script. fixture는 HAR에서 좌석 응답만 잘라 `fixtures/*.json`
 6. `shared/page-signals.js`(만료; 대기열은 보류) + net-tap GraphQL 처리 + SW health(30초 stale)·포트 끊김 → IDLE + 알림 억제
-7. highlight → (필요 시) autofill
+7. `content/highlight.js` 겹침 SVG·안내·선택완료 강조 + SW → content `HIGHLIGHT` (11.1.1). autofill은 보류 (예매자 정보 화면 미확인)
 8. ~~scheduler + refresh-banner~~ — 만들지 않음 (9절)

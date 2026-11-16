@@ -71,7 +71,7 @@ function makeChrome() {
 // Node는 import/export가 없는 .js를 CommonJS로 보고 module.exports에 붙이므로,
 // 브라우저와 같게 classic script로 먼저 평가해 globalThis.NCA를 채운다.
 const vm = require("node:vm");
-for (const f of ["types.js", "detector.js", "config-validate.js", "format.js", "seat-parse.js"]) {
+for (const f of ["types.js", "detector.js", "config-validate.js", "format.js", "seat-parse.js", "assist-plan.js"]) {
   vm.runInThisContext(fs.readFileSync(path.join(EXT, "shared", f), "utf8"), { filename: f });
 }
 
@@ -137,6 +137,7 @@ test("content 포트: 연결하면 사이트 설정(URL 패턴)을 보내준다"
     net: { metaUrlPattern: site.net.metaUrlPattern, statusUrlPattern: site.net.statusUrlPattern },
     pageState: { gqlUrlPattern: site.pageState.gqlUrlPattern, expiredOperation: site.pageState.expiredOperation },
     seatPageUrlPattern: site.seatMapFrame.urlPattern,
+    assist: site.assist,
   });
 });
 

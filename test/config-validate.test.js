@@ -155,7 +155,7 @@ function filledSite() {
     seatMapFrame: { urlPattern: "^https://example\\.com/seat" },
     net: { metaUrlPattern: "/api/seatMeta\\?", statusUrlPattern: "/api/seatStatus\\?", statusEncoding: "hex-msb" },
     pageState: { gqlUrlPattern: "/gql$", expiredOperation: "ExpiredSession" },
-    assist: { confirmButtonSelector: "#confirm" },
+    assist: { seatMapSelector: ".map", seatSvgSelector: ".map svg", confirmButtonSelector: "#confirm" },
   };
 }
 
@@ -188,7 +188,7 @@ test("validateSiteConfig: 상태 인코딩은 hex-msb만 지원", () => {
 
 test("validateSiteConfig: 사이트가 객체가 아니면 필수 경로 전부 missing", () => {
   const { missing } = validateSiteConfig(null);
-  assert.equal(missing.length, 7);
+  assert.equal(missing.length, 9);
 });
 
 test("validateSiteConfig: 입력을 변경하지 않는다", () => {

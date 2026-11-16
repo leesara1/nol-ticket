@@ -17,7 +17,9 @@
         "seatNo": "10",
         "rowIdx": 9,
         "colIdx": 9,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 587.792,
+        "posTop": 453.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66234",
@@ -28,7 +30,9 @@
         "seatNo": "11",
         "rowIdx": 9,
         "colIdx": 10,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 587.792,
+        "posTop": 450.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66235",
@@ -39,7 +43,9 @@
         "seatNo": "12",
         "rowIdx": 9,
         "colIdx": 11,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 587.792,
+        "posTop": 447.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66236",
@@ -50,7 +56,9 @@
         "seatNo": "13",
         "rowIdx": 9,
         "colIdx": 12,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 587.792,
+        "posTop": 444.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66237",
@@ -61,7 +69,9 @@
         "seatNo": "14",
         "rowIdx": 9,
         "colIdx": 13,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 587.792,
+        "posTop": 441.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66238",
@@ -72,7 +82,9 @@
         "seatNo": "15",
         "rowIdx": 9,
         "colIdx": 14,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 587.792,
+        "posTop": 438.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66246",
@@ -83,7 +95,9 @@
         "seatNo": "6",
         "rowIdx": 9,
         "colIdx": 5,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 587.792,
+        "posTop": 465.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66247",
@@ -94,7 +108,9 @@
         "seatNo": "7",
         "rowIdx": 9,
         "colIdx": 6,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 587.792,
+        "posTop": 462.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66248",
@@ -105,7 +121,9 @@
         "seatNo": "8",
         "rowIdx": 9,
         "colIdx": 7,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 587.792,
+        "posTop": 459.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66249",
@@ -116,7 +134,9 @@
         "seatNo": "9",
         "rowIdx": 9,
         "colIdx": 8,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 587.792,
+        "posTop": 456.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66263",
@@ -127,7 +147,9 @@
         "seatNo": "9",
         "rowIdx": 10,
         "colIdx": 8,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 590.792,
+        "posTop": 456.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66288",
@@ -138,7 +160,9 @@
         "seatNo": "1",
         "rowIdx": 0,
         "colIdx": 0,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 560.792,
+        "posTop": 480.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66289",
@@ -149,7 +173,9 @@
         "seatNo": "10",
         "rowIdx": 0,
         "colIdx": 9,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 560.792,
+        "posTop": 453.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66290",
@@ -160,7 +186,9 @@
         "seatNo": "11",
         "rowIdx": 0,
         "colIdx": 10,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 560.792,
+        "posTop": 450.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66291",
@@ -171,7 +199,9 @@
         "seatNo": "12",
         "rowIdx": 0,
         "colIdx": 11,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 560.792,
+        "posTop": 447.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66292",
@@ -182,7 +212,9 @@
         "seatNo": "13",
         "rowIdx": 0,
         "colIdx": 12,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 560.792,
+        "posTop": 444.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66293",
@@ -193,7 +225,9 @@
         "seatNo": "14",
         "rowIdx": 0,
         "colIdx": 13,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 560.792,
+        "posTop": 441.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66294",
@@ -204,7 +238,9 @@
         "seatNo": "15",
         "rowIdx": 0,
         "colIdx": 14,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 560.792,
+        "posTop": 438.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66295",
@@ -215,7 +251,9 @@
         "seatNo": "16",
         "rowIdx": 0,
         "colIdx": 15,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 560.792,
+        "posTop": 435.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66296",
@@ -226,7 +264,9 @@
         "seatNo": "17",
         "rowIdx": 0,
         "colIdx": 16,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 560.792,
+        "posTop": 432.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66297",
@@ -237,7 +277,9 @@
         "seatNo": "18",
         "rowIdx": 0,
         "colIdx": 17,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 560.792,
+        "posTop": 429.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66298",
@@ -248,7 +290,9 @@
         "seatNo": "19",
         "rowIdx": 0,
         "colIdx": 18,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 560.792,
+        "posTop": 426.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66299",
@@ -259,7 +303,9 @@
         "seatNo": "2",
         "rowIdx": 0,
         "colIdx": 1,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 560.792,
+        "posTop": 477.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66300",
@@ -270,7 +316,9 @@
         "seatNo": "20",
         "rowIdx": 0,
         "colIdx": 19,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 560.792,
+        "posTop": 423.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66301",
@@ -281,7 +329,9 @@
         "seatNo": "21",
         "rowIdx": 0,
         "colIdx": 20,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 560.792,
+        "posTop": 420.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66302",
@@ -292,7 +342,9 @@
         "seatNo": "22",
         "rowIdx": 0,
         "colIdx": 21,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 560.792,
+        "posTop": 417.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66303",
@@ -303,7 +355,9 @@
         "seatNo": "3",
         "rowIdx": 0,
         "colIdx": 2,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 560.792,
+        "posTop": 474.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66304",
@@ -314,7 +368,9 @@
         "seatNo": "4",
         "rowIdx": 0,
         "colIdx": 3,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 560.792,
+        "posTop": 471.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66305",
@@ -325,7 +381,9 @@
         "seatNo": "5",
         "rowIdx": 0,
         "colIdx": 4,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 560.792,
+        "posTop": 468.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66306",
@@ -336,7 +394,9 @@
         "seatNo": "6",
         "rowIdx": 0,
         "colIdx": 5,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 560.792,
+        "posTop": 465.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66307",
@@ -347,7 +407,9 @@
         "seatNo": "7",
         "rowIdx": 0,
         "colIdx": 6,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 560.792,
+        "posTop": 462.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66308",
@@ -358,7 +420,9 @@
         "seatNo": "8",
         "rowIdx": 0,
         "colIdx": 7,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 560.792,
+        "posTop": 459.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66309",
@@ -369,7 +433,9 @@
         "seatNo": "9",
         "rowIdx": 0,
         "colIdx": 8,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 560.792,
+        "posTop": 456.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66310",
@@ -380,7 +446,9 @@
         "seatNo": "1",
         "rowIdx": 1,
         "colIdx": 0,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 563.792,
+        "posTop": 480.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66311",
@@ -391,7 +459,9 @@
         "seatNo": "10",
         "rowIdx": 1,
         "colIdx": 9,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 563.792,
+        "posTop": 453.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66312",
@@ -402,7 +472,9 @@
         "seatNo": "11",
         "rowIdx": 1,
         "colIdx": 10,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 563.792,
+        "posTop": 450.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66313",
@@ -413,7 +485,9 @@
         "seatNo": "12",
         "rowIdx": 1,
         "colIdx": 11,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 563.792,
+        "posTop": 447.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66314",
@@ -424,7 +498,9 @@
         "seatNo": "13",
         "rowIdx": 1,
         "colIdx": 12,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 563.792,
+        "posTop": 444.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66315",
@@ -435,7 +511,9 @@
         "seatNo": "14",
         "rowIdx": 1,
         "colIdx": 13,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 563.792,
+        "posTop": 441.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66316",
@@ -446,7 +524,9 @@
         "seatNo": "15",
         "rowIdx": 1,
         "colIdx": 14,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 563.792,
+        "posTop": 438.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66317",
@@ -457,7 +537,9 @@
         "seatNo": "16",
         "rowIdx": 1,
         "colIdx": 15,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 563.792,
+        "posTop": 435.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66318",
@@ -468,7 +550,9 @@
         "seatNo": "17",
         "rowIdx": 1,
         "colIdx": 16,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 563.792,
+        "posTop": 432.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66319",
@@ -479,7 +563,9 @@
         "seatNo": "18",
         "rowIdx": 1,
         "colIdx": 17,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 563.792,
+        "posTop": 429.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66320",
@@ -490,7 +576,9 @@
         "seatNo": "19",
         "rowIdx": 1,
         "colIdx": 18,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 563.792,
+        "posTop": 426.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66321",
@@ -501,7 +589,9 @@
         "seatNo": "2",
         "rowIdx": 1,
         "colIdx": 1,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 563.792,
+        "posTop": 477.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66322",
@@ -512,7 +602,9 @@
         "seatNo": "20",
         "rowIdx": 1,
         "colIdx": 19,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 563.792,
+        "posTop": 423.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66323",
@@ -523,7 +615,9 @@
         "seatNo": "21",
         "rowIdx": 1,
         "colIdx": 20,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 563.792,
+        "posTop": 420.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66324",
@@ -534,7 +628,9 @@
         "seatNo": "22",
         "rowIdx": 1,
         "colIdx": 21,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 563.792,
+        "posTop": 417.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66325",
@@ -545,7 +641,9 @@
         "seatNo": "3",
         "rowIdx": 1,
         "colIdx": 2,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 563.792,
+        "posTop": 474.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66326",
@@ -556,7 +654,9 @@
         "seatNo": "4",
         "rowIdx": 1,
         "colIdx": 3,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 563.792,
+        "posTop": 471.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66327",
@@ -567,7 +667,9 @@
         "seatNo": "5",
         "rowIdx": 1,
         "colIdx": 4,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 563.792,
+        "posTop": 468.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66328",
@@ -578,7 +680,9 @@
         "seatNo": "6",
         "rowIdx": 1,
         "colIdx": 5,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 563.792,
+        "posTop": 465.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66329",
@@ -589,7 +693,9 @@
         "seatNo": "7",
         "rowIdx": 1,
         "colIdx": 6,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 563.792,
+        "posTop": 462.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66330",
@@ -600,7 +706,9 @@
         "seatNo": "8",
         "rowIdx": 1,
         "colIdx": 7,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 563.792,
+        "posTop": 459.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66331",
@@ -611,7 +719,9 @@
         "seatNo": "9",
         "rowIdx": 1,
         "colIdx": 8,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 563.792,
+        "posTop": 456.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66332",
@@ -622,7 +732,9 @@
         "seatNo": "1",
         "rowIdx": 2,
         "colIdx": 0,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 566.792,
+        "posTop": 480.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66333",
@@ -633,7 +745,9 @@
         "seatNo": "10",
         "rowIdx": 2,
         "colIdx": 9,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 566.792,
+        "posTop": 453.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66334",
@@ -644,7 +758,9 @@
         "seatNo": "11",
         "rowIdx": 2,
         "colIdx": 10,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 566.792,
+        "posTop": 450.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66335",
@@ -655,7 +771,9 @@
         "seatNo": "12",
         "rowIdx": 2,
         "colIdx": 11,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 566.792,
+        "posTop": 447.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66336",
@@ -666,7 +784,9 @@
         "seatNo": "13",
         "rowIdx": 2,
         "colIdx": 12,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 566.792,
+        "posTop": 444.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66337",
@@ -677,7 +797,9 @@
         "seatNo": "14",
         "rowIdx": 2,
         "colIdx": 13,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 566.792,
+        "posTop": 441.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66338",
@@ -688,7 +810,9 @@
         "seatNo": "15",
         "rowIdx": 2,
         "colIdx": 14,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 566.792,
+        "posTop": 438.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66339",
@@ -699,7 +823,9 @@
         "seatNo": "16",
         "rowIdx": 2,
         "colIdx": 15,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 566.792,
+        "posTop": 435.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66340",
@@ -710,7 +836,9 @@
         "seatNo": "17",
         "rowIdx": 2,
         "colIdx": 16,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 566.792,
+        "posTop": 432.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66341",
@@ -721,7 +849,9 @@
         "seatNo": "18",
         "rowIdx": 2,
         "colIdx": 17,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 566.792,
+        "posTop": 429.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66342",
@@ -732,7 +862,9 @@
         "seatNo": "19",
         "rowIdx": 2,
         "colIdx": 18,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 566.792,
+        "posTop": 426.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66343",
@@ -743,7 +875,9 @@
         "seatNo": "2",
         "rowIdx": 2,
         "colIdx": 1,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 566.792,
+        "posTop": 477.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66344",
@@ -754,7 +888,9 @@
         "seatNo": "20",
         "rowIdx": 2,
         "colIdx": 19,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 566.792,
+        "posTop": 423.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66345",
@@ -765,7 +901,9 @@
         "seatNo": "21",
         "rowIdx": 2,
         "colIdx": 20,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 566.792,
+        "posTop": 420.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66346",
@@ -776,7 +914,9 @@
         "seatNo": "22",
         "rowIdx": 2,
         "colIdx": 21,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 566.792,
+        "posTop": 417.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66347",
@@ -787,7 +927,9 @@
         "seatNo": "3",
         "rowIdx": 2,
         "colIdx": 2,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 566.792,
+        "posTop": 474.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66348",
@@ -798,7 +940,9 @@
         "seatNo": "4",
         "rowIdx": 2,
         "colIdx": 3,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 566.792,
+        "posTop": 471.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66349",
@@ -809,7 +953,9 @@
         "seatNo": "5",
         "rowIdx": 2,
         "colIdx": 4,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 566.792,
+        "posTop": 468.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66350",
@@ -820,7 +966,9 @@
         "seatNo": "6",
         "rowIdx": 2,
         "colIdx": 5,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 566.792,
+        "posTop": 465.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66351",
@@ -831,7 +979,9 @@
         "seatNo": "7",
         "rowIdx": 2,
         "colIdx": 6,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 566.792,
+        "posTop": 462.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66352",
@@ -842,7 +992,9 @@
         "seatNo": "8",
         "rowIdx": 2,
         "colIdx": 7,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 566.792,
+        "posTop": 459.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66353",
@@ -853,7 +1005,9 @@
         "seatNo": "9",
         "rowIdx": 2,
         "colIdx": 8,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 566.792,
+        "posTop": 456.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66354",
@@ -864,7 +1018,9 @@
         "seatNo": "1",
         "rowIdx": 3,
         "colIdx": 0,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 569.792,
+        "posTop": 480.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66355",
@@ -875,7 +1031,9 @@
         "seatNo": "10",
         "rowIdx": 3,
         "colIdx": 9,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 569.792,
+        "posTop": 453.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66356",
@@ -886,7 +1044,9 @@
         "seatNo": "11",
         "rowIdx": 3,
         "colIdx": 10,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 569.792,
+        "posTop": 450.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66357",
@@ -897,7 +1057,9 @@
         "seatNo": "12",
         "rowIdx": 3,
         "colIdx": 11,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 569.792,
+        "posTop": 447.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66358",
@@ -908,7 +1070,9 @@
         "seatNo": "13",
         "rowIdx": 3,
         "colIdx": 12,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 569.792,
+        "posTop": 444.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66359",
@@ -919,7 +1083,9 @@
         "seatNo": "14",
         "rowIdx": 3,
         "colIdx": 13,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 569.792,
+        "posTop": 441.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66360",
@@ -930,7 +1096,9 @@
         "seatNo": "15",
         "rowIdx": 3,
         "colIdx": 14,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 569.792,
+        "posTop": 438.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66361",
@@ -941,7 +1109,9 @@
         "seatNo": "16",
         "rowIdx": 3,
         "colIdx": 15,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 569.792,
+        "posTop": 435.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66362",
@@ -952,7 +1122,9 @@
         "seatNo": "17",
         "rowIdx": 3,
         "colIdx": 16,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 569.792,
+        "posTop": 432.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66363",
@@ -963,7 +1135,9 @@
         "seatNo": "18",
         "rowIdx": 3,
         "colIdx": 17,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 569.792,
+        "posTop": 429.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66364",
@@ -974,7 +1148,9 @@
         "seatNo": "19",
         "rowIdx": 3,
         "colIdx": 18,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 569.792,
+        "posTop": 426.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66365",
@@ -985,7 +1161,9 @@
         "seatNo": "2",
         "rowIdx": 3,
         "colIdx": 1,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 569.792,
+        "posTop": 477.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66366",
@@ -996,7 +1174,9 @@
         "seatNo": "20",
         "rowIdx": 3,
         "colIdx": 19,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 569.792,
+        "posTop": 423.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66367",
@@ -1007,7 +1187,9 @@
         "seatNo": "21",
         "rowIdx": 3,
         "colIdx": 20,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 569.792,
+        "posTop": 420.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66368",
@@ -1018,7 +1200,9 @@
         "seatNo": "22",
         "rowIdx": 3,
         "colIdx": 21,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 569.792,
+        "posTop": 417.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66369",
@@ -1029,7 +1213,9 @@
         "seatNo": "3",
         "rowIdx": 3,
         "colIdx": 2,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 569.792,
+        "posTop": 474.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66370",
@@ -1040,7 +1226,9 @@
         "seatNo": "4",
         "rowIdx": 3,
         "colIdx": 3,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 569.792,
+        "posTop": 471.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66371",
@@ -1051,7 +1239,9 @@
         "seatNo": "5",
         "rowIdx": 3,
         "colIdx": 4,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 569.792,
+        "posTop": 468.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66372",
@@ -1062,7 +1252,9 @@
         "seatNo": "6",
         "rowIdx": 3,
         "colIdx": 5,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 569.792,
+        "posTop": 465.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66373",
@@ -1073,7 +1265,9 @@
         "seatNo": "7",
         "rowIdx": 3,
         "colIdx": 6,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 569.792,
+        "posTop": 462.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66374",
@@ -1084,7 +1278,9 @@
         "seatNo": "8",
         "rowIdx": 3,
         "colIdx": 7,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 569.792,
+        "posTop": 459.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66375",
@@ -1095,7 +1291,9 @@
         "seatNo": "9",
         "rowIdx": 3,
         "colIdx": 8,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 569.792,
+        "posTop": 456.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66376",
@@ -1106,7 +1304,9 @@
         "seatNo": "1",
         "rowIdx": 4,
         "colIdx": 0,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 572.792,
+        "posTop": 480.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66377",
@@ -1117,7 +1317,9 @@
         "seatNo": "10",
         "rowIdx": 4,
         "colIdx": 9,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 572.792,
+        "posTop": 453.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66378",
@@ -1128,7 +1330,9 @@
         "seatNo": "11",
         "rowIdx": 4,
         "colIdx": 10,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 572.792,
+        "posTop": 450.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66379",
@@ -1139,7 +1343,9 @@
         "seatNo": "12",
         "rowIdx": 4,
         "colIdx": 11,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 572.792,
+        "posTop": 447.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66380",
@@ -1150,7 +1356,9 @@
         "seatNo": "13",
         "rowIdx": 4,
         "colIdx": 12,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 572.792,
+        "posTop": 444.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66381",
@@ -1161,7 +1369,9 @@
         "seatNo": "14",
         "rowIdx": 4,
         "colIdx": 13,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 572.792,
+        "posTop": 441.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66382",
@@ -1172,7 +1382,9 @@
         "seatNo": "15",
         "rowIdx": 4,
         "colIdx": 14,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 572.792,
+        "posTop": 438.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66383",
@@ -1183,7 +1395,9 @@
         "seatNo": "16",
         "rowIdx": 4,
         "colIdx": 15,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 572.792,
+        "posTop": 435.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66384",
@@ -1194,7 +1408,9 @@
         "seatNo": "17",
         "rowIdx": 4,
         "colIdx": 16,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 572.792,
+        "posTop": 432.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66385",
@@ -1205,7 +1421,9 @@
         "seatNo": "18",
         "rowIdx": 4,
         "colIdx": 17,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 572.792,
+        "posTop": 429.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66386",
@@ -1216,7 +1434,9 @@
         "seatNo": "19",
         "rowIdx": 4,
         "colIdx": 18,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 572.792,
+        "posTop": 426.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66387",
@@ -1227,7 +1447,9 @@
         "seatNo": "2",
         "rowIdx": 4,
         "colIdx": 1,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 572.792,
+        "posTop": 477.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66388",
@@ -1238,7 +1460,9 @@
         "seatNo": "20",
         "rowIdx": 4,
         "colIdx": 19,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 572.792,
+        "posTop": 423.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66389",
@@ -1249,7 +1473,9 @@
         "seatNo": "21",
         "rowIdx": 4,
         "colIdx": 20,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 572.792,
+        "posTop": 420.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66390",
@@ -1260,7 +1486,9 @@
         "seatNo": "22",
         "rowIdx": 4,
         "colIdx": 21,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 572.792,
+        "posTop": 417.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66391",
@@ -1271,7 +1499,9 @@
         "seatNo": "3",
         "rowIdx": 4,
         "colIdx": 2,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 572.792,
+        "posTop": 474.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66392",
@@ -1282,7 +1512,9 @@
         "seatNo": "4",
         "rowIdx": 4,
         "colIdx": 3,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 572.792,
+        "posTop": 471.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66393",
@@ -1293,7 +1525,9 @@
         "seatNo": "5",
         "rowIdx": 4,
         "colIdx": 4,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 572.792,
+        "posTop": 468.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66394",
@@ -1304,7 +1538,9 @@
         "seatNo": "6",
         "rowIdx": 4,
         "colIdx": 5,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 572.792,
+        "posTop": 465.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66395",
@@ -1315,7 +1551,9 @@
         "seatNo": "7",
         "rowIdx": 4,
         "colIdx": 6,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 572.792,
+        "posTop": 462.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66396",
@@ -1326,7 +1564,9 @@
         "seatNo": "8",
         "rowIdx": 4,
         "colIdx": 7,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 572.792,
+        "posTop": 459.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66397",
@@ -1337,7 +1577,9 @@
         "seatNo": "9",
         "rowIdx": 4,
         "colIdx": 8,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 572.792,
+        "posTop": 456.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66398",
@@ -1348,7 +1590,9 @@
         "seatNo": "1",
         "rowIdx": 5,
         "colIdx": 0,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 575.792,
+        "posTop": 480.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66399",
@@ -1359,7 +1603,9 @@
         "seatNo": "10",
         "rowIdx": 5,
         "colIdx": 9,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 575.792,
+        "posTop": 453.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66400",
@@ -1370,7 +1616,9 @@
         "seatNo": "11",
         "rowIdx": 5,
         "colIdx": 10,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 575.792,
+        "posTop": 450.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66401",
@@ -1381,7 +1629,9 @@
         "seatNo": "12",
         "rowIdx": 5,
         "colIdx": 11,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 575.792,
+        "posTop": 447.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66402",
@@ -1392,7 +1642,9 @@
         "seatNo": "13",
         "rowIdx": 5,
         "colIdx": 12,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 575.792,
+        "posTop": 444.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66403",
@@ -1403,7 +1655,9 @@
         "seatNo": "14",
         "rowIdx": 5,
         "colIdx": 13,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 575.792,
+        "posTop": 441.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66404",
@@ -1414,7 +1668,9 @@
         "seatNo": "15",
         "rowIdx": 5,
         "colIdx": 14,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 575.792,
+        "posTop": 438.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66405",
@@ -1425,7 +1681,9 @@
         "seatNo": "16",
         "rowIdx": 5,
         "colIdx": 15,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 575.792,
+        "posTop": 435.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66406",
@@ -1436,7 +1694,9 @@
         "seatNo": "17",
         "rowIdx": 5,
         "colIdx": 16,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 575.792,
+        "posTop": 432.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66407",
@@ -1447,7 +1707,9 @@
         "seatNo": "18",
         "rowIdx": 5,
         "colIdx": 17,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 575.792,
+        "posTop": 429.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66408",
@@ -1458,7 +1720,9 @@
         "seatNo": "19",
         "rowIdx": 5,
         "colIdx": 18,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 575.792,
+        "posTop": 426.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66409",
@@ -1469,7 +1733,9 @@
         "seatNo": "2",
         "rowIdx": 5,
         "colIdx": 1,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 575.792,
+        "posTop": 477.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66410",
@@ -1480,7 +1746,9 @@
         "seatNo": "20",
         "rowIdx": 5,
         "colIdx": 19,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 575.792,
+        "posTop": 423.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66411",
@@ -1491,7 +1759,9 @@
         "seatNo": "21",
         "rowIdx": 5,
         "colIdx": 20,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 575.792,
+        "posTop": 420.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66412",
@@ -1502,7 +1772,9 @@
         "seatNo": "22",
         "rowIdx": 5,
         "colIdx": 21,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 575.792,
+        "posTop": 417.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66413",
@@ -1513,7 +1785,9 @@
         "seatNo": "3",
         "rowIdx": 5,
         "colIdx": 2,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 575.792,
+        "posTop": 474.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66414",
@@ -1524,7 +1798,9 @@
         "seatNo": "4",
         "rowIdx": 5,
         "colIdx": 3,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 575.792,
+        "posTop": 471.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66415",
@@ -1535,7 +1811,9 @@
         "seatNo": "5",
         "rowIdx": 5,
         "colIdx": 4,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 575.792,
+        "posTop": 468.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66416",
@@ -1546,7 +1824,9 @@
         "seatNo": "6",
         "rowIdx": 5,
         "colIdx": 5,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 575.792,
+        "posTop": 465.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66417",
@@ -1557,7 +1837,9 @@
         "seatNo": "7",
         "rowIdx": 5,
         "colIdx": 6,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 575.792,
+        "posTop": 462.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66418",
@@ -1568,7 +1850,9 @@
         "seatNo": "8",
         "rowIdx": 5,
         "colIdx": 7,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 575.792,
+        "posTop": 459.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66419",
@@ -1579,7 +1863,9 @@
         "seatNo": "9",
         "rowIdx": 5,
         "colIdx": 8,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 575.792,
+        "posTop": 456.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66420",
@@ -1590,7 +1876,9 @@
         "seatNo": "1",
         "rowIdx": 6,
         "colIdx": 0,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 578.792,
+        "posTop": 480.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66421",
@@ -1601,7 +1889,9 @@
         "seatNo": "10",
         "rowIdx": 6,
         "colIdx": 9,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 578.792,
+        "posTop": 453.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66422",
@@ -1612,7 +1902,9 @@
         "seatNo": "11",
         "rowIdx": 6,
         "colIdx": 10,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 578.792,
+        "posTop": 450.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66423",
@@ -1623,7 +1915,9 @@
         "seatNo": "12",
         "rowIdx": 6,
         "colIdx": 11,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 578.792,
+        "posTop": 447.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66424",
@@ -1634,7 +1928,9 @@
         "seatNo": "13",
         "rowIdx": 6,
         "colIdx": 12,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 578.792,
+        "posTop": 444.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66425",
@@ -1645,7 +1941,9 @@
         "seatNo": "14",
         "rowIdx": 6,
         "colIdx": 13,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 578.792,
+        "posTop": 441.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66426",
@@ -1656,7 +1954,9 @@
         "seatNo": "15",
         "rowIdx": 6,
         "colIdx": 14,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 578.792,
+        "posTop": 438.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66427",
@@ -1667,7 +1967,9 @@
         "seatNo": "16",
         "rowIdx": 6,
         "colIdx": 15,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 578.792,
+        "posTop": 435.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66428",
@@ -1678,7 +1980,9 @@
         "seatNo": "17",
         "rowIdx": 6,
         "colIdx": 16,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 578.792,
+        "posTop": 432.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66429",
@@ -1689,7 +1993,9 @@
         "seatNo": "18",
         "rowIdx": 6,
         "colIdx": 17,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 578.792,
+        "posTop": 429.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66430",
@@ -1700,7 +2006,9 @@
         "seatNo": "19",
         "rowIdx": 6,
         "colIdx": 18,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 578.792,
+        "posTop": 426.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66431",
@@ -1711,7 +2019,9 @@
         "seatNo": "2",
         "rowIdx": 6,
         "colIdx": 1,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 578.792,
+        "posTop": 477.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66432",
@@ -1722,7 +2032,9 @@
         "seatNo": "20",
         "rowIdx": 6,
         "colIdx": 19,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 578.792,
+        "posTop": 423.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66433",
@@ -1733,7 +2045,9 @@
         "seatNo": "21",
         "rowIdx": 6,
         "colIdx": 20,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 578.792,
+        "posTop": 420.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66434",
@@ -1744,7 +2058,9 @@
         "seatNo": "22",
         "rowIdx": 6,
         "colIdx": 21,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 578.792,
+        "posTop": 417.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66435",
@@ -1755,7 +2071,9 @@
         "seatNo": "3",
         "rowIdx": 6,
         "colIdx": 2,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 578.792,
+        "posTop": 474.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66436",
@@ -1766,7 +2084,9 @@
         "seatNo": "4",
         "rowIdx": 6,
         "colIdx": 3,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 578.792,
+        "posTop": 471.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66437",
@@ -1777,7 +2097,9 @@
         "seatNo": "5",
         "rowIdx": 6,
         "colIdx": 4,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 578.792,
+        "posTop": 468.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66438",
@@ -1788,7 +2110,9 @@
         "seatNo": "6",
         "rowIdx": 6,
         "colIdx": 5,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 578.792,
+        "posTop": 465.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66439",
@@ -1799,7 +2123,9 @@
         "seatNo": "7",
         "rowIdx": 6,
         "colIdx": 6,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 578.792,
+        "posTop": 462.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66440",
@@ -1810,7 +2136,9 @@
         "seatNo": "8",
         "rowIdx": 6,
         "colIdx": 7,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 578.792,
+        "posTop": 459.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66441",
@@ -1821,7 +2149,9 @@
         "seatNo": "9",
         "rowIdx": 6,
         "colIdx": 8,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 578.792,
+        "posTop": 456.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66442",
@@ -1832,7 +2162,9 @@
         "seatNo": "1",
         "rowIdx": 7,
         "colIdx": 0,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 581.792,
+        "posTop": 480.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66443",
@@ -1843,7 +2175,9 @@
         "seatNo": "10",
         "rowIdx": 7,
         "colIdx": 9,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 581.792,
+        "posTop": 453.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66444",
@@ -1854,7 +2188,9 @@
         "seatNo": "11",
         "rowIdx": 7,
         "colIdx": 10,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 581.792,
+        "posTop": 450.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66445",
@@ -1865,7 +2201,9 @@
         "seatNo": "12",
         "rowIdx": 7,
         "colIdx": 11,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 581.792,
+        "posTop": 447.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66446",
@@ -1876,7 +2214,9 @@
         "seatNo": "13",
         "rowIdx": 7,
         "colIdx": 12,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 581.792,
+        "posTop": 444.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66447",
@@ -1887,7 +2227,9 @@
         "seatNo": "14",
         "rowIdx": 7,
         "colIdx": 13,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 581.792,
+        "posTop": 441.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66448",
@@ -1898,7 +2240,9 @@
         "seatNo": "15",
         "rowIdx": 7,
         "colIdx": 14,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 581.792,
+        "posTop": 438.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66449",
@@ -1909,7 +2253,9 @@
         "seatNo": "16",
         "rowIdx": 7,
         "colIdx": 15,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 581.792,
+        "posTop": 435.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66450",
@@ -1920,7 +2266,9 @@
         "seatNo": "17",
         "rowIdx": 7,
         "colIdx": 16,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 581.792,
+        "posTop": 432.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66451",
@@ -1931,7 +2279,9 @@
         "seatNo": "18",
         "rowIdx": 7,
         "colIdx": 17,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 581.792,
+        "posTop": 429.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66452",
@@ -1942,7 +2292,9 @@
         "seatNo": "19",
         "rowIdx": 7,
         "colIdx": 18,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 581.792,
+        "posTop": 426.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66453",
@@ -1953,7 +2305,9 @@
         "seatNo": "2",
         "rowIdx": 7,
         "colIdx": 1,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 581.792,
+        "posTop": 477.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66454",
@@ -1964,7 +2318,9 @@
         "seatNo": "20",
         "rowIdx": 7,
         "colIdx": 19,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 581.792,
+        "posTop": 423.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66455",
@@ -1975,7 +2331,9 @@
         "seatNo": "21",
         "rowIdx": 7,
         "colIdx": 20,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 581.792,
+        "posTop": 420.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66456",
@@ -1986,7 +2344,9 @@
         "seatNo": "22",
         "rowIdx": 7,
         "colIdx": 21,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 581.792,
+        "posTop": 417.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66457",
@@ -1997,7 +2357,9 @@
         "seatNo": "3",
         "rowIdx": 7,
         "colIdx": 2,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 581.792,
+        "posTop": 474.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66458",
@@ -2008,7 +2370,9 @@
         "seatNo": "4",
         "rowIdx": 7,
         "colIdx": 3,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 581.792,
+        "posTop": 471.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66459",
@@ -2019,7 +2383,9 @@
         "seatNo": "5",
         "rowIdx": 7,
         "colIdx": 4,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 581.792,
+        "posTop": 468.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66460",
@@ -2030,7 +2396,9 @@
         "seatNo": "6",
         "rowIdx": 7,
         "colIdx": 5,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 581.792,
+        "posTop": 465.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66461",
@@ -2041,7 +2409,9 @@
         "seatNo": "7",
         "rowIdx": 7,
         "colIdx": 6,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 581.792,
+        "posTop": 462.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66462",
@@ -2052,7 +2422,9 @@
         "seatNo": "8",
         "rowIdx": 7,
         "colIdx": 7,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 581.792,
+        "posTop": 459.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66463",
@@ -2063,7 +2435,9 @@
         "seatNo": "9",
         "rowIdx": 7,
         "colIdx": 8,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 581.792,
+        "posTop": 456.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66464",
@@ -2074,7 +2448,9 @@
         "seatNo": "10",
         "rowIdx": 8,
         "colIdx": 9,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 584.792,
+        "posTop": 453.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66465",
@@ -2085,7 +2461,9 @@
         "seatNo": "11",
         "rowIdx": 8,
         "colIdx": 10,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 584.792,
+        "posTop": 450.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66466",
@@ -2096,7 +2474,9 @@
         "seatNo": "12",
         "rowIdx": 8,
         "colIdx": 11,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 584.792,
+        "posTop": 447.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66467",
@@ -2107,7 +2487,9 @@
         "seatNo": "13",
         "rowIdx": 8,
         "colIdx": 12,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 584.792,
+        "posTop": 444.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66468",
@@ -2118,7 +2500,9 @@
         "seatNo": "14",
         "rowIdx": 8,
         "colIdx": 13,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 584.792,
+        "posTop": 441.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66469",
@@ -2129,7 +2513,9 @@
         "seatNo": "15",
         "rowIdx": 8,
         "colIdx": 14,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 584.792,
+        "posTop": 438.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66470",
@@ -2140,7 +2526,9 @@
         "seatNo": "16",
         "rowIdx": 8,
         "colIdx": 15,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 584.792,
+        "posTop": 435.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66471",
@@ -2151,7 +2539,9 @@
         "seatNo": "17",
         "rowIdx": 8,
         "colIdx": 16,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 584.792,
+        "posTop": 432.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66472",
@@ -2162,7 +2552,9 @@
         "seatNo": "18",
         "rowIdx": 8,
         "colIdx": 17,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 584.792,
+        "posTop": 429.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66473",
@@ -2173,7 +2565,9 @@
         "seatNo": "19",
         "rowIdx": 8,
         "colIdx": 18,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 584.792,
+        "posTop": 426.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66477",
@@ -2184,7 +2578,9 @@
         "seatNo": "3",
         "rowIdx": 8,
         "colIdx": 2,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 584.792,
+        "posTop": 474.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66478",
@@ -2195,7 +2591,9 @@
         "seatNo": "4",
         "rowIdx": 8,
         "colIdx": 3,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 584.792,
+        "posTop": 471.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66479",
@@ -2206,7 +2604,9 @@
         "seatNo": "5",
         "rowIdx": 8,
         "colIdx": 4,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 584.792,
+        "posTop": 468.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66480",
@@ -2217,7 +2617,9 @@
         "seatNo": "6",
         "rowIdx": 8,
         "colIdx": 5,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 584.792,
+        "posTop": 465.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66481",
@@ -2228,7 +2630,9 @@
         "seatNo": "7",
         "rowIdx": 8,
         "colIdx": 6,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 584.792,
+        "posTop": 462.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66482",
@@ -2239,7 +2643,9 @@
         "seatNo": "8",
         "rowIdx": 8,
         "colIdx": 7,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 584.792,
+        "posTop": 459.451
        },
        {
         "seatInfoId": "26015783:26001381:001:66483",
@@ -2250,7 +2656,9 @@
         "seatNo": "9",
         "rowIdx": 8,
         "colIdx": 8,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 584.792,
+        "posTop": 456.451
        },
        {
         "seatInfoId": "26015783:26001381:001:69502",
@@ -2261,7 +2669,9 @@
         "seatNo": "1",
         "rowIdx": 9,
         "colIdx": 0,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 587.792,
+        "posTop": 480.451
        },
        {
         "seatInfoId": "26015783:26001381:001:69503",
@@ -2272,7 +2682,9 @@
         "seatNo": "2",
         "rowIdx": 9,
         "colIdx": 1,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 587.792,
+        "posTop": 477.451
        },
        {
         "seatInfoId": "26015783:26001381:001:69504",
@@ -2283,7 +2695,9 @@
         "seatNo": "3",
         "rowIdx": 9,
         "colIdx": 2,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 587.792,
+        "posTop": 474.451
        },
        {
         "seatInfoId": "26015783:26001381:001:69505",
@@ -2294,7 +2708,9 @@
         "seatNo": "4",
         "rowIdx": 9,
         "colIdx": 3,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 587.792,
+        "posTop": 471.451
        },
        {
         "seatInfoId": "26015783:26001381:001:69506",
@@ -2305,7 +2721,9 @@
         "seatNo": "5",
         "rowIdx": 9,
         "colIdx": 4,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 587.792,
+        "posTop": 468.451
        },
        {
         "seatInfoId": "26015783:26001381:001:69507",
@@ -2316,7 +2734,9 @@
         "seatNo": "1",
         "rowIdx": 10,
         "colIdx": 0,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 590.792,
+        "posTop": 480.451
        },
        {
         "seatInfoId": "26015783:26001381:001:69508",
@@ -2327,7 +2747,9 @@
         "seatNo": "2",
         "rowIdx": 10,
         "colIdx": 1,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 590.792,
+        "posTop": 477.451
        },
        {
         "seatInfoId": "26015783:26001381:001:69509",
@@ -2338,7 +2760,9 @@
         "seatNo": "3",
         "rowIdx": 10,
         "colIdx": 2,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 590.792,
+        "posTop": 474.451
        },
        {
         "seatInfoId": "26015783:26001381:001:69510",
@@ -2349,7 +2773,9 @@
         "seatNo": "4",
         "rowIdx": 10,
         "colIdx": 3,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 590.792,
+        "posTop": 471.451
        },
        {
         "seatInfoId": "26015783:26001381:001:69511",
@@ -2360,7 +2786,9 @@
         "seatNo": "5",
         "rowIdx": 10,
         "colIdx": 4,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 590.792,
+        "posTop": 468.451
        },
        {
         "seatInfoId": "26015783:26001381:001:69512",
@@ -2371,7 +2799,9 @@
         "seatNo": "6",
         "rowIdx": 10,
         "colIdx": 5,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 590.792,
+        "posTop": 465.451
        },
        {
         "seatInfoId": "26015783:26001381:001:69513",
@@ -2382,7 +2812,9 @@
         "seatNo": "7",
         "rowIdx": 10,
         "colIdx": 6,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 590.792,
+        "posTop": 462.451
        },
        {
         "seatInfoId": "26015783:26001381:001:69514",
@@ -2393,7 +2825,9 @@
         "seatNo": "8",
         "rowIdx": 10,
         "colIdx": 7,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 590.792,
+        "posTop": 459.451
        },
        {
         "seatInfoId": "26015783:26001381:001:69515",
@@ -2404,7 +2838,9 @@
         "seatNo": "1",
         "rowIdx": 11,
         "colIdx": 0,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 593.792,
+        "posTop": 480.451
        },
        {
         "seatInfoId": "26015783:26001381:001:69516",
@@ -2415,7 +2851,9 @@
         "seatNo": "2",
         "rowIdx": 11,
         "colIdx": 1,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 593.792,
+        "posTop": 477.451
        },
        {
         "seatInfoId": "26015783:26001381:001:69517",
@@ -2426,7 +2864,9 @@
         "seatNo": "3",
         "rowIdx": 11,
         "colIdx": 2,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 593.792,
+        "posTop": 474.451
        },
        {
         "seatInfoId": "26015783:26001381:001:69518",
@@ -2437,7 +2877,9 @@
         "seatNo": "4",
         "rowIdx": 11,
         "colIdx": 3,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 593.792,
+        "posTop": 471.451
        },
        {
         "seatInfoId": "26015783:26001381:001:69519",
@@ -2448,7 +2890,9 @@
         "seatNo": "5",
         "rowIdx": 11,
         "colIdx": 4,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 593.792,
+        "posTop": 468.451
        },
        {
         "seatInfoId": "26015783:26001381:001:69520",
@@ -2459,7 +2903,9 @@
         "seatNo": "1",
         "rowIdx": 8,
         "colIdx": 0,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 584.792,
+        "posTop": 480.451
        },
        {
         "seatInfoId": "26015783:26001381:001:69521",
@@ -2470,7 +2916,9 @@
         "seatNo": "2",
         "rowIdx": 8,
         "colIdx": 1,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 584.792,
+        "posTop": 477.451
        }
       ]
      },
@@ -2486,7 +2934,9 @@
         "seatNo": "1",
         "rowIdx": 9,
         "colIdx": 0,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 587.686,
+        "posTop": 557.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66485",
@@ -2497,7 +2947,9 @@
         "seatNo": "10",
         "rowIdx": 9,
         "colIdx": 9,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 587.686,
+        "posTop": 530.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66486",
@@ -2508,7 +2960,9 @@
         "seatNo": "11",
         "rowIdx": 9,
         "colIdx": 10,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 587.686,
+        "posTop": 527.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66487",
@@ -2519,7 +2973,9 @@
         "seatNo": "12",
         "rowIdx": 9,
         "colIdx": 11,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 587.686,
+        "posTop": 524.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66488",
@@ -2530,7 +2986,9 @@
         "seatNo": "13",
         "rowIdx": 9,
         "colIdx": 12,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 587.686,
+        "posTop": 521.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66489",
@@ -2541,7 +2999,9 @@
         "seatNo": "14",
         "rowIdx": 9,
         "colIdx": 13,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 587.686,
+        "posTop": 518.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66490",
@@ -2552,7 +3012,9 @@
         "seatNo": "15",
         "rowIdx": 9,
         "colIdx": 14,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 587.686,
+        "posTop": 515.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66491",
@@ -2563,7 +3025,9 @@
         "seatNo": "16",
         "rowIdx": 9,
         "colIdx": 15,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 587.686,
+        "posTop": 512.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66492",
@@ -2574,7 +3038,9 @@
         "seatNo": "17",
         "rowIdx": 9,
         "colIdx": 16,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 587.686,
+        "posTop": 509.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66493",
@@ -2585,7 +3051,9 @@
         "seatNo": "2",
         "rowIdx": 9,
         "colIdx": 1,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 587.686,
+        "posTop": 554.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66494",
@@ -2596,7 +3064,9 @@
         "seatNo": "3",
         "rowIdx": 9,
         "colIdx": 2,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 587.686,
+        "posTop": 551.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66495",
@@ -2607,7 +3077,9 @@
         "seatNo": "4",
         "rowIdx": 9,
         "colIdx": 3,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 587.686,
+        "posTop": 548.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66496",
@@ -2618,7 +3090,9 @@
         "seatNo": "5",
         "rowIdx": 9,
         "colIdx": 4,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 587.686,
+        "posTop": 545.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66497",
@@ -2629,7 +3103,9 @@
         "seatNo": "6",
         "rowIdx": 9,
         "colIdx": 5,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 587.686,
+        "posTop": 542.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66498",
@@ -2640,7 +3116,9 @@
         "seatNo": "7",
         "rowIdx": 9,
         "colIdx": 6,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 587.686,
+        "posTop": 539.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66499",
@@ -2651,7 +3129,9 @@
         "seatNo": "8",
         "rowIdx": 9,
         "colIdx": 7,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 587.686,
+        "posTop": 536.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66500",
@@ -2662,7 +3142,9 @@
         "seatNo": "9",
         "rowIdx": 9,
         "colIdx": 8,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 587.686,
+        "posTop": 533.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66501",
@@ -2673,7 +3155,9 @@
         "seatNo": "1",
         "rowIdx": 10,
         "colIdx": 0,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 590.686,
+        "posTop": 557.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66502",
@@ -2684,7 +3168,9 @@
         "seatNo": "10",
         "rowIdx": 10,
         "colIdx": 9,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 590.686,
+        "posTop": 530.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66503",
@@ -2695,7 +3181,9 @@
         "seatNo": "11",
         "rowIdx": 10,
         "colIdx": 10,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 590.686,
+        "posTop": 527.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66504",
@@ -2706,7 +3194,9 @@
         "seatNo": "12",
         "rowIdx": 10,
         "colIdx": 11,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 590.686,
+        "posTop": 524.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66505",
@@ -2717,7 +3207,9 @@
         "seatNo": "13",
         "rowIdx": 10,
         "colIdx": 12,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 590.686,
+        "posTop": 521.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66506",
@@ -2728,7 +3220,9 @@
         "seatNo": "14",
         "rowIdx": 10,
         "colIdx": 13,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 590.686,
+        "posTop": 518.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66507",
@@ -2739,7 +3233,9 @@
         "seatNo": "2",
         "rowIdx": 10,
         "colIdx": 1,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 590.686,
+        "posTop": 554.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66508",
@@ -2750,7 +3246,9 @@
         "seatNo": "3",
         "rowIdx": 10,
         "colIdx": 2,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 590.686,
+        "posTop": 551.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66509",
@@ -2761,7 +3259,9 @@
         "seatNo": "4",
         "rowIdx": 10,
         "colIdx": 3,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 590.686,
+        "posTop": 548.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66510",
@@ -2772,7 +3272,9 @@
         "seatNo": "5",
         "rowIdx": 10,
         "colIdx": 4,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 590.686,
+        "posTop": 545.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66511",
@@ -2783,7 +3285,9 @@
         "seatNo": "6",
         "rowIdx": 10,
         "colIdx": 5,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 590.686,
+        "posTop": 542.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66512",
@@ -2794,7 +3298,9 @@
         "seatNo": "7",
         "rowIdx": 10,
         "colIdx": 6,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 590.686,
+        "posTop": 539.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66513",
@@ -2805,7 +3311,9 @@
         "seatNo": "8",
         "rowIdx": 10,
         "colIdx": 7,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 590.686,
+        "posTop": 536.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66514",
@@ -2816,7 +3324,9 @@
         "seatNo": "9",
         "rowIdx": 10,
         "colIdx": 8,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 590.686,
+        "posTop": 533.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66515",
@@ -2827,7 +3337,9 @@
         "seatNo": "1",
         "rowIdx": 11,
         "colIdx": 0,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 593.686,
+        "posTop": 557.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66516",
@@ -2838,7 +3350,9 @@
         "seatNo": "10",
         "rowIdx": 11,
         "colIdx": 9,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 593.686,
+        "posTop": 530.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66517",
@@ -2849,7 +3363,9 @@
         "seatNo": "2",
         "rowIdx": 11,
         "colIdx": 1,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 593.686,
+        "posTop": 554.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66518",
@@ -2860,7 +3376,9 @@
         "seatNo": "3",
         "rowIdx": 11,
         "colIdx": 2,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 593.686,
+        "posTop": 551.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66519",
@@ -2871,7 +3389,9 @@
         "seatNo": "4",
         "rowIdx": 11,
         "colIdx": 3,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 593.686,
+        "posTop": 548.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66520",
@@ -2882,7 +3402,9 @@
         "seatNo": "5",
         "rowIdx": 11,
         "colIdx": 4,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 593.686,
+        "posTop": 545.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66521",
@@ -2893,7 +3415,9 @@
         "seatNo": "6",
         "rowIdx": 11,
         "colIdx": 5,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 593.686,
+        "posTop": 542.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66522",
@@ -2904,7 +3428,9 @@
         "seatNo": "7",
         "rowIdx": 11,
         "colIdx": 6,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 593.686,
+        "posTop": 539.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66523",
@@ -2915,7 +3441,9 @@
         "seatNo": "8",
         "rowIdx": 11,
         "colIdx": 7,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 593.686,
+        "posTop": 536.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66524",
@@ -2926,7 +3454,9 @@
         "seatNo": "9",
         "rowIdx": 11,
         "colIdx": 8,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 593.686,
+        "posTop": 533.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66525",
@@ -2937,7 +3467,9 @@
         "seatNo": "1",
         "rowIdx": 12,
         "colIdx": 0,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 596.686,
+        "posTop": 557.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66526",
@@ -2948,7 +3480,9 @@
         "seatNo": "2",
         "rowIdx": 12,
         "colIdx": 1,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 596.686,
+        "posTop": 554.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66527",
@@ -2959,7 +3493,9 @@
         "seatNo": "3",
         "rowIdx": 12,
         "colIdx": 2,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 596.686,
+        "posTop": 551.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66528",
@@ -2970,7 +3506,9 @@
         "seatNo": "4",
         "rowIdx": 12,
         "colIdx": 3,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 596.686,
+        "posTop": 548.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66529",
@@ -2981,7 +3519,9 @@
         "seatNo": "5",
         "rowIdx": 12,
         "colIdx": 4,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 596.686,
+        "posTop": 545.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66530",
@@ -2992,7 +3532,9 @@
         "seatNo": "6",
         "rowIdx": 12,
         "colIdx": 5,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 596.686,
+        "posTop": 542.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66531",
@@ -3003,7 +3545,9 @@
         "seatNo": "7",
         "rowIdx": 12,
         "colIdx": 6,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 596.686,
+        "posTop": 539.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66532",
@@ -3014,7 +3558,9 @@
         "seatNo": "8",
         "rowIdx": 12,
         "colIdx": 7,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 596.686,
+        "posTop": 536.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66533",
@@ -3025,7 +3571,9 @@
         "seatNo": "1",
         "rowIdx": 13,
         "colIdx": 0,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 599.686,
+        "posTop": 557.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66534",
@@ -3036,7 +3584,9 @@
         "seatNo": "2",
         "rowIdx": 13,
         "colIdx": 1,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 599.686,
+        "posTop": 554.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66535",
@@ -3047,7 +3597,9 @@
         "seatNo": "3",
         "rowIdx": 13,
         "colIdx": 2,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 599.686,
+        "posTop": 551.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66536",
@@ -3058,7 +3610,9 @@
         "seatNo": "4",
         "rowIdx": 13,
         "colIdx": 3,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 599.686,
+        "posTop": 548.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66537",
@@ -3069,7 +3623,9 @@
         "seatNo": "5",
         "rowIdx": 13,
         "colIdx": 4,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 599.686,
+        "posTop": 545.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66538",
@@ -3080,7 +3636,9 @@
         "seatNo": "6",
         "rowIdx": 13,
         "colIdx": 5,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 599.686,
+        "posTop": 542.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66539",
@@ -3091,7 +3649,9 @@
         "seatNo": "1",
         "rowIdx": 0,
         "colIdx": 0,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 560.686,
+        "posTop": 557.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66540",
@@ -3102,7 +3662,9 @@
         "seatNo": "10",
         "rowIdx": 0,
         "colIdx": 9,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 560.686,
+        "posTop": 530.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66541",
@@ -3113,7 +3675,9 @@
         "seatNo": "11",
         "rowIdx": 0,
         "colIdx": 10,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 560.686,
+        "posTop": 527.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66542",
@@ -3124,7 +3688,9 @@
         "seatNo": "12",
         "rowIdx": 0,
         "colIdx": 11,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 560.686,
+        "posTop": 524.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66543",
@@ -3135,7 +3701,9 @@
         "seatNo": "13",
         "rowIdx": 0,
         "colIdx": 12,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 560.686,
+        "posTop": 521.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66544",
@@ -3146,7 +3714,9 @@
         "seatNo": "14",
         "rowIdx": 0,
         "colIdx": 13,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 560.686,
+        "posTop": 518.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66545",
@@ -3157,7 +3727,9 @@
         "seatNo": "15",
         "rowIdx": 0,
         "colIdx": 14,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 560.686,
+        "posTop": 515.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66546",
@@ -3168,7 +3740,9 @@
         "seatNo": "16",
         "rowIdx": 0,
         "colIdx": 15,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 560.686,
+        "posTop": 512.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66547",
@@ -3179,7 +3753,9 @@
         "seatNo": "17",
         "rowIdx": 0,
         "colIdx": 16,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 560.686,
+        "posTop": 509.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66548",
@@ -3190,7 +3766,9 @@
         "seatNo": "18",
         "rowIdx": 0,
         "colIdx": 17,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 560.686,
+        "posTop": 506.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66549",
@@ -3201,7 +3779,9 @@
         "seatNo": "19",
         "rowIdx": 0,
         "colIdx": 18,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 560.686,
+        "posTop": 503.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66550",
@@ -3212,7 +3792,9 @@
         "seatNo": "2",
         "rowIdx": 0,
         "colIdx": 1,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 560.686,
+        "posTop": 554.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66551",
@@ -3223,7 +3805,9 @@
         "seatNo": "20",
         "rowIdx": 0,
         "colIdx": 19,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 560.686,
+        "posTop": 500.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66552",
@@ -3234,7 +3818,9 @@
         "seatNo": "21",
         "rowIdx": 0,
         "colIdx": 20,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 560.686,
+        "posTop": 497.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66553",
@@ -3245,7 +3831,9 @@
         "seatNo": "22",
         "rowIdx": 0,
         "colIdx": 21,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 560.686,
+        "posTop": 494.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66554",
@@ -3256,7 +3844,9 @@
         "seatNo": "3",
         "rowIdx": 0,
         "colIdx": 2,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 560.686,
+        "posTop": 551.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66555",
@@ -3267,7 +3857,9 @@
         "seatNo": "4",
         "rowIdx": 0,
         "colIdx": 3,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 560.686,
+        "posTop": 548.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66556",
@@ -3278,7 +3870,9 @@
         "seatNo": "5",
         "rowIdx": 0,
         "colIdx": 4,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 560.686,
+        "posTop": 545.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66557",
@@ -3289,7 +3883,9 @@
         "seatNo": "6",
         "rowIdx": 0,
         "colIdx": 5,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 560.686,
+        "posTop": 542.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66558",
@@ -3300,7 +3896,9 @@
         "seatNo": "7",
         "rowIdx": 0,
         "colIdx": 6,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 560.686,
+        "posTop": 539.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66559",
@@ -3311,7 +3909,9 @@
         "seatNo": "8",
         "rowIdx": 0,
         "colIdx": 7,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 560.686,
+        "posTop": 536.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66560",
@@ -3322,7 +3922,9 @@
         "seatNo": "9",
         "rowIdx": 0,
         "colIdx": 8,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 560.686,
+        "posTop": 533.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66561",
@@ -3333,7 +3935,9 @@
         "seatNo": "1",
         "rowIdx": 1,
         "colIdx": 0,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 563.686,
+        "posTop": 557.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66562",
@@ -3344,7 +3948,9 @@
         "seatNo": "10",
         "rowIdx": 1,
         "colIdx": 9,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 563.686,
+        "posTop": 530.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66563",
@@ -3355,7 +3961,9 @@
         "seatNo": "11",
         "rowIdx": 1,
         "colIdx": 10,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 563.686,
+        "posTop": 527.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66564",
@@ -3366,7 +3974,9 @@
         "seatNo": "12",
         "rowIdx": 1,
         "colIdx": 11,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 563.686,
+        "posTop": 524.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66565",
@@ -3377,7 +3987,9 @@
         "seatNo": "13",
         "rowIdx": 1,
         "colIdx": 12,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 563.686,
+        "posTop": 521.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66566",
@@ -3388,7 +4000,9 @@
         "seatNo": "14",
         "rowIdx": 1,
         "colIdx": 13,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 563.686,
+        "posTop": 518.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66567",
@@ -3399,7 +4013,9 @@
         "seatNo": "15",
         "rowIdx": 1,
         "colIdx": 14,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 563.686,
+        "posTop": 515.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66568",
@@ -3410,7 +4026,9 @@
         "seatNo": "16",
         "rowIdx": 1,
         "colIdx": 15,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 563.686,
+        "posTop": 512.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66569",
@@ -3421,7 +4039,9 @@
         "seatNo": "17",
         "rowIdx": 1,
         "colIdx": 16,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 563.686,
+        "posTop": 509.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66570",
@@ -3432,7 +4052,9 @@
         "seatNo": "18",
         "rowIdx": 1,
         "colIdx": 17,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 563.686,
+        "posTop": 506.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66571",
@@ -3443,7 +4065,9 @@
         "seatNo": "19",
         "rowIdx": 1,
         "colIdx": 18,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 563.686,
+        "posTop": 503.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66572",
@@ -3454,7 +4078,9 @@
         "seatNo": "2",
         "rowIdx": 1,
         "colIdx": 1,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 563.686,
+        "posTop": 554.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66573",
@@ -3465,7 +4091,9 @@
         "seatNo": "20",
         "rowIdx": 1,
         "colIdx": 19,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 563.686,
+        "posTop": 500.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66574",
@@ -3476,7 +4104,9 @@
         "seatNo": "21",
         "rowIdx": 1,
         "colIdx": 20,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 563.686,
+        "posTop": 497.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66575",
@@ -3487,7 +4117,9 @@
         "seatNo": "22",
         "rowIdx": 1,
         "colIdx": 21,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 563.686,
+        "posTop": 494.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66576",
@@ -3498,7 +4130,9 @@
         "seatNo": "3",
         "rowIdx": 1,
         "colIdx": 2,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 563.686,
+        "posTop": 551.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66577",
@@ -3509,7 +4143,9 @@
         "seatNo": "4",
         "rowIdx": 1,
         "colIdx": 3,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 563.686,
+        "posTop": 548.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66578",
@@ -3520,7 +4156,9 @@
         "seatNo": "5",
         "rowIdx": 1,
         "colIdx": 4,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 563.686,
+        "posTop": 545.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66579",
@@ -3531,7 +4169,9 @@
         "seatNo": "6",
         "rowIdx": 1,
         "colIdx": 5,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 563.686,
+        "posTop": 542.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66580",
@@ -3542,7 +4182,9 @@
         "seatNo": "7",
         "rowIdx": 1,
         "colIdx": 6,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 563.686,
+        "posTop": 539.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66581",
@@ -3553,7 +4195,9 @@
         "seatNo": "8",
         "rowIdx": 1,
         "colIdx": 7,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 563.686,
+        "posTop": 536.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66582",
@@ -3564,7 +4208,9 @@
         "seatNo": "9",
         "rowIdx": 1,
         "colIdx": 8,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 563.686,
+        "posTop": 533.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66583",
@@ -3575,7 +4221,9 @@
         "seatNo": "1",
         "rowIdx": 2,
         "colIdx": 0,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 566.686,
+        "posTop": 557.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66584",
@@ -3586,7 +4234,9 @@
         "seatNo": "10",
         "rowIdx": 2,
         "colIdx": 9,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 566.686,
+        "posTop": 530.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66585",
@@ -3597,7 +4247,9 @@
         "seatNo": "11",
         "rowIdx": 2,
         "colIdx": 10,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 566.686,
+        "posTop": 527.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66586",
@@ -3608,7 +4260,9 @@
         "seatNo": "12",
         "rowIdx": 2,
         "colIdx": 11,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 566.686,
+        "posTop": 524.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66587",
@@ -3619,7 +4273,9 @@
         "seatNo": "13",
         "rowIdx": 2,
         "colIdx": 12,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 566.686,
+        "posTop": 521.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66588",
@@ -3630,7 +4286,9 @@
         "seatNo": "14",
         "rowIdx": 2,
         "colIdx": 13,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 566.686,
+        "posTop": 518.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66589",
@@ -3641,7 +4299,9 @@
         "seatNo": "15",
         "rowIdx": 2,
         "colIdx": 14,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 566.686,
+        "posTop": 515.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66590",
@@ -3652,7 +4312,9 @@
         "seatNo": "16",
         "rowIdx": 2,
         "colIdx": 15,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 566.686,
+        "posTop": 512.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66591",
@@ -3663,7 +4325,9 @@
         "seatNo": "17",
         "rowIdx": 2,
         "colIdx": 16,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 566.686,
+        "posTop": 509.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66592",
@@ -3674,7 +4338,9 @@
         "seatNo": "18",
         "rowIdx": 2,
         "colIdx": 17,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 566.686,
+        "posTop": 506.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66593",
@@ -3685,7 +4351,9 @@
         "seatNo": "19",
         "rowIdx": 2,
         "colIdx": 18,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 566.686,
+        "posTop": 503.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66594",
@@ -3696,7 +4364,9 @@
         "seatNo": "2",
         "rowIdx": 2,
         "colIdx": 1,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 566.686,
+        "posTop": 554.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66595",
@@ -3707,7 +4377,9 @@
         "seatNo": "20",
         "rowIdx": 2,
         "colIdx": 19,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 566.686,
+        "posTop": 500.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66596",
@@ -3718,7 +4390,9 @@
         "seatNo": "21",
         "rowIdx": 2,
         "colIdx": 20,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 566.686,
+        "posTop": 497.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66597",
@@ -3729,7 +4403,9 @@
         "seatNo": "22",
         "rowIdx": 2,
         "colIdx": 21,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 566.686,
+        "posTop": 494.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66598",
@@ -3740,7 +4416,9 @@
         "seatNo": "3",
         "rowIdx": 2,
         "colIdx": 2,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 566.686,
+        "posTop": 551.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66599",
@@ -3751,7 +4429,9 @@
         "seatNo": "4",
         "rowIdx": 2,
         "colIdx": 3,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 566.686,
+        "posTop": 548.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66600",
@@ -3762,7 +4442,9 @@
         "seatNo": "5",
         "rowIdx": 2,
         "colIdx": 4,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 566.686,
+        "posTop": 545.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66601",
@@ -3773,7 +4455,9 @@
         "seatNo": "6",
         "rowIdx": 2,
         "colIdx": 5,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 566.686,
+        "posTop": 542.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66602",
@@ -3784,7 +4468,9 @@
         "seatNo": "7",
         "rowIdx": 2,
         "colIdx": 6,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 566.686,
+        "posTop": 539.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66603",
@@ -3795,7 +4481,9 @@
         "seatNo": "8",
         "rowIdx": 2,
         "colIdx": 7,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 566.686,
+        "posTop": 536.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66604",
@@ -3806,7 +4494,9 @@
         "seatNo": "9",
         "rowIdx": 2,
         "colIdx": 8,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 566.686,
+        "posTop": 533.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66605",
@@ -3817,7 +4507,9 @@
         "seatNo": "1",
         "rowIdx": 3,
         "colIdx": 0,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 569.686,
+        "posTop": 557.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66606",
@@ -3828,7 +4520,9 @@
         "seatNo": "10",
         "rowIdx": 3,
         "colIdx": 9,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 569.686,
+        "posTop": 530.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66607",
@@ -3839,7 +4533,9 @@
         "seatNo": "11",
         "rowIdx": 3,
         "colIdx": 10,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 569.686,
+        "posTop": 527.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66608",
@@ -3850,7 +4546,9 @@
         "seatNo": "12",
         "rowIdx": 3,
         "colIdx": 11,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 569.686,
+        "posTop": 524.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66609",
@@ -3861,7 +4559,9 @@
         "seatNo": "13",
         "rowIdx": 3,
         "colIdx": 12,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 569.686,
+        "posTop": 521.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66610",
@@ -3872,7 +4572,9 @@
         "seatNo": "14",
         "rowIdx": 3,
         "colIdx": 13,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 569.686,
+        "posTop": 518.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66611",
@@ -3883,7 +4585,9 @@
         "seatNo": "15",
         "rowIdx": 3,
         "colIdx": 14,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 569.686,
+        "posTop": 515.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66612",
@@ -3894,7 +4598,9 @@
         "seatNo": "16",
         "rowIdx": 3,
         "colIdx": 15,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 569.686,
+        "posTop": 512.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66613",
@@ -3905,7 +4611,9 @@
         "seatNo": "17",
         "rowIdx": 3,
         "colIdx": 16,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 569.686,
+        "posTop": 509.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66614",
@@ -3916,7 +4624,9 @@
         "seatNo": "18",
         "rowIdx": 3,
         "colIdx": 17,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 569.686,
+        "posTop": 506.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66615",
@@ -3927,7 +4637,9 @@
         "seatNo": "19",
         "rowIdx": 3,
         "colIdx": 18,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 569.686,
+        "posTop": 503.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66616",
@@ -3938,7 +4650,9 @@
         "seatNo": "2",
         "rowIdx": 3,
         "colIdx": 1,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 569.686,
+        "posTop": 554.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66617",
@@ -3949,7 +4663,9 @@
         "seatNo": "20",
         "rowIdx": 3,
         "colIdx": 19,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 569.686,
+        "posTop": 500.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66618",
@@ -3960,7 +4676,9 @@
         "seatNo": "21",
         "rowIdx": 3,
         "colIdx": 20,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 569.686,
+        "posTop": 497.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66619",
@@ -3971,7 +4689,9 @@
         "seatNo": "22",
         "rowIdx": 3,
         "colIdx": 21,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 569.686,
+        "posTop": 494.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66620",
@@ -3982,7 +4702,9 @@
         "seatNo": "3",
         "rowIdx": 3,
         "colIdx": 2,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 569.686,
+        "posTop": 551.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66621",
@@ -3993,7 +4715,9 @@
         "seatNo": "4",
         "rowIdx": 3,
         "colIdx": 3,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 569.686,
+        "posTop": 548.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66622",
@@ -4004,7 +4728,9 @@
         "seatNo": "5",
         "rowIdx": 3,
         "colIdx": 4,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 569.686,
+        "posTop": 545.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66623",
@@ -4015,7 +4741,9 @@
         "seatNo": "6",
         "rowIdx": 3,
         "colIdx": 5,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 569.686,
+        "posTop": 542.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66624",
@@ -4026,7 +4754,9 @@
         "seatNo": "7",
         "rowIdx": 3,
         "colIdx": 6,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 569.686,
+        "posTop": 539.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66625",
@@ -4037,7 +4767,9 @@
         "seatNo": "8",
         "rowIdx": 3,
         "colIdx": 7,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 569.686,
+        "posTop": 536.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66626",
@@ -4048,7 +4780,9 @@
         "seatNo": "9",
         "rowIdx": 3,
         "colIdx": 8,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 569.686,
+        "posTop": 533.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66627",
@@ -4059,7 +4793,9 @@
         "seatNo": "1",
         "rowIdx": 4,
         "colIdx": 0,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 572.686,
+        "posTop": 557.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66628",
@@ -4070,7 +4806,9 @@
         "seatNo": "10",
         "rowIdx": 4,
         "colIdx": 9,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 572.686,
+        "posTop": 530.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66629",
@@ -4081,7 +4819,9 @@
         "seatNo": "11",
         "rowIdx": 4,
         "colIdx": 10,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 572.686,
+        "posTop": 527.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66630",
@@ -4092,7 +4832,9 @@
         "seatNo": "12",
         "rowIdx": 4,
         "colIdx": 11,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 572.686,
+        "posTop": 524.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66631",
@@ -4103,7 +4845,9 @@
         "seatNo": "13",
         "rowIdx": 4,
         "colIdx": 12,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 572.686,
+        "posTop": 521.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66632",
@@ -4114,7 +4858,9 @@
         "seatNo": "14",
         "rowIdx": 4,
         "colIdx": 13,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 572.686,
+        "posTop": 518.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66633",
@@ -4125,7 +4871,9 @@
         "seatNo": "15",
         "rowIdx": 4,
         "colIdx": 14,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 572.686,
+        "posTop": 515.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66634",
@@ -4136,7 +4884,9 @@
         "seatNo": "16",
         "rowIdx": 4,
         "colIdx": 15,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 572.686,
+        "posTop": 512.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66635",
@@ -4147,7 +4897,9 @@
         "seatNo": "17",
         "rowIdx": 4,
         "colIdx": 16,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 572.686,
+        "posTop": 509.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66636",
@@ -4158,7 +4910,9 @@
         "seatNo": "18",
         "rowIdx": 4,
         "colIdx": 17,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 572.686,
+        "posTop": 506.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66637",
@@ -4169,7 +4923,9 @@
         "seatNo": "19",
         "rowIdx": 4,
         "colIdx": 18,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 572.686,
+        "posTop": 503.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66638",
@@ -4180,7 +4936,9 @@
         "seatNo": "2",
         "rowIdx": 4,
         "colIdx": 1,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 572.686,
+        "posTop": 554.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66639",
@@ -4191,7 +4949,9 @@
         "seatNo": "20",
         "rowIdx": 4,
         "colIdx": 19,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 572.686,
+        "posTop": 500.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66640",
@@ -4202,7 +4962,9 @@
         "seatNo": "21",
         "rowIdx": 4,
         "colIdx": 20,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 572.686,
+        "posTop": 497.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66641",
@@ -4213,7 +4975,9 @@
         "seatNo": "22",
         "rowIdx": 4,
         "colIdx": 21,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 572.686,
+        "posTop": 494.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66642",
@@ -4224,7 +4988,9 @@
         "seatNo": "3",
         "rowIdx": 4,
         "colIdx": 2,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 572.686,
+        "posTop": 551.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66643",
@@ -4235,7 +5001,9 @@
         "seatNo": "4",
         "rowIdx": 4,
         "colIdx": 3,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 572.686,
+        "posTop": 548.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66644",
@@ -4246,7 +5014,9 @@
         "seatNo": "5",
         "rowIdx": 4,
         "colIdx": 4,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 572.686,
+        "posTop": 545.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66645",
@@ -4257,7 +5027,9 @@
         "seatNo": "6",
         "rowIdx": 4,
         "colIdx": 5,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 572.686,
+        "posTop": 542.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66646",
@@ -4268,7 +5040,9 @@
         "seatNo": "7",
         "rowIdx": 4,
         "colIdx": 6,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 572.686,
+        "posTop": 539.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66647",
@@ -4279,7 +5053,9 @@
         "seatNo": "8",
         "rowIdx": 4,
         "colIdx": 7,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 572.686,
+        "posTop": 536.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66648",
@@ -4290,7 +5066,9 @@
         "seatNo": "9",
         "rowIdx": 4,
         "colIdx": 8,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 572.686,
+        "posTop": 533.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66649",
@@ -4301,7 +5079,9 @@
         "seatNo": "1",
         "rowIdx": 5,
         "colIdx": 0,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 575.686,
+        "posTop": 557.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66650",
@@ -4312,7 +5092,9 @@
         "seatNo": "10",
         "rowIdx": 5,
         "colIdx": 9,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 575.686,
+        "posTop": 530.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66651",
@@ -4323,7 +5105,9 @@
         "seatNo": "11",
         "rowIdx": 5,
         "colIdx": 10,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 575.686,
+        "posTop": 527.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66652",
@@ -4334,7 +5118,9 @@
         "seatNo": "12",
         "rowIdx": 5,
         "colIdx": 11,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 575.686,
+        "posTop": 524.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66653",
@@ -4345,7 +5131,9 @@
         "seatNo": "13",
         "rowIdx": 5,
         "colIdx": 12,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 575.686,
+        "posTop": 521.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66654",
@@ -4356,7 +5144,9 @@
         "seatNo": "14",
         "rowIdx": 5,
         "colIdx": 13,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 575.686,
+        "posTop": 518.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66655",
@@ -4367,7 +5157,9 @@
         "seatNo": "15",
         "rowIdx": 5,
         "colIdx": 14,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 575.686,
+        "posTop": 515.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66656",
@@ -4378,7 +5170,9 @@
         "seatNo": "16",
         "rowIdx": 5,
         "colIdx": 15,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 575.686,
+        "posTop": 512.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66657",
@@ -4389,7 +5183,9 @@
         "seatNo": "17",
         "rowIdx": 5,
         "colIdx": 16,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 575.686,
+        "posTop": 509.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66658",
@@ -4400,7 +5196,9 @@
         "seatNo": "18",
         "rowIdx": 5,
         "colIdx": 17,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 575.686,
+        "posTop": 506.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66659",
@@ -4411,7 +5209,9 @@
         "seatNo": "19",
         "rowIdx": 5,
         "colIdx": 18,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 575.686,
+        "posTop": 503.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66660",
@@ -4422,7 +5222,9 @@
         "seatNo": "2",
         "rowIdx": 5,
         "colIdx": 1,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 575.686,
+        "posTop": 554.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66661",
@@ -4433,7 +5235,9 @@
         "seatNo": "20",
         "rowIdx": 5,
         "colIdx": 19,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 575.686,
+        "posTop": 500.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66662",
@@ -4444,7 +5248,9 @@
         "seatNo": "21",
         "rowIdx": 5,
         "colIdx": 20,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 575.686,
+        "posTop": 497.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66663",
@@ -4455,7 +5261,9 @@
         "seatNo": "22",
         "rowIdx": 5,
         "colIdx": 21,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 575.686,
+        "posTop": 494.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66664",
@@ -4466,7 +5274,9 @@
         "seatNo": "3",
         "rowIdx": 5,
         "colIdx": 2,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 575.686,
+        "posTop": 551.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66665",
@@ -4477,7 +5287,9 @@
         "seatNo": "4",
         "rowIdx": 5,
         "colIdx": 3,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 575.686,
+        "posTop": 548.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66666",
@@ -4488,7 +5300,9 @@
         "seatNo": "5",
         "rowIdx": 5,
         "colIdx": 4,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 575.686,
+        "posTop": 545.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66667",
@@ -4499,7 +5313,9 @@
         "seatNo": "6",
         "rowIdx": 5,
         "colIdx": 5,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 575.686,
+        "posTop": 542.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66668",
@@ -4510,7 +5326,9 @@
         "seatNo": "7",
         "rowIdx": 5,
         "colIdx": 6,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 575.686,
+        "posTop": 539.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66669",
@@ -4521,7 +5339,9 @@
         "seatNo": "8",
         "rowIdx": 5,
         "colIdx": 7,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 575.686,
+        "posTop": 536.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66670",
@@ -4532,7 +5352,9 @@
         "seatNo": "9",
         "rowIdx": 5,
         "colIdx": 8,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 575.686,
+        "posTop": 533.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66671",
@@ -4543,7 +5365,9 @@
         "seatNo": "1",
         "rowIdx": 6,
         "colIdx": 0,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 578.686,
+        "posTop": 557.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66672",
@@ -4554,7 +5378,9 @@
         "seatNo": "10",
         "rowIdx": 6,
         "colIdx": 9,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 578.686,
+        "posTop": 530.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66673",
@@ -4565,7 +5391,9 @@
         "seatNo": "11",
         "rowIdx": 6,
         "colIdx": 10,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 578.686,
+        "posTop": 527.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66674",
@@ -4576,7 +5404,9 @@
         "seatNo": "12",
         "rowIdx": 6,
         "colIdx": 11,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 578.686,
+        "posTop": 524.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66675",
@@ -4587,7 +5417,9 @@
         "seatNo": "13",
         "rowIdx": 6,
         "colIdx": 12,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 578.686,
+        "posTop": 521.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66676",
@@ -4598,7 +5430,9 @@
         "seatNo": "14",
         "rowIdx": 6,
         "colIdx": 13,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 578.686,
+        "posTop": 518.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66677",
@@ -4609,7 +5443,9 @@
         "seatNo": "15",
         "rowIdx": 6,
         "colIdx": 14,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 578.686,
+        "posTop": 515.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66678",
@@ -4620,7 +5456,9 @@
         "seatNo": "16",
         "rowIdx": 6,
         "colIdx": 15,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 578.686,
+        "posTop": 512.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66679",
@@ -4631,7 +5469,9 @@
         "seatNo": "17",
         "rowIdx": 6,
         "colIdx": 16,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 578.686,
+        "posTop": 509.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66680",
@@ -4642,7 +5482,9 @@
         "seatNo": "18",
         "rowIdx": 6,
         "colIdx": 17,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 578.686,
+        "posTop": 506.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66681",
@@ -4653,7 +5495,9 @@
         "seatNo": "19",
         "rowIdx": 6,
         "colIdx": 18,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 578.686,
+        "posTop": 503.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66682",
@@ -4664,7 +5508,9 @@
         "seatNo": "2",
         "rowIdx": 6,
         "colIdx": 1,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 578.686,
+        "posTop": 554.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66683",
@@ -4675,7 +5521,9 @@
         "seatNo": "20",
         "rowIdx": 6,
         "colIdx": 19,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 578.686,
+        "posTop": 500.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66684",
@@ -4686,7 +5534,9 @@
         "seatNo": "21",
         "rowIdx": 6,
         "colIdx": 20,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 578.686,
+        "posTop": 497.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66685",
@@ -4697,7 +5547,9 @@
         "seatNo": "22",
         "rowIdx": 6,
         "colIdx": 21,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 578.686,
+        "posTop": 494.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66686",
@@ -4708,7 +5560,9 @@
         "seatNo": "3",
         "rowIdx": 6,
         "colIdx": 2,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 578.686,
+        "posTop": 551.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66687",
@@ -4719,7 +5573,9 @@
         "seatNo": "4",
         "rowIdx": 6,
         "colIdx": 3,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 578.686,
+        "posTop": 548.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66688",
@@ -4730,7 +5586,9 @@
         "seatNo": "5",
         "rowIdx": 6,
         "colIdx": 4,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 578.686,
+        "posTop": 545.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66689",
@@ -4741,7 +5599,9 @@
         "seatNo": "6",
         "rowIdx": 6,
         "colIdx": 5,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 578.686,
+        "posTop": 542.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66690",
@@ -4752,7 +5612,9 @@
         "seatNo": "7",
         "rowIdx": 6,
         "colIdx": 6,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 578.686,
+        "posTop": 539.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66691",
@@ -4763,7 +5625,9 @@
         "seatNo": "8",
         "rowIdx": 6,
         "colIdx": 7,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 578.686,
+        "posTop": 536.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66692",
@@ -4774,7 +5638,9 @@
         "seatNo": "9",
         "rowIdx": 6,
         "colIdx": 8,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 578.686,
+        "posTop": 533.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66693",
@@ -4785,7 +5651,9 @@
         "seatNo": "1",
         "rowIdx": 7,
         "colIdx": 0,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 581.686,
+        "posTop": 557.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66694",
@@ -4796,7 +5664,9 @@
         "seatNo": "10",
         "rowIdx": 7,
         "colIdx": 9,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 581.686,
+        "posTop": 530.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66695",
@@ -4807,7 +5677,9 @@
         "seatNo": "11",
         "rowIdx": 7,
         "colIdx": 10,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 581.686,
+        "posTop": 527.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66696",
@@ -4818,7 +5690,9 @@
         "seatNo": "12",
         "rowIdx": 7,
         "colIdx": 11,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 581.686,
+        "posTop": 524.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66697",
@@ -4829,7 +5703,9 @@
         "seatNo": "13",
         "rowIdx": 7,
         "colIdx": 12,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 581.686,
+        "posTop": 521.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66698",
@@ -4840,7 +5716,9 @@
         "seatNo": "14",
         "rowIdx": 7,
         "colIdx": 13,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 581.686,
+        "posTop": 518.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66699",
@@ -4851,7 +5729,9 @@
         "seatNo": "15",
         "rowIdx": 7,
         "colIdx": 14,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 581.686,
+        "posTop": 515.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66700",
@@ -4862,7 +5742,9 @@
         "seatNo": "16",
         "rowIdx": 7,
         "colIdx": 15,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 581.686,
+        "posTop": 512.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66701",
@@ -4873,7 +5755,9 @@
         "seatNo": "17",
         "rowIdx": 7,
         "colIdx": 16,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 581.686,
+        "posTop": 509.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66702",
@@ -4884,7 +5768,9 @@
         "seatNo": "18",
         "rowIdx": 7,
         "colIdx": 17,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 581.686,
+        "posTop": 506.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66703",
@@ -4895,7 +5781,9 @@
         "seatNo": "19",
         "rowIdx": 7,
         "colIdx": 18,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 581.686,
+        "posTop": 503.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66704",
@@ -4906,7 +5794,9 @@
         "seatNo": "2",
         "rowIdx": 7,
         "colIdx": 1,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 581.686,
+        "posTop": 554.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66705",
@@ -4917,7 +5807,9 @@
         "seatNo": "20",
         "rowIdx": 7,
         "colIdx": 19,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 581.686,
+        "posTop": 500.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66706",
@@ -4928,7 +5820,9 @@
         "seatNo": "21",
         "rowIdx": 7,
         "colIdx": 20,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 581.686,
+        "posTop": 497.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66707",
@@ -4939,7 +5833,9 @@
         "seatNo": "22",
         "rowIdx": 7,
         "colIdx": 21,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 581.686,
+        "posTop": 494.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66708",
@@ -4950,7 +5846,9 @@
         "seatNo": "3",
         "rowIdx": 7,
         "colIdx": 2,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 581.686,
+        "posTop": 551.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66709",
@@ -4961,7 +5859,9 @@
         "seatNo": "4",
         "rowIdx": 7,
         "colIdx": 3,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 581.686,
+        "posTop": 548.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66710",
@@ -4972,7 +5872,9 @@
         "seatNo": "5",
         "rowIdx": 7,
         "colIdx": 4,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 581.686,
+        "posTop": 545.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66711",
@@ -4983,7 +5885,9 @@
         "seatNo": "6",
         "rowIdx": 7,
         "colIdx": 5,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 581.686,
+        "posTop": 542.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66712",
@@ -4994,7 +5898,9 @@
         "seatNo": "7",
         "rowIdx": 7,
         "colIdx": 6,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 581.686,
+        "posTop": 539.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66713",
@@ -5005,7 +5911,9 @@
         "seatNo": "8",
         "rowIdx": 7,
         "colIdx": 7,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 581.686,
+        "posTop": 536.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66714",
@@ -5016,7 +5924,9 @@
         "seatNo": "9",
         "rowIdx": 7,
         "colIdx": 8,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 581.686,
+        "posTop": 533.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66715",
@@ -5027,7 +5937,9 @@
         "seatNo": "1",
         "rowIdx": 8,
         "colIdx": 0,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 584.686,
+        "posTop": 557.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66716",
@@ -5038,7 +5950,9 @@
         "seatNo": "10",
         "rowIdx": 8,
         "colIdx": 9,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 584.686,
+        "posTop": 530.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66717",
@@ -5049,7 +5963,9 @@
         "seatNo": "11",
         "rowIdx": 8,
         "colIdx": 10,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 584.686,
+        "posTop": 527.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66718",
@@ -5060,7 +5976,9 @@
         "seatNo": "12",
         "rowIdx": 8,
         "colIdx": 11,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 584.686,
+        "posTop": 524.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66719",
@@ -5071,7 +5989,9 @@
         "seatNo": "13",
         "rowIdx": 8,
         "colIdx": 12,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 584.686,
+        "posTop": 521.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66720",
@@ -5082,7 +6002,9 @@
         "seatNo": "14",
         "rowIdx": 8,
         "colIdx": 13,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 584.686,
+        "posTop": 518.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66721",
@@ -5093,7 +6015,9 @@
         "seatNo": "15",
         "rowIdx": 8,
         "colIdx": 14,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 584.686,
+        "posTop": 515.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66722",
@@ -5104,7 +6028,9 @@
         "seatNo": "16",
         "rowIdx": 8,
         "colIdx": 15,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 584.686,
+        "posTop": 512.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66723",
@@ -5115,7 +6041,9 @@
         "seatNo": "17",
         "rowIdx": 8,
         "colIdx": 16,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 584.686,
+        "posTop": 509.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66724",
@@ -5126,7 +6054,9 @@
         "seatNo": "18",
         "rowIdx": 8,
         "colIdx": 17,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 584.686,
+        "posTop": 506.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66725",
@@ -5137,7 +6067,9 @@
         "seatNo": "19",
         "rowIdx": 8,
         "colIdx": 18,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 584.686,
+        "posTop": 503.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66726",
@@ -5148,7 +6080,9 @@
         "seatNo": "2",
         "rowIdx": 8,
         "colIdx": 1,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 584.686,
+        "posTop": 554.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66727",
@@ -5159,7 +6093,9 @@
         "seatNo": "20",
         "rowIdx": 8,
         "colIdx": 19,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 584.686,
+        "posTop": 500.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66728",
@@ -5170,7 +6106,9 @@
         "seatNo": "3",
         "rowIdx": 8,
         "colIdx": 2,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 584.686,
+        "posTop": 551.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66729",
@@ -5181,7 +6119,9 @@
         "seatNo": "4",
         "rowIdx": 8,
         "colIdx": 3,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 584.686,
+        "posTop": 548.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66730",
@@ -5192,7 +6132,9 @@
         "seatNo": "5",
         "rowIdx": 8,
         "colIdx": 4,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 584.686,
+        "posTop": 545.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66731",
@@ -5203,7 +6145,9 @@
         "seatNo": "6",
         "rowIdx": 8,
         "colIdx": 5,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 584.686,
+        "posTop": 542.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66732",
@@ -5214,7 +6158,9 @@
         "seatNo": "7",
         "rowIdx": 8,
         "colIdx": 6,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 584.686,
+        "posTop": 539.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66733",
@@ -5225,7 +6171,9 @@
         "seatNo": "8",
         "rowIdx": 8,
         "colIdx": 7,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 584.686,
+        "posTop": 536.873
        },
        {
         "seatInfoId": "26015783:26001381:001:66734",
@@ -5236,7 +6184,9 @@
         "seatNo": "9",
         "rowIdx": 8,
         "colIdx": 8,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 584.686,
+        "posTop": 533.873
        },
        {
         "seatInfoId": "26015783:26001381:001:69522",
@@ -5247,7 +6197,9 @@
         "seatNo": "18",
         "rowIdx": 9,
         "colIdx": 17,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 587.686,
+        "posTop": 506.873
        },
        {
         "seatInfoId": "26015783:26001381:001:69523",
@@ -5258,7 +6210,9 @@
         "seatNo": "19",
         "rowIdx": 9,
         "colIdx": 18,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 587.686,
+        "posTop": 503.873
        },
        {
         "seatInfoId": "26015783:26001381:001:69524",
@@ -5269,7 +6223,9 @@
         "seatNo": "20",
         "rowIdx": 9,
         "colIdx": 19,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 587.686,
+        "posTop": 500.873
        },
        {
         "seatInfoId": "26015783:26001381:001:69525",
@@ -5280,7 +6236,9 @@
         "seatNo": "21",
         "rowIdx": 9,
         "colIdx": 20,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 587.686,
+        "posTop": 497.873
        },
        {
         "seatInfoId": "26015783:26001381:001:69526",
@@ -5291,7 +6249,9 @@
         "seatNo": "22",
         "rowIdx": 9,
         "colIdx": 21,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 587.686,
+        "posTop": 494.873
        },
        {
         "seatInfoId": "26015783:26001381:001:69527",
@@ -5302,7 +6262,9 @@
         "seatNo": "15",
         "rowIdx": 10,
         "colIdx": 14,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 590.686,
+        "posTop": 515.873
        },
        {
         "seatInfoId": "26015783:26001381:001:69528",
@@ -5313,7 +6275,9 @@
         "seatNo": "16",
         "rowIdx": 10,
         "colIdx": 15,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 590.686,
+        "posTop": 512.873
        },
        {
         "seatInfoId": "26015783:26001381:001:69529",
@@ -5324,7 +6288,9 @@
         "seatNo": "17",
         "rowIdx": 10,
         "colIdx": 16,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 590.686,
+        "posTop": 509.873
        },
        {
         "seatInfoId": "26015783:26001381:001:69530",
@@ -5335,7 +6301,9 @@
         "seatNo": "18",
         "rowIdx": 10,
         "colIdx": 17,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 590.686,
+        "posTop": 506.873
        },
        {
         "seatInfoId": "26015783:26001381:001:69531",
@@ -5346,7 +6314,9 @@
         "seatNo": "19",
         "rowIdx": 10,
         "colIdx": 18,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 590.686,
+        "posTop": 503.873
        },
        {
         "seatInfoId": "26015783:26001381:001:69532",
@@ -5357,7 +6327,9 @@
         "seatNo": "20",
         "rowIdx": 10,
         "colIdx": 19,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 590.686,
+        "posTop": 500.873
        },
        {
         "seatInfoId": "26015783:26001381:001:69533",
@@ -5368,7 +6340,9 @@
         "seatNo": "21",
         "rowIdx": 10,
         "colIdx": 20,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 590.686,
+        "posTop": 497.873
        },
        {
         "seatInfoId": "26015783:26001381:001:69534",
@@ -5379,7 +6353,9 @@
         "seatNo": "22",
         "rowIdx": 10,
         "colIdx": 21,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 590.686,
+        "posTop": 494.873
        },
        {
         "seatInfoId": "26015783:26001381:001:69535",
@@ -5390,7 +6366,9 @@
         "seatNo": "11",
         "rowIdx": 11,
         "colIdx": 10,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 593.686,
+        "posTop": 527.873
        },
        {
         "seatInfoId": "26015783:26001381:001:69536",
@@ -5401,7 +6379,9 @@
         "seatNo": "12",
         "rowIdx": 11,
         "colIdx": 11,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 593.686,
+        "posTop": 524.873
        },
        {
         "seatInfoId": "26015783:26001381:001:69537",
@@ -5412,7 +6392,9 @@
         "seatNo": "13",
         "rowIdx": 11,
         "colIdx": 12,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 593.686,
+        "posTop": 521.873
        },
        {
         "seatInfoId": "26015783:26001381:001:69538",
@@ -5423,7 +6405,9 @@
         "seatNo": "14",
         "rowIdx": 11,
         "colIdx": 13,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 593.686,
+        "posTop": 518.873
        },
        {
         "seatInfoId": "26015783:26001381:001:69539",
@@ -5434,7 +6418,9 @@
         "seatNo": "15",
         "rowIdx": 11,
         "colIdx": 14,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 593.686,
+        "posTop": 515.873
        },
        {
         "seatInfoId": "26015783:26001381:001:69540",
@@ -5445,7 +6431,9 @@
         "seatNo": "16",
         "rowIdx": 11,
         "colIdx": 15,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 593.686,
+        "posTop": 512.873
        },
        {
         "seatInfoId": "26015783:26001381:001:69541",
@@ -5456,7 +6444,9 @@
         "seatNo": "17",
         "rowIdx": 11,
         "colIdx": 16,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 593.686,
+        "posTop": 509.873
        },
        {
         "seatInfoId": "26015783:26001381:001:69542",
@@ -5467,7 +6457,9 @@
         "seatNo": "18",
         "rowIdx": 11,
         "colIdx": 17,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 593.686,
+        "posTop": 506.873
        },
        {
         "seatInfoId": "26015783:26001381:001:69543",
@@ -5478,7 +6470,9 @@
         "seatNo": "19",
         "rowIdx": 11,
         "colIdx": 18,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 593.686,
+        "posTop": 503.873
        },
        {
         "seatInfoId": "26015783:26001381:001:69544",
@@ -5489,7 +6483,9 @@
         "seatNo": "20",
         "rowIdx": 11,
         "colIdx": 19,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 593.686,
+        "posTop": 500.873
        },
        {
         "seatInfoId": "26015783:26001381:001:69545",
@@ -5500,7 +6496,9 @@
         "seatNo": "21",
         "rowIdx": 11,
         "colIdx": 20,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 593.686,
+        "posTop": 497.873
        },
        {
         "seatInfoId": "26015783:26001381:001:69546",
@@ -5511,7 +6509,9 @@
         "seatNo": "22",
         "rowIdx": 11,
         "colIdx": 21,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 593.686,
+        "posTop": 494.873
        },
        {
         "seatInfoId": "26015783:26001381:001:69547",
@@ -5522,7 +6522,9 @@
         "seatNo": "10",
         "rowIdx": 12,
         "colIdx": 9,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 596.686,
+        "posTop": 530.873
        },
        {
         "seatInfoId": "26015783:26001381:001:69548",
@@ -5533,7 +6535,9 @@
         "seatNo": "11",
         "rowIdx": 12,
         "colIdx": 10,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 596.686,
+        "posTop": 527.873
        },
        {
         "seatInfoId": "26015783:26001381:001:69549",
@@ -5544,7 +6548,9 @@
         "seatNo": "12",
         "rowIdx": 12,
         "colIdx": 11,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 596.686,
+        "posTop": 524.873
        },
        {
         "seatInfoId": "26015783:26001381:001:69550",
@@ -5555,7 +6561,9 @@
         "seatNo": "13",
         "rowIdx": 12,
         "colIdx": 12,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 596.686,
+        "posTop": 521.873
        },
        {
         "seatInfoId": "26015783:26001381:001:69551",
@@ -5566,7 +6574,9 @@
         "seatNo": "14",
         "rowIdx": 12,
         "colIdx": 13,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 596.686,
+        "posTop": 518.873
        },
        {
         "seatInfoId": "26015783:26001381:001:69552",
@@ -5577,7 +6587,9 @@
         "seatNo": "15",
         "rowIdx": 12,
         "colIdx": 14,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 596.686,
+        "posTop": 515.873
        },
        {
         "seatInfoId": "26015783:26001381:001:69553",
@@ -5588,7 +6600,9 @@
         "seatNo": "9",
         "rowIdx": 12,
         "colIdx": 8,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 596.686,
+        "posTop": 533.873
        },
        {
         "seatInfoId": "26015783:26001381:001:69554",
@@ -5599,7 +6613,9 @@
         "seatNo": "7",
         "rowIdx": 13,
         "colIdx": 6,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 599.686,
+        "posTop": 539.873
        },
        {
         "seatInfoId": "26015783:26001381:001:69555",
@@ -5610,7 +6626,9 @@
         "seatNo": "8",
         "rowIdx": 13,
         "colIdx": 7,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 599.686,
+        "posTop": 536.873
        },
        {
         "seatInfoId": "26015783:26001381:001:69556",
@@ -5621,7 +6639,9 @@
         "seatNo": "21",
         "rowIdx": 8,
         "colIdx": 20,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 584.686,
+        "posTop": 497.873
        },
        {
         "seatInfoId": "26015783:26001381:001:69557",
@@ -5632,7 +6652,9 @@
         "seatNo": "22",
         "rowIdx": 8,
         "colIdx": 21,
-        "isExposable": true
+        "isExposable": true,
+        "posLeft": 584.686,
+        "posTop": 494.873
        }
       ]
      }

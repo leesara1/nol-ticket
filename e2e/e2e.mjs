@@ -126,7 +126,7 @@ try {
   };
 
   const ns = await waitFor(swS, "typeof chrome?.storage?.local === 'object' && Object.keys(globalThis.NCA ?? {}).length >= 5 && Object.keys(globalThis.NCA).sort().join(',')", 10000);
-  check("SW에서 공용 모듈 로드 (globalThis.NCA)", ns === "configValidate,detector,format,seatParse,types", ns);
+  check("SW에서 공용 모듈 로드 (globalThis.NCA)", ns === "assistPlan,configValidate,detector,format,seatParse,types", ns);
 
   // onInstalled → 옵션 페이지 자동 열림
   await sleep(1500);

@@ -21,6 +21,8 @@
    * @property {string} [rowNo]
    * @property {string|number} [seatNo]
    * @property {number} [colIdx]
+   * @property {number} [posLeft]
+   * @property {number} [posTop]
    * @property {boolean} [isExposable]
    *
    * @typedef {Object} BlockLayout  구역 하나의 좌석 배치 (변환 완료)
@@ -92,6 +94,8 @@
         row,
         col,
         seenAt: 0,
+        x: Number(m.posLeft) || 0,
+        y: Number(m.posTop) || 0,
         _colIdx: Number(m.colIdx) || 0,
         _i: i,
       };

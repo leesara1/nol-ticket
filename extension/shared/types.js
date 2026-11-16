@@ -13,6 +13,8 @@
  * @property {string} row      열 (예: "7", "가")
  * @property {number} col      번호
  * @property {number} seenAt   epoch ms
+ * @property {number} [x]      좌석 화면 SVG 좌표 (seatMeta posLeft) — 강조 표시용
+ * @property {number} [y]      (seatMeta posTop)
  */
 
 /**

@@ -13,6 +13,9 @@
     "expiredOperation": "ExpiredSession"
   },
   "assist": {
-    "confirmButtonSelector": "TODO: 선택 완료 버튼 셀렉터 (7단계)"
+    "seatMapSelector": "[class*='SeatMap_seatMap__']",
+    "seatSvgSelector": "[class*='SeatMap_seatGroup__'] svg",
+    "confirmButtonSelector": "button[class*='EntButton_primary__']",
+    "confirmButtonText": "선택 완료"
   }
 }

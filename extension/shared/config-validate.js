@@ -235,7 +235,9 @@
     }
     if (get("net.statusEncoding") !== "hex-msb") missing.push("net.statusEncoding");
     if (isBlankOrTodo(get("pageState.expiredOperation"))) missing.push("pageState.expiredOperation");
-    if (isBlankOrTodo(get("assist.confirmButtonSelector"))) missing.push("assist.confirmButtonSelector");
+    for (const path of ["assist.seatMapSelector", "assist.seatSvgSelector", "assist.confirmButtonSelector"]) {
+      if (isBlankOrTodo(get(path))) missing.push(path);
+    }
     return { missing };
   }
 
