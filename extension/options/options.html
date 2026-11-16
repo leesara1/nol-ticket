@@ -52,6 +52,16 @@
         <label>이메일 <input name="profileEmail" type="email" autocomplete="off"></label>
       </fieldset>
 
+      <fieldset>
+        <legend>이벤트 로그 (최근 90일)</legend>
+        <p class="note">좌석이 생기고 사라진 시각, 감시 불능 기록입니다. 취소표가 풀리는 시간대를 분석할 때 쓰세요.</p>
+        <div class="row">
+          <button type="button" id="exportCsv" class="secondary">CSV 내보내기</button>
+          <button type="button" id="exportJson" class="secondary">JSON 내보내기</button>
+        </div>
+        <p id="logStatus" class="note" role="status"></p>
+      </fieldset>
+
       <div class="actions">
         <button type="submit">저장</button>
         <span id="status" role="status"></span>
@@ -63,6 +73,7 @@
   <script src="../shared/types.js"></script>
   <script src="../shared/detector.js"></script>
   <script src="../shared/config-validate.js"></script>
+  <script src="../shared/format.js"></script>
   <script src="form-model.js"></script>
   <script src="options.js"></script>
 </body>

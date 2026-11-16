@@ -77,6 +77,44 @@
     setStatus(warnings.length > 0 ? "저장됨 (일부 값을 고쳤습니다)" : "저장됨");
   });
 
+  // ── 로그 내보내기 (DESIGN 16.1) ──
+  const { format } = /** @type {any} */ (globalThis).NCA;
+  const logStatusEl = /** @type {HTMLElement} */ (document.getElementById("logStatus"));
+
+  /** @param {string} content @param {string} filename @param {string} mime */
+  function download(content, filename, mime) {
+    const url = URL.createObjectURL(new Blob([content], { type: mime }));
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.append(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 10_000);
+  }
+
+  /** @param {"csv"|"json"} kind */
+  async function exportLog(kind) {
+    logStatusEl.textContent = "불러오는 중…";
+    try {
+      const r = await chrome.runtime.sendMessage({ type: "LOG_LIST" });
+      if (!r?.ok) throw new Error(r?.error ?? "응답 없음");
+      const stamp = format.dayKey(Date.now());
+      if (kind === "csv") {
+        // 엑셀에서 한글이 깨지지 않도록 BOM을 붙인다
+        download("\uFEFF" + format.logToCsv(r.entries), `nol-cancel-alert-log-${stamp}.csv`, "text/csv;charset=utf-8");
+      } else {
+        download(JSON.stringify(r.entries, null, 2), `nol-cancel-alert-log-${stamp}.json`, "application/json");
+      }
+      logStatusEl.textContent = `${r.entries.length}건 내보냄`;
+    } catch (e) {
+      logStatusEl.textContent = `내보내기 실패: ${/** @type {Error} */ (e).message}`;
+    }
+  }
+
+  document.getElementById("exportCsv")?.addEventListener("click", () => exportLog("csv"));
+  document.getElementById("exportJson")?.addEventListener("click", () => exportLog("json"));
+
   load().catch((err) => {
     setStatus("설정을 불러오지 못했습니다", true);
     console.error("[nca] options load 실패", err);

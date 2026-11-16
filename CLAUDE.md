@@ -25,6 +25,7 @@
 ## 디렉터리 (계획)
 
 ```
+e2e/            실제 크롬 점검 스크립트
 extension/      MV3 확장 (manifest.json, content script, service worker, options)
 extension/config/  셀렉터·엔드포인트 (확장은 자기 폴더 밖 파일을 못 읽으므로 extension 안에 둠)
 fixtures/       사전 조사에서 저장한 HAR / HTML / 스크린샷 (오프라인 테스트용)
@@ -79,5 +80,8 @@ research/       조사 자료 (raw/ 는 원본 응답)
 ## 명령어
 
 - 테스트: `node --test` (저장소 루트에서. Node 24는 `node --test test/`처럼 디렉터리를 인자로 받지 않는다)
+- 실제 크롬 점검: `node e2e/e2e.mjs` — headless Chromium에 확장을 불러와 팝업·옵션·알림·소리 경로를 확인한다. Chromium은 `~/.cache/ms-playwright/chromium-*`에서 자동으로 찾는다 (또는 `CHROME` 환경변수). NOL 사이트에는 접속하지 않는다
+  - `test/` 아래에 `.mjs`를 두면 `node --test`가 테스트로 잡으므로 e2e는 `e2e/`에 둔다
+  - 단위 테스트의 가짜 chrome과 실제 크롬은 다르게 동작할 수 있다 (예: 탭으로 열린 옵션 페이지도 `sender.tab`이 있음). 확장 API를 쓰는 변경은 e2e도 돌린다
 - 빌드: 없음. `extension/` 폴더를 `chrome://extensions` → "압축해제된 확장 프로그램 로드"로 불러온다. 자세한 순서는 README "실행 방법"
 - `extension/shared/*.js`는 DESIGN 2.1 형식(classic script + `module.exports` 겸용)을 지킨다. `import`/`export` 문법을 쓰지 않는다.

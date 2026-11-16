@@ -1,18 +1,23 @@
 // @ts-check
-// service worker 진입점 (DESIGN 3, 3.3).
+// service worker 진입점 (DESIGN 3, 3.3, 10.1, 16.1, 16A).
 // 리스너는 모두 최상위에서 동기적으로 등록한다. 상태는 store(storage.session)에 둔다.
 
 import "./shared/types.js";
 import "./shared/detector.js";
 import "./shared/config-validate.js";
+import "./shared/format.js";
 import { createStore } from "./sw/store.js";
+import { createLog } from "./sw/log.js";
+import { createNotifier, parseNotificationId } from "./sw/notifier.js";
+import { focusTab } from "./sw/focus.js";
+
+const { configValidate, format } = /** @type {any} */ (globalThis).NCA;
 
 const store = createStore(chrome.storage.session);
-const { configValidate } = /** @type {any} */ (globalThis).NCA;
+const log = createLog(chrome.storage.local, { dayKey: format.dayKey });
 
 /**
  * 사용자 설정을 읽어 검증된 설정 객체를 돌려준다. 경고는 콘솔에만 남긴다 (옵션 페이지가 따로 보여줌).
- * 3단계 이후 감시·알림 모듈에서 쓴다.
  */
 async function loadUserConfig() {
   const { userConfig } = await chrome.storage.local.get("userConfig");
@@ -20,7 +25,116 @@ async function loadUserConfig() {
   if (warnings.length > 0) console.warn("[nca] 설정 경고", warnings);
   return config;
 }
-void loadUserConfig; // 아직 호출하는 곳 없음
+
+// ── 소리 (offscreen) ─────────────────────────────────────
+
+const OFFSCREEN_URL = "offscreen/offscreen.html";
+/** @type {Promise<void> | null} */
+let creatingOffscreen = null;
+
+/**
+ * offscreen 문서는 하나만 만들 수 있으므로 있는지 확인하고 없으면 만든다 (DESIGN 3.2).
+ * 확인부터 생성까지 하나의 잠금으로 묶어, 동시에 불려도 한 번만 만든다.
+ */
+function ensureOffscreen() {
+  creatingOffscreen ??= (async () => {
+    const contexts = await chrome.runtime.getContexts({
+      contextTypes: [chrome.runtime.ContextType.OFFSCREEN_DOCUMENT],
+      documentUrls: [chrome.runtime.getURL(OFFSCREEN_URL)],
+    });
+    if (contexts.length > 0) return;
+    await chrome.offscreen.createDocument({
+      url: OFFSCREEN_URL,
+      reasons: [chrome.offscreen.Reason.AUDIO_PLAYBACK],
+      justification: "취소표 알림 신호음 재생",
+    });
+  })().finally(() => { creatingOffscreen = null; });
+  return creatingOffscreen;
+}
+
+/**
+ * 소리 재생. 문서를 막 만든 직후라 offscreen 리스너가 아직 없으면 한 번 다시 시도한다.
+ * @param {"found"|"blind"} pattern
+ */
+async function playSound(pattern) {
+  await ensureOffscreen();
+  const msg = { target: "offscreen", type: "PLAY", pattern };
+  /** @type {any} */
+  let r = await chrome.runtime.sendMessage(msg).catch(() => null);
+  if (!r) {
+    await new Promise((res) => setTimeout(res, 150));
+    r = await chrome.runtime.sendMessage(msg);
+  }
+  if (!r?.ok) throw new Error(r?.error ?? "offscreen 응답 없음");
+}
+
+const notifier = createNotifier({
+  notifications: chrome.notifications,
+  playSound,
+  fetch: (url, init) => fetch(url, init),
+  session: chrome.storage.session,
+  getChannels: async () => (await loadUserConfig()).notify,
+  iconUrl: chrome.runtime.getURL("icons/icon128.png"),
+});
+
+// ── 팝업·옵션 메시지 ─────────────────────────────────────
+
+/** @param {any} msg */
+async function handleMessage(msg) {
+  switch (msg?.type) {
+    case "GET_STATUS": {
+      const c = await loadUserConfig();
+      const tabIds = await store.listTabIds();
+      const tabs = [];
+      for (const tabId of tabIds) {
+        const t = await store.getTab(tabId);
+        if (t.watch !== "IDLE") tabs.push({ tabId, watch: t.watch, blindReason: t.blindReason });
+      }
+      return {
+        ok: true,
+        targets: c.targets.map((/** @type {any} */ t) => t.goodsCode),
+        channels: { sound: c.notify.sound, desktop: c.notify.desktop, telegram: c.notify.telegram.enabled },
+        refreshEnabled: c.refresh.enabled,
+        intervalSec: c.refresh.intervalSec,
+        tabs,
+      };
+    }
+    case "TEST_NOTIFY": {
+      const { results } = await notifier.notify("test", "알림 테스트입니다. 이 알림이 보이면 설정이 정상입니다.", { force: true });
+      return { ok: true, results };
+    }
+    case "LOG_LIST": {
+      const entries = await log.list({ from: msg.from, to: msg.to });
+      return { ok: true, entries };
+    }
+    default:
+      return null; // 처리하지 않는 메시지
+  }
+}
+
+chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+  if (msg?.target === "offscreen") return false; // offscreen 문서가 받는 메시지
+  if (sender.id !== chrome.runtime.id) return false;
+  // 팝업·옵션 전용 메시지: 확장 내부 페이지에서 온 것만 받는다.
+  // 탭으로 열린 옵션 페이지도 sender.tab이 있으므로 tab 유무가 아니라 URL로 구분한다.
+  // content script는 sender.url이 사이트 주소이고, 포트로 따로 통신한다.
+  if (!sender.url?.startsWith(chrome.runtime.getURL(""))) return false;
+  handleMessage(msg).then(
+    (r) => { if (r) sendResponse(r); else sendResponse({ ok: false, error: `unknown message: ${msg?.type}` }); },
+    (e) => sendResponse({ ok: false, error: String(e?.message ?? e) }),
+  );
+  return true; // 비동기 응답
+});
+
+// ── 알림 클릭 → 해당 탭으로 (DESIGN 11.1) ────────────────
+
+chrome.notifications.onClicked.addListener((id) => {
+  const p = parseNotificationId(id);
+  chrome.notifications.clear(id);
+  if (p) focusTab(chrome, p.tabId, p.windowId);
+});
+
+// ── 설치·시작 ────────────────────────────────────────────
 
 // 설치·업데이트: 사용자 설정이 없으면 기본값을 저장하고, 처음 설치면 옵션 페이지를 연다.
 chrome.runtime.onInstalled.addListener(async ({ reason }) => {
@@ -28,9 +142,15 @@ chrome.runtime.onInstalled.addListener(async ({ reason }) => {
   if (!userConfig) {
     await chrome.storage.local.set({ userConfig: configValidate.defaultUserConfig() });
   }
+  await log.prune().catch((e) => console.error("[nca] 로그 정리 실패", e));
   if (reason === "install") {
     await chrome.runtime.openOptionsPage();
   }
+});
+
+// 브라우저 시작 시 오래된 로그 정리 (90일)
+chrome.runtime.onStartup.addListener(() => {
+  log.prune().catch((e) => console.error("[nca] 로그 정리 실패", e));
 });
 
 // 탭이 닫히면 그 탭의 감시 상태를 정리한다 (DESIGN 12.4).
@@ -38,5 +158,5 @@ chrome.tabs.onRemoved.addListener((tabId) => {
   store.clearTab(tabId).catch((e) => console.error("[nca] clearTab 실패", e));
 });
 
-// 이후 단계에서 추가: runtime.onConnect(content 포트), alarms.onAlarm(health·scheduler),
-// notifications.onClicked(포커스). 모두 이 파일 최상위에 등록한다.
+// 이후 단계에서 추가: runtime.onConnect(content 포트), alarms.onAlarm(health·scheduler).
+// 모두 이 파일 최상위에 등록한다.

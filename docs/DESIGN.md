@@ -281,15 +281,36 @@ parse(input, site)
 
 | 이벤트 | 소리 | 크롬 알림 | 텔레그램 |
 |---|---|---|---|
-| 조건 일치 좌석 생김 | O 3회 | O `requireInteraction: true` | O |
+| 조건 일치 좌석 생김 | O 높아지는 3음 | O `requireInteraction: true` | O |
 | 좌석 사라짐 | | O | O |
-| 감시 불능 / 복구 | O 1회 (다른 음) | O | O |
+| 감시 불능 / 복구 | O 낮은 2음 | O | O |
 | 생존 신호 (선택) | | | O 하루 1회 요약 |
 
 - 메시지 형식: `[12/31 19:00] R석 1층 A구역 7열 12·13번 (2연석) 생김`
 - **알림 ID에 `tabId`와 `windowId`를 넣는다** (예: `found:123:45:<시각>`). SW가 재시작된 뒤에도 알림 클릭으로 올바른 탭을 찾기 위해서다
 - 텔레그램: Bot API `sendMessage`. 토큰·chat_id는 `chrome.storage.local`
 - 같은 좌석 묶음 알림은 30초 안에 반복하지 않는다
+
+### 10.1 구현 (3단계)
+
+| 모듈 | 형식 | 역할 |
+|---|---|---|
+| `shared/format.js` | 순수 (2.1) | 알림 문구, 감시 불능 사유 문구, 로그 CSV 변환, 날짜 키 |
+| `sw/notifier.js` | ES module | 채널별 발송. chrome API·fetch를 주입받아 Node에서 테스트 |
+| `sw/focus.js` | ES module | 창·탭 포커스 (11.1) |
+| `offscreen/` | 페이지 | WebAudio로 신호음 생성 (소리 파일 없음) |
+
+- **문구 형식** (`format.formatSeatEvent`)
+  - 같은 `(grade, zone, row)` 좌석끼리 묶는다: `R석 1층 A구역 7열 12·13번 (2연석)`
+  - 묶음이 여러 개면 `, `로 잇고 4개를 넘으면 `외 N석`
+  - 끝에 `생김` 또는 `사라짐`. 회차 라벨이 있으면 앞에 `[라벨] `
+  - 등급·구역·열이 비어 있으면 그 부분은 생략
+- **감시 불능 문구** (`format.formatBlind(reason)`): PageState마다 한국어 한 줄. 예 `queue` → "대기열 화면입니다. 자동 새로고침을 멈췄습니다"
+- **중복 방지:** 같은 문구의 알림은 30초 안에 다시 보내지 않는다. 기억은 `storage.session`(`notified:{문구 해시}` → 시각)에 둔다. SW 재시작에도 유지
+- **알림 ID:** `{kind}:{tabId}:{windowId}:{시각}`. `kind`는 `found`·`gone`·`blind`·`recovered`·`test`. `notifier.parseNotificationId`로 해석
+- **소리:** offscreen 문서가 없으면 만든 뒤 `{target: "offscreen", type: "PLAY", pattern}` 메시지. `found`는 높아지는 3음, `blind`는 낮은 2음
+- **텔레그램:** `POST https://api.telegram.org/bot{token}/sendMessage` `{chat_id, text}`. 실패는 콘솔에 남기고 다른 채널 발송은 계속한다
+- **알림 테스트:** 팝업의 "알림 테스트" 버튼 → SW가 켜진 모든 채널로 테스트 문구를 보낸다. 설정이 맞는지 감지 기능 없이도 확인하기 위해서다
 
 ## 11. 보조 (assist)
 
@@ -415,6 +436,11 @@ ES module. `chrome.storage.session`을 감싸는 `createStore(area)` — `area`�
 | SW → content | `REFRESH_BANNER` | `{enabled, intervalSec}` |
 | SW → content | `AUTOFILL` | `{profile}` |
 | SW → offscreen | `PLAY` | `{pattern: "found" \| "blind"}` |
+| popup → SW | `GET_STATUS` | 응답 `{targets, channels, refreshEnabled, tabs: [{tabId, watch, blindReason}]}` |
+| popup → SW | `TEST_NOTIFY` | 응답 `{ok, results: {desktop, sound, telegram}}` |
+| options → SW | `LOG_LIST` | `{from?, to?}` → 응답 `{entries}` |
+
+팝업·옵션 → SW 메시지(`GET_STATUS`, `TEST_NOTIFY`, `LOG_LIST`)는 **확장 내부 페이지에서 온 것만** 받는다 (`sender.url`이 `chrome-extension://{확장 ID}/`로 시작). 탭으로 열린 옵션 페이지도 `sender.tab`이 있으므로 tab 유무로 구분하지 않는다. content script는 포트로 따로 통신한다.
 
 `postMessage` 검증 규칙은 3.1을 따른다.
 
@@ -425,13 +451,15 @@ extension/                    # 확장 루트 (chrome://extensions에서 이 폴
   manifest.json
   background.js               # SW 진입점 (ES module)
   config/ site.nol.json
-  shared/ types.js detector.js config-validate.js page-state-rules.js   # 순수 모듈 (2.1 형식)
+  shared/ types.js detector.js config-validate.js format.js page-state-rules.js   # 순수 모듈 (2.1 형식)
   sw/ tab-registry.js watcher-state.js scheduler.js health.js notifier.js focus.js log.js store.js
   content/ net-tap.js         # MAIN world
   content/ adapters-net.js adapters-dom.js page-state.js highlight.js autofill.js refresh-banner.js content.js
   content/ highlight.css
-  offscreen/ offscreen.html offscreen.js sounds/
-  options/ options.html options.js
+  offscreen/ offscreen.html offscreen.js   # WebAudio 신호음, 소리 파일 없음
+  options/ options.html options.js form-model.js
+  popup/ popup.html popup.js popup.css
+  icons/ icon16.png icon32.png icon48.png icon128.png
 fixtures/                     # 조사 결과 (HAR는 쿠키·토큰 제거 후). 확장에 포함되지 않음
 test/
   detector.test.js adapters-net.test.js adapters-dom.test.js page-state.test.js config-validate.test.js
@@ -476,6 +504,23 @@ test/
 - 90일보다 오래된 날짜 키는 삭제
 - 옵션 페이지에서 **JSON/CSV 내보내기**. 취소표가 풀리는 시간대 분석용
 
+### 16.1 구현 (3단계)
+
+- `sw/log.js`: `createLog(area, now)` — `append(entry)`(같은 날짜 키에 직렬화해서 추가), `list({from, to})`, `prune(keepDays = 90)`
+- 항목: `{t, kind: "appeared"|"disappeared"|"blind"|"recovered", goodsCode, playSeq, matched, seats: [{grade, zone, row, col}], reason?}`
+- 날짜 키는 **사용자 PC의 현지 시간** 기준 `YYYY-MM-DD` (취소표가 풀리는 시각 분석용)
+- 내보내기: 옵션 페이지 → SW에 `LOG_LIST` 요청 → JSON은 그대로, CSV는 `format.logToCsv`로 변환해 파일로 저장
+- CSV 열: `time,kind,goodsCode,playSeq,matched,seats,reason`. `seats`는 `R/1층 A구역/7/12` 형식을 `;`로 연결. 값에 쉼표·따옴표·줄바꿈이 있으면 큰따옴표로 감싸고 내부 따옴표는 두 번 쓴다
+
+## 16A. 툴바 아이콘·팝업 (3단계)
+
+- 아이콘: `icons/icon{16,32,48,128}.png`
+- 팝업(`popup/`): 현재 상태를 한눈에 보여준다
+  - 대상 공연 수, 켜진 알림 채널, 자동 새로고침 여부
+  - 감시 중인 탭 목록과 상태 (아직 감지 연결 전이면 "감시 중인 탭 없음 — 감지 기능은 5단계에서 연결")
+  - 버튼: "설정 열기", "알림 테스트"
+- 팝업은 SW에 `GET_STATUS` 메시지로 상태를 받는다 (storage 구조를 팝업이 몰라도 되게)
+
 ## 17. 테스트 전략
 
 | 대상 | 방법 |
@@ -519,7 +564,7 @@ test/
 1. `shared/types.js`, `shared/detector.js` + 테스트 (조사 없이 가능)
 2. `shared/config-validate.js` + 테스트, `manifest.json` 뼈대, `sw/store.js`(storage.session 복원·저장), 옵션 페이지
    - 매니페스트의 `content_scripts`는 주입 도메인이 정해지는 5단계에서 추가한다
-3. notifier (크롬 알림, offscreen 소리, 텔레그램), focus, log + 내보내기
+3. notifier (크롬 알림, offscreen 소리, 텔레그램), focus, log + 내보내기, 툴바 아이콘·상태 팝업 (10.1, 16.1, 16A)
 4. **사전 조사** → `extension/config/site.nol.json`·매니페스트 `matches` 채우기, fixture 저장
 5. `net-tap.js` + `adapters-net.js` + 테스트 → tab-registry·watcher-state 연결
 6. page-state + health + BLIND 처리
