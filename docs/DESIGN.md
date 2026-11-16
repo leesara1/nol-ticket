@@ -356,6 +356,46 @@ parse(input, site)
 
 설정 로드 시 검증한다: `intervalSec < 30`이면 30으로 올리고 옵션 화면에 경고.
 
+### 12.3 설정 검증 (`shared/config-validate.js`)
+
+순수 모듈 (2.1 형식, `globalThis.NCA.configValidate`). 잘못된 값은 **오류로 막지 않고 안전한 값으로 고친 뒤 경고**를 돌려준다. 옵션 페이지는 경고를 그대로 보여준다.
+
+```js
+defaultUserConfig() → UserConfig
+validateUserConfig(input: unknown) → { config: UserConfig, warnings: string[] }
+validateSiteConfig(site: unknown) → { missing: string[] }   // 비었거나 "TODO"로 시작하는 필수 항목 경로
+```
+
+| 항목 | 규칙 |
+|---|---|
+| 입력 전체 | 객체가 아니면 기본값 + 경고 |
+| `targets` | 배열 아니면 `[]`. `goodsCode`가 숫자 문자열이 아니면 그 target 제거 + 경고. `playSeq`는 문자열 배열(빈 문자열 제거). `filter`는 detector의 `normalizeFilter` 규칙 + `regex`가 컴파일되지 않으면 `null` + 경고, `rowRange`는 `from ≤ to`인 정수가 아니면 `null` + 경고 |
+| `refresh.intervalSec` | 정수 아니면 60. 30 미만이면 30 + 경고 (FR-7) |
+| `refresh.windows` | `"HH:MM"` 형식이 아닌 항목 제거 + 경고. `from > to`면 자정을 넘는 구간으로 인정 |
+| `refresh.enabled` | boolean 아니면 `false` |
+| `notify.telegram` | `enabled`인데 `token`·`chatId`가 비면 `enabled: false` + 경고 |
+| `profile` | 문자열 필드만 유지, 앞뒤 공백 제거 |
+| 모르는 키 | 버린다 |
+
+### 12.4 상태 저장 (`sw/store.js`, 3.3)
+
+ES module. `chrome.storage.session`을 감싸는 `createStore(area)` — `area`를 주입받아 Node에서 가짜 저장소로 테스트한다.
+
+| 키 | 값 |
+|---|---|
+| `tab:{tabId}` | `{ watch: "IDLE"\|"WATCHING"\|"BLIND"\|"FOUND"\|"ASSISTING", blindReason, frames: {[frameId]: {url, state, lastSeenAt}}, seatMapFrameId, lastOkAt }` |
+| `prev:{tabId}:{playSeq}` | 직전 정상 `Snapshot` |
+| `alerted:{tabId}:{playSeq}` | 알린 좌석 key 배열 |
+
+`clearTab(tabId)`는 `tab:`, `prev:`, `alerted:` 중 해당 탭 키를 모두 지운다 (`chrome.tabs.onRemoved`에서 호출).
+
+### 12.5 옵션 페이지
+
+- classic script: `shared/types.js` → `shared/detector.js` → `shared/config-validate.js` → `options.js`
+- 사용자 설정은 `chrome.storage.local`의 `userConfig` 키 하나에 저장
+- 저장 시 `validateUserConfig` → 고쳐진 값으로 저장하고 경고 목록 표시
+- 대상 공연은 우선 1개만 편집 (UI). 데이터 구조는 배열 유지
+
 ## 13. 메시지 프로토콜
 
 | 방향 | 타입 | 내용 |
