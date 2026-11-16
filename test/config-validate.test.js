@@ -11,10 +11,9 @@ const {
 
 // ── defaultUserConfig ────────────────────────────────────
 
-test("defaultUserConfig: 12.2 구조, targets·windows는 빈 배열", () => {
+test("defaultUserConfig: 12.2 구조, targets는 빈 배열", () => {
   assert.deepEqual(defaultUserConfig(), {
     targets: [],
-    refresh: { enabled: false, intervalSec: 60, windows: [] },
     notify: {
       sound: true,
       desktop: true,
@@ -92,54 +91,6 @@ test("targets: rowRange가 from ≤ to인 정수가 아니면 null", () => {
   assert.equal(ok.warnings.filter((w) => w.includes("rowRange")).length, 0);
 });
 
-// ── refresh.intervalSec ──────────────────────────────────
-
-test("refresh.intervalSec: 정수 아니면 60, 30 미만이면 30 + 경고", () => {
-  const a = validateUserConfig({ refresh: { intervalSec: 10 } });
-  assert.equal(a.config.refresh.intervalSec, 30);
-  assert.ok(a.warnings.some((w) => w.includes("10 → 30")));
-
-  const b = validateUserConfig({ refresh: { intervalSec: 1.5 } });
-  assert.equal(b.config.refresh.intervalSec, 60);
-  assert.ok(b.warnings.some((w) => w.includes("→ 60")));
-
-  const c = validateUserConfig({ refresh: { intervalSec: 45 } });
-  assert.equal(c.config.refresh.intervalSec, 45);
-  assert.equal(c.warnings.filter((w) => w.includes("intervalSec")).length, 0);
-});
-
-// ── refresh.windows ──────────────────────────────────────
-
-test("refresh.windows: HH:MM이 아닌 항목 제거, from > to는 자정 넘김으로 유지", () => {
-  const { config, warnings } = validateUserConfig({
-    refresh: {
-      windows: [
-        { from: "08:55", to: "09:30" },
-        { from: "22:00", to: "01:00" },
-        { from: "25:00", to: "09:00" },
-        { from: "8:00", to: "09:00" },
-        { from: "09:00", to: "bad" },
-      ],
-    },
-  });
-  assert.deepEqual(config.refresh.windows, [
-    { from: "08:55", to: "09:30" },
-    { from: "22:00", to: "01:00" },
-  ]);
-  assert.ok(warnings.some((w) => w.includes("windows") && w.includes("제거")));
-});
-
-// ── refresh.enabled ──────────────────────────────────────
-
-test("refresh.enabled: boolean 아니면 false", () => {
-  const a = validateUserConfig({ refresh: { enabled: "yes" } });
-  assert.equal(a.config.refresh.enabled, false);
-  assert.ok(a.warnings.some((w) => w.includes("enabled")));
-
-  const b = validateUserConfig({ refresh: { enabled: true } });
-  assert.equal(b.config.refresh.enabled, true);
-});
-
 // ── notify.telegram ──────────────────────────────────────
 
 test("notify.telegram: enabled인데 token·chatId 비면 enabled false + 경고", () => {
@@ -172,13 +123,14 @@ test("profile: 문자열 필드만 유지, 앞뒤 공백 제거", () => {
 test("모르는 키는 버린다", () => {
   const { config } = validateUserConfig({
     targets: [],
-    refresh: { enabled: false, intervalSec: 60, windows: [], mystery: 1 },
-    notify: { sound: true, desktop: true, telegram: { enabled: false, token: "", chatId: "" } },
+    refresh: { enabled: true, intervalSec: 60, windows: [] }, // 없앤 항목 (예전 설정)
+    notify: { sound: true, desktop: true, telegram: { enabled: false, token: "", chatId: "" }, mystery: 1 },
     profile: { name: "", phone: "", email: "" },
     unknownTop: true,
   });
   assert.equal("unknownTop" in config, false);
-  assert.equal("mystery" in config.refresh, false);
+  assert.equal("refresh" in config, false);
+  assert.equal("mystery" in config.notify, false);
 });
 
 // ── 입력 불변 ────────────────────────────────────────────
@@ -195,29 +147,14 @@ test("입력을 변경하지 않는다", () => {
   assert.equal(JSON.stringify(input), before);
 });
 
-// ── validateSiteConfig ───────────────────────────────────
+// ── validateSiteConfig (DESIGN 12.1) ─────────────────────
 
 /** 필수 항목이 채워진 최소 사이트 설정 */
-function filledSite(overrides = {}) {
+function filledSite() {
   return {
-    seatMapFrame: { urlPattern: "https://example.com/seat" },
-    net: {
-      urlPatterns: ["https://api.example.com/seats"],
-      seatPath: "data.seats",
-      fields: {
-        id: "seatId",
-        grade: "grade",
-        zone: "zone",
-        block: "block",
-        row: "row",
-        col: "col",
-        available: "avail",
-      },
-    },
-    dom: { seatSelector: ".seat", availableSelector: ".seat.ok" },
-    refresh: { action: "button", selector: "#refresh" },
+    seatMapFrame: { urlPattern: "^https://example\\.com/seat" },
+    net: { metaUrlPattern: "/api/seatMeta\\?", statusUrlPattern: "/api/seatStatus\\?", statusEncoding: "hex-msb" },
     assist: { confirmButtonSelector: "#confirm" },
-    ...overrides,
   };
 }
 
@@ -225,52 +162,29 @@ test("validateSiteConfig: 필수 항목이 채워지면 missing 비어 있음", 
   assert.deepEqual(validateSiteConfig(filledSite()).missing, []);
 });
 
-test("validateSiteConfig: 없거나 빈 문자열이거나 TODO로 시작하면 missing", () => {
-  const site = filledSite({
-    seatMapFrame: { urlPattern: "TODO: frame" },
-    net: {
-      urlPatterns: ["TODO: url", ""],
-      seatPath: "",
-      fields: {
-        id: "TODO",
-        grade: "g",
-        zone: "z",
-        block: "b",
-        row: "r",
-        col: "c",
-        available: "a",
-      },
-    },
-    dom: { seatSelector: null, availableSelector: ".ok" },
-    refresh: { selector: "TODO: btn" },
-    assist: { confirmButtonSelector: "#ok" },
-  });
+test("validateSiteConfig: 비었거나 TODO거나 정규식 오류면 missing", () => {
+  const site = filledSite();
+  site.seatMapFrame.urlPattern = "TODO: frame";
+  site.net.metaUrlPattern = "";
+  site.net.statusUrlPattern = "([";
+  site.assist.confirmButtonSelector = null;
   const { missing } = validateSiteConfig(site);
-  assert.ok(missing.includes("seatMapFrame.urlPattern"));
-  assert.ok(missing.includes("net.urlPatterns.0"));
-  assert.ok(missing.includes("net.urlPatterns.1"));
-  assert.ok(missing.includes("net.seatPath"));
-  assert.ok(missing.includes("net.fields.id"));
-  assert.ok(missing.includes("dom.seatSelector"));
-  assert.ok(missing.includes("refresh.selector"));
-  assert.ok(!missing.includes("assist.confirmButtonSelector"));
+  assert.deepEqual(missing.sort(), ["assist.confirmButtonSelector", "net.metaUrlPattern", "net.statusUrlPattern", "seatMapFrame.urlPattern"]);
 });
 
-test("validateSiteConfig: urlPatterns가 빈 배열이면 net.urlPatterns 누락", () => {
+test("validateSiteConfig: 상태 인코딩은 hex-msb만 지원", () => {
   const site = filledSite();
-  site.net.urlPatterns = [];
-  assert.ok(validateSiteConfig(site).missing.includes("net.urlPatterns"));
+  site.net.statusEncoding = "hex-lsb";
+  assert.deepEqual(validateSiteConfig(site).missing, ["net.statusEncoding"]);
 });
 
 test("validateSiteConfig: 사이트가 객체가 아니면 필수 경로 전부 missing", () => {
   const { missing } = validateSiteConfig(null);
-  assert.ok(missing.includes("seatMapFrame.urlPattern"));
-  assert.ok(missing.includes("net.fields.available"));
-  assert.ok(missing.includes("assist.confirmButtonSelector"));
+  assert.equal(missing.length, 5);
 });
 
 test("validateSiteConfig: 입력을 변경하지 않는다", () => {
-  const site = filledSite({ seatMapFrame: { urlPattern: "TODO" } });
+  const site = filledSite();
   const before = JSON.stringify(site);
   validateSiteConfig(site);
   assert.equal(JSON.stringify(site), before);
@@ -291,6 +205,6 @@ test("content script처럼 classic script로 순서대로 로드하면 globalThi
   assert.equal(typeof NCA.configValidate.defaultUserConfig, "function");
   assert.equal(typeof NCA.configValidate.validateUserConfig, "function");
   assert.equal(typeof NCA.configValidate.validateSiteConfig, "function");
-  const { config } = NCA.configValidate.validateUserConfig({ refresh: { intervalSec: 10 } });
-  assert.equal(config.refresh.intervalSec, 30);
+  const { config } = NCA.configValidate.validateUserConfig({ notify: { telegram: { enabled: true } } });
+  assert.equal(config.notify.telegram.enabled, false);
 });

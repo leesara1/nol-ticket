@@ -22,7 +22,6 @@ const sample = () => validateUserConfig({
     },
     { goodsCode: "99999999", playSeq: [], filter: { grades: ["S"] } },
   ],
-  refresh: { enabled: true, intervalSec: 45, windows: [{ from: "08:55", to: "09:30" }, { from: "23:50", to: "00:10" }] },
   notify: { sound: true, desktop: false, telegram: { enabled: true, token: "t", chatId: "c" } },
   profile: { name: "홍길동", phone: "010", email: "a@b.c" },
 }).config;
@@ -60,18 +59,11 @@ test("열 범위를 한쪽만 입력하면 저장하지 않고 오류", () => {
   assert.match(r.error, /열 범위/);
 });
 
-test("시간대는 - 와 ~ 구분자를 모두 받는다", () => {
-  const v = { ...configToForm(defaultUserConfig()), windows: "08:55-09:30\n 21:00 ~ 21:30 \n\n" };
+test("잘못된 값은 고쳐서 저장되고 경고가 나온다 (연석 수 0 → 1)", () => {
+  const v = { ...configToForm(defaultUserConfig()), goodsCode: "1", adjacent: "0" };
   const r = save(v, defaultUserConfig());
-  assert.deepEqual(r.config.refresh.windows, [{ from: "08:55", to: "09:30" }, { from: "21:00", to: "21:30" }]);
-  assert.deepEqual(r.warnings, []);
-});
-
-test("잘못된 값은 고쳐서 저장되고 경고가 나온다 (간격 10초 → 30초)", () => {
-  const v = { ...configToForm(defaultUserConfig()), intervalSec: "10" };
-  const r = save(v, defaultUserConfig());
-  assert.equal(r.config.refresh.intervalSec, 30);
-  assert.ok(r.warnings.some((w) => w.includes("intervalSec")));
+  assert.equal(r.config.targets[0].filter.adjacent, 1);
+  assert.ok(r.warnings.some((w) => w.includes("adjacent")));
 });
 
 test("prevConfig가 없어도 동작한다", () => {

@@ -12,12 +12,16 @@ test("site.nol.json은 JSON으로 읽히고 site가 nol이다", () => {
   assert.equal(site.site, "nol");
 });
 
-test("사전 조사 전이므로 필수 항목이 모두 미설정(TODO)으로 보고된다", () => {
-  // 사전 조사(DESIGN 19절)로 값을 채우면 이 테스트를 '누락 0개'로 바꾼다.
+test("사전 조사로 확정된 항목은 채워져 있고, 선택완료 버튼(7단계)만 남았다", () => {
   const { missing } = validateSiteConfig(site);
-  assert.ok(missing.includes("seatMapFrame.urlPattern"));
-  assert.ok(missing.includes("net.fields.available"));
-  assert.ok(missing.includes("assist.confirmButtonSelector"));
+  assert.deepEqual(missing, ["assist.confirmButtonSelector"]);
+});
+
+test("URL 패턴이 실제 주소와 맞는다", () => {
+  assert.match("https://tickets.interpark.com/onestop/seat", new RegExp(site.seatMapFrame.urlPattern));
+  assert.match("https://tickets.interpark.com/onestop/api/seatMeta?goodsCode=1", new RegExp(site.net.metaUrlPattern));
+  assert.match("https://tickets.interpark.com/onestop/api/seatStatus?goodsCode=1", new RegExp(site.net.statusUrlPattern));
+  assert.doesNotMatch("https://tickets.interpark.com/onestop/api/seatMeta?x", new RegExp(site.net.statusUrlPattern));
 });
 
 test("필터: 배열이 아닌 grades는 경고와 함께 []", () => {
@@ -47,7 +51,6 @@ test("필터: 잘못된 adjacent는 1로 고치고 경고", () => {
 test("필터: 정상 값에는 경고가 없다", () => {
   const { warnings } = validateUserConfig({
     targets: [{ goodsCode: "26015783", playSeq: ["001"], filter: { grades: ["R"], zones: [], rows: null, adjacent: 2 } }],
-    refresh: { enabled: false, intervalSec: 60, windows: [{ from: "08:55", to: "09:30" }] },
     notify: { sound: true, desktop: true, telegram: { enabled: false, token: "", chatId: "" } },
     profile: { name: "", phone: "", email: "" },
   });

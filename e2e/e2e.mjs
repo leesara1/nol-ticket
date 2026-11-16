@@ -153,24 +153,23 @@ try {
 
   // 옵션: 저장 + 잘못된 값 보정
   const opt = await openPage(`chrome-extension://${extId}/options/options.html`);
-  await waitFor(opt, "document.querySelector('[name=intervalSec]').value === '60'");
+  await waitFor(opt, "document.querySelector('[name=adjacent]').value === '1'");
   await evalIn(opt, `(() => {
     const f = (n) => document.querySelector('[name=' + n + ']');
     f('goodsCode').value = '26015783';
     f('grades').value = 'R, VIP';
     f('adjacent').value = '2';
-    f('intervalSec').value = '10';
-    f('windows').value = '08:55~09:30';
+    f('regex').value = '[';
     document.querySelector('button[type=submit]').click();
     return true;
   })()`);
   const status = await waitFor(opt, "document.getElementById('status').textContent");
   const warns = await evalIn(opt, "[...document.querySelectorAll('#warnings li')].map(li => li.textContent)");
-  check("옵션 저장 + 경고 표시", /저장됨/.test(status ?? "") && warns.some((w) => w.includes("intervalSec")), `${status} | ${warns.join(" / ")}`);
+  check("옵션 저장 + 경고 표시", /저장됨/.test(status ?? "") && warns.some((w) => w.includes("regex")), `${status} | ${warns.join(" / ")}`);
   const saved = await evalIn(swS, "chrome.storage.local.get('userConfig').then(r => r.userConfig)");
-  check("저장 값 검증 반영 (간격 30, 시간대 ~ 파싱)",
-    saved.refresh.intervalSec === 30 && saved.refresh.windows[0]?.from === "08:55" && saved.targets[0]?.filter.adjacent === 2,
-    JSON.stringify({ refresh: saved.refresh, filter: saved.targets[0]?.filter }));
+  check("저장 값 검증 반영 (잘못된 정규식 제거, 연석 2)",
+    saved.targets[0]?.filter.regex === null && saved.targets[0]?.filter.adjacent === 2 && !("refresh" in saved),
+    JSON.stringify({ filter: saved.targets[0]?.filter }));
   // 상품코드 없이 조건만 → 저장 거부
   await evalIn(opt, `(() => { document.querySelector('[name=goodsCode]').value=''; document.querySelector('button[type=submit]').click(); return true; })()`);
   const status2 = await waitFor(opt, "(t => t.includes('상품코드') && t)(document.getElementById('status').textContent)");

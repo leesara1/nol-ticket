@@ -1,25 +1,24 @@
 {
   "site": "nol",
-  "seatMapFrame": { "urlPattern": "TODO: 좌석맵 frame URL 정규식" },
-  "net": {
-    "urlPatterns": ["TODO: 좌석 상태 응답 URL 정규식"],
-    "seatPath": "TODO",
-    "fields": {
-      "id": "TODO",
-      "grade": "TODO",
-      "zone": "TODO",
-      "block": "TODO",
-      "row": "TODO",
-      "col": "TODO",
-      "available": "TODO"
-    }
+  "seatMapFrame": {
+    "urlPattern": "^https://tickets\\.interpark\\.com/onestop/seat"
   },
-  "dom": { "seatSelector": "TODO", "availableSelector": "TODO" },
+  "net": {
+    "metaUrlPattern": "/onestop/api/seatMeta\\?",
+    "statusUrlPattern": "/onestop/api/seatStatus\\?",
+    "statusEncoding": "hex-msb"
+  },
   "pageState": [
-    { "state": "queue", "selector": "TODO" },
-    { "state": "logged_out", "urlPattern": "TODO" },
-    { "state": "expired", "text": "TODO" }
+    {
+      "state": "queue",
+      "urlPattern": "ent-waiting-api\\.interpark\\.com/"
+    },
+    {
+      "state": "expired",
+      "gqlOperation": "ExpiredSession"
+    }
   ],
-  "refresh": { "action": "button", "selector": "TODO" },
-  "assist": { "confirmButtonSelector": "TODO" }
+  "assist": {
+    "confirmButtonSelector": "TODO: 선택 완료 버튼 셀렉터 (7단계)"
+  }
 }

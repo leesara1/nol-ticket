@@ -94,8 +94,6 @@ async function handleMessage(msg) {
         ok: true,
         targets: c.targets.map((/** @type {any} */ t) => t.goodsCode),
         channels: { sound: c.notify.sound, desktop: c.notify.desktop, telegram: c.notify.telegram.enabled },
-        refreshEnabled: c.refresh.enabled,
-        intervalSec: c.refresh.intervalSec,
         tabs,
       };
     }

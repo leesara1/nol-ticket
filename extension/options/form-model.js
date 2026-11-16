@@ -15,9 +15,6 @@
  * @property {string} adjacent
  * @property {string} regex
  * @property {boolean} alertOnFirst
- * @property {boolean} refreshEnabled
- * @property {string} intervalSec
- * @property {string} windows
  * @property {boolean} sound
  * @property {boolean} desktop
  * @property {boolean} telegramEnabled
@@ -56,9 +53,6 @@
       adjacent: String(f.adjacent ?? 1),
       regex: f.regex ?? "",
       alertOnFirst: !!f.alertOnFirst,
-      refreshEnabled: !!c.refresh.enabled,
-      intervalSec: String(c.refresh.intervalSec),
-      windows: c.refresh.windows.map((/** @type {any} */ w) => `${w.from}-${w.to}`).join("\n"),
       sound: !!c.notify.sound,
       desktop: !!c.notify.desktop,
       telegramEnabled: !!c.notify.telegram.enabled,
@@ -94,15 +88,6 @@
     }
 
     const rows = list(v.rows);
-    const windows = v.windows
-      .split("\n")
-      .map((line) => line.trim())
-      .filter(Boolean)
-      .map((line) => {
-        const [from = "", to = ""] = line.split(/[-~]/).map((x) => x.trim());
-        return { from, to };
-      });
-
     const restTargets = Array.isArray(prevConfig?.targets) ? prevConfig.targets.slice(1) : [];
     const first = goodsCode
       ? [{
@@ -124,7 +109,6 @@
       error: null,
       input: {
         targets: [...first, ...restTargets],
-        refresh: { enabled: v.refreshEnabled, intervalSec: Number(v.intervalSec), windows },
         notify: {
           sound: v.sound,
           desktop: v.desktop,

@@ -110,7 +110,6 @@ test("GET_STATUS: 설정과 감시 탭 요약", async () => {
   assert.equal(r.ok, true);
   assert.deepEqual(r.targets, []);
   assert.deepEqual(r.channels, { sound: true, desktop: true, telegram: false });
-  assert.equal(r.refreshEnabled, false);
   assert.deepEqual(r.tabs, [{ tabId: 9, watch: "BLIND", blindReason: "expired" }]);
 });
 

@@ -15,7 +15,6 @@
     $("targets").textContent = s.targets.length === 0 ? "없음 (설정에서 추가)" : s.targets.join(", ");
     const ch = [s.channels.sound && "소리", s.channels.desktop && "크롬 알림", s.channels.telegram && "텔레그램"].filter(Boolean);
     $("channels").textContent = ch.length === 0 ? "모두 꺼짐" : ch.join(", ");
-    $("refresh").textContent = s.refreshEnabled ? `켜짐 (${s.intervalSec}초)` : "꺼짐";
 
     const ul = $("tabs");
     if (s.tabs.length === 0) {

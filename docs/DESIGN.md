@@ -1,10 +1,15 @@
 # 설계: NOL 취소표 알리미 (`nol-cancel-alert`)
 
-- 상태: 초안 r2 (2026-11-16, 설계 검토 15건 반영)
+- 상태: r3 (2026-11-16, 사전 조사 결과 반영 — [research/03](../research/03-target-26015783.md))
 - 요구사항: [README.md](../README.md) (FR/NFR 번호는 README 기준)
 - 근거 자료: [research/](../research/README.md)
 
-이 설계는 **사전 조사(README 8절) 전**에 작성되었습니다. 조사 결과에 따라 바뀌는 부분은 `[조사 의존]`으로 표시합니다.
+사전 조사(2026-11-16)로 좌석 데이터 형식과 갱신 방식이 확정됐습니다. 아직 확인하지 못한 부분은 `[미확인]`으로 표시합니다.
+
+**확정된 핵심** (research/03)
+- 좌석 화면 `https://tickets.interpark.com/onestop/seat` (top frame). 들어갈 때마다 보안문자, 좌석 선택 10분 제한
+- 좌석 배치 `GET /onestop/api/seatMeta`, 좌석 상태 `GET /onestop/api/seatStatus` (16진수 비트맵, 상위 비트부터, 1 = 예매 가능)
+- 좌석맵은 보이는 구역의 `seatStatus`를 **약 3.8초마다 스스로 다시 받는다** → 확장은 응답을 읽기만 한다. 자동 새로고침은 만들지 않는다 (9절)
 
 ---
 
@@ -48,7 +53,7 @@
 ## 3. 전체 구조
 
 ```
-┌─────────── NOL 탭: top frame + 좌석맵 iframe [조사 의존: 도메인·팝업 여부] ───────────┐
+┌─────────── 좌석 화면 탭: tickets.interpark.com/onestop/seat (top frame) ───── ───────────┐
 │  각 frame마다 (all_frames: true, run_at: document_start)                              │
 │                                                                                       │
 │  [MAIN world]  content/net-tap.js                                                     │
@@ -59,7 +64,6 @@
 │     ├─ adapters/net.js, adapters/dom.js  : → Snapshot                                 │
 │     ├─ page-state.js     : frame 단위 상태 판정, 1분마다 HEARTBEAT                     │
 │     ├─ assist/highlight.js, assist/autofill.js                                        │
-│     └─ refresh-banner.js : 자동 새로고침 ON 배너 (FR-6)                               │
 │                     │ chrome.runtime.Port (끊기면 재연결)                              │
 └─────────────────────┼─────────────────────────────────────────────────────────────────┘
                       ▼
@@ -70,8 +74,7 @@
 │  tab-registry.js  : frameId별 상태 → 탭 단위로 합침, 좌석맵 frame 식별 (5.2)          │
 │  watcher-state.js : 탭별 상태 머신 (5.1)                                              │
 │  detector         : shared/detector.js                                                │
-│  scheduler.js     : 새로고침 알람 (WATCHING에서만)                                    │
-│  health.js        : 1분 주기 알람, stale 판정 (새로고침 설정과 무관)                   │
+│  health.js        : 30초 주기 알람, stale 판정 (5.3)                   │
 │  notifier.js      : chrome.notifications / offscreen 소리 / 텔레그램                  │
 │  focus.js         : 창·탭 포커스                                                       │
 │  log.js           : 좌석 이벤트 일별 로그 + 내보내기                                   │
@@ -116,7 +119,7 @@ SW는 약 30초 동안 이벤트가 없으면 종료되고, 포트가 있어도 
  *  @property {string} playSeq // 회차
  *  @property {string} grade   // "R", "S", "VIP" …
  *  @property {string} zone    // "1층 A구역" 등. 모르면 ""
- *  @property {string} block   // 통로로 나뉜 블록. 모르면 "" [조사 의존]
+ *  @property {string} block   // 통로로 나뉜 블록. 모르면 "" [미확인]
  *  @property {string} row     // 열. 문자열 (예: "7", "가")
  *  @property {number} col     // 번호. 연석 계산용 숫자
  *  @property {number} seenAt  // epoch ms
@@ -157,7 +160,6 @@ README FR-2의 필드 이름은 이 정의를 따른다 (`seenAt`, `playSeq`, `b
            조건 일치 좌석 appeared                              │
   WATCHING ───────────────────────▶ FOUND ─────────────────────┤
                                      → 알림 + 포커스 + 강조      │
-                                     → 새로고침 일시정지         │
                                         │                      │
            사용자가 좌석 클릭             ▼                      │
                                     ASSISTING ─────────────────┘
@@ -166,7 +168,6 @@ README FR-2의 필드 이름은 이 정의를 따른다 (`seenAt`, `playSeq`, `b
   탭 닫힘 → 어느 상태에서든 IDLE, 해당 탭의 storage 정리
 ```
 
-- **새로고침은 WATCHING에서만** 실행한다. FOUND·ASSISTING·BLIND에서는 멈춘다. 사용자가 좌석을 고르는 중에 화면이 새로고침되지 않게 하기 위해서다.
 - BLIND는 같은 사유로 한 번만 알린다. `ok`로 돌아오면 "감시 복구" 알림.
 - FOUND에서 해당 좌석이 `disappeared`되면 "사라짐" 알림 후 WATCHING.
 
@@ -180,14 +181,14 @@ README FR-2의 필드 이름은 이 정의를 따른다 (`seenAt`, `playSeq`, `b
 | `logged_out`, `queue`, `expired` | 어느 frame에서든 먼저 보고되면 탭 상태로 채택 |
 | `no_seat_map` | 좌석맵 frame이 하나도 없을 때만 |
 | `selector_mismatch`, `parse_failed` | 좌석맵 frame의 보고만 반영 |
-| `HIGHLIGHT`, `REFRESH` | 좌석맵 frame의 포트로만 보낸다 |
+| `HIGHLIGHT` | 좌석맵 frame의 포트로만 보낸다 |
 
 ### 5.3 생존 확인 (health.js, FR-12)
 
-- 좌석맵이 저절로 갱신되지 않고 새로고침도 꺼져 있으면 스냅샷이 계속 오지 않는다. 이걸 "감시 불능"으로 보면 기본 설정에서 10분마다 잘못된 알림이 뜬다.
+- 좌석맵은 약 3.8초마다 좌석 상태를 받으므로 스냅샷이 계속 온다. 다만 사용자가 다른 화면(결제 등)으로 넘어가면 끊기므로 HEARTBEAT로 "페이지는 살아 있음"을 따로 알린다.
 - 그래서 **"정상적으로 읽음" = 스냅샷 수신 또는 `HEARTBEAT {state: "ok"}` 수신**으로 정의한다.
 - content script(page-state.js)는 1분마다 HEARTBEAT를 보낸다. 백그라운드 탭에서 타이머가 1분 주기로 제한돼도 동작한다.
-- `health.js`는 새로고침 설정과 무관한 1분 주기 `chrome.alarms`로 탭마다 마지막 수신 시각을 확인하고, 10분을 넘으면 `stale`로 BLIND 처리한다.
+- `health.js`는 30초 주기 `chrome.alarms`(MV3 최소 주기)로 탭마다 마지막 수신 시각을 확인하고, 좌석맵 frame에서 **30초** 동안 스냅샷이 없으면 `stale`로 BLIND 처리한다 (3.8초 주기의 약 8배).
 
 ## 6. 감지 로직 (shared/detector.js)
 
@@ -202,7 +203,7 @@ detect(prev: Snapshot | null, curr: Snapshot, filter: Filter, alerted: Set<strin
 2. **필터:** `curr.available` **전체**에 등급·구역·열 범위·정규식 적용
 3. **연석:** 필터를 통과한 좌석을 `(playSeq, zone, block, row)`로 묶고 `col`이 연속인 묶음을 만든다. 길이 ≥ `filter.adjacent`이고 **appeared 좌석을 하나 이상 포함**한 묶음만 `matched`
    - 예: 12번이 이미 비어 있었고 13번이 새로 생기면 12·13번 2연석으로 알린다
-   - `block`을 모르면(`""`) `col` 연속만 본다 `[조사 의존]`
+   - `block`을 모르면(`""`) `col` 연속만 본다 `[미확인]`
 4. **중복 방지:** `alerted`에 있는 `key`로만 이뤄진 묶음은 다시 알리지 않는다. 좌석이 `disappeared`되면 `alerted`에서 뺀다 (FR-4)
 5. **확정:** `net`/`dom` 스냅샷은 즉시 확정. 2회 연속 확인은 하지 않는다 (FR-5)
 6. **첫 스냅샷:** `prev = null`이면 기준으로만 저장한다. 단 `filter.alertOnFirst = true`면 조건 일치 묶음을 바로 알린다
@@ -212,6 +213,8 @@ detect(prev: Snapshot | null, curr: Snapshot, filter: Filter, alerted: Set<strin
 
 **필터 세부 규칙**
 - 빈 배열·`null`인 조건은 제한 없음으로 본다.
+- 등급: 같거나, 좌석 등급이 `"{입력}석"`으로 시작하면 일치. 예 `R` → `R석(현장수령)`, `VIP` → `VIP석(현장수령)`, `S` → `S석` (`시야제한석`은 그대로 입력)
+- 구역: 같거나, 공백으로 나눈 조각 중 하나와 같으면 일치. 예 `A구역` → `FLOOR A구역`, `1층` → `1층 9구역`
 - `rowRange`가 있으면 숫자가 아닌 열은 통과하지 못한다.
 - `regex`는 좌석 라벨 `"{grade}|{zone}|{block}|{row}|{col}"`과 비교한다. 예: `"^R\\|1층 A구역\\|"`, `"\\|(7|8|9)\\|\\d+$"`
 - `adjacent` 기본값은 1 (단일 좌석도 알림).
@@ -236,9 +239,43 @@ parse(input, site)
 
 | 어댑터 | 입력 | 언제 쓰나 | 상태 |
 |---|---|---|---|
-| `net` | 페이지가 받은 좌석 응답 본문 | 좌석 상태가 JSON/HTML 응답에 있을 때 | **1순위** `[조사 의존]` |
-| `dom` | 좌석맵 DOM | 응답 형식을 못 쓰고 좌석이 DOM 요소일 때 | 예비 `[조사 의존]` |
+| `net` | 페이지가 받은 좌석 응답 본문 | 좌석 상태가 JSON/HTML 응답에 있을 때 | **1순위** `[미확인]` |
+| `dom` | 좌석맵 DOM | 응답 형식을 못 쓰고 좌석이 DOM 요소일 때 | 예비 `[미확인]` |
 | 픽셀 | 화면 캡처 | 좌석맵이 캔버스일 때 | 설계 보류. 기존 `nol_screen_alert.py`(git 기록) 참고 |
+
+### 7.1 net 어댑터 (확정, `shared/seat-parse.js`)
+
+순수 모듈 (2.1 형식, `globalThis.NCA.seatParse`). content script와 Node 테스트에서 같이 쓴다.
+
+**입력 응답** (research/03)
+- `seatMeta?…&blockKeys=001:001&blockKeys=001:002…` → `{data: [{blockKey, seats: [{seatInfoId, seatGrade, seatGradeName, floor, rowNo, seatNo, rowIdx, colIdx, isExposable, …}]}]}` (구역마다 처음 한 번)
+- `seatStatus?…(같은 쿼리)` → `{data: ["0f3…", …]}` — `blockKeys` 순서대로 구역마다 16진수 문자열 하나 (약 3.8초마다)
+- 쿼리에서 `goodsCode`, `playSeq`, `blockKeys`(여러 개)를 읽는다
+
+**비트맵 해석**
+- 문자열 길이는 `ceil(구역 좌석 수 / 4)`. 다르거나 16진수가 아니면 `selector_mismatch` (형식이 바뀐 것)
+- 각 자리를 상위 비트부터 4비트로 펼친다. `seats[i]`(seatMeta 순서) 예매 가능 ⇔ 비트 1
+- `isExposable: false` 좌석은 예매 가능 목록에서 뺀다
+
+**Seat 변환**
+| Seat | 값 |
+|---|---|
+| `id` | `seatInfoId` |
+| `grade` | `seatGradeName` (없으면 `""`) |
+| `zone` | `floor` + `rowNo`의 "…구역" 부분. 예 `FLOOR A구역`, `1층 9구역`, `B구역` |
+| `row` | `rowNo`의 "…열" 앞 숫자·문자. 예 `"A구역 10열"`·`"B구역10열"` → `"10"`. 형식이 다르면 `rowNo` 그대로 |
+| `col` | `seatNo` 숫자. 숫자가 아니면 `colIdx + 1` |
+| `block` | `{blockKey}#{조각}` — 같은 구역·열에서 `colIdx`가 2 이상 벌어지면(통로) 조각 번호를 올린다 |
+
+좌석 번호는 화면 왼쪽→오른쪽으로 커진다 (research/03 화면 대조).
+
+**누적기** `createAccumulator()` — content script가 탭마다 하나
+- `addMeta(url, body)`: 구역별 좌석 배치를 기억한다
+- `addStatus(url, body)` → `{goodsCode, snapshot, newBlocks}` 또는 `{error, detail}`
+  - 화면에 보이는 구역만 응답에 오므로, **지금까지 본 모든 구역의 최신 상태를 합쳐** 스냅샷을 만든다. 응답에 없는 구역은 마지막 상태를 유지한다 (안 보인다고 "사라짐"으로 오인하지 않게)
+  - `newBlocks`: 이번에 처음 상태를 받은 구역. SW는 이 구역의 좌석을 `prev`에 미리 넣어 **처음 보는 구역의 기존 빈 좌석을 "생김"으로 알리지 않는다** (`alertOnFirst`면 알림)
+  - 배치(`seatMeta`)를 아직 못 받은 구역의 상태는 건너뛴다 (다음 갱신 때 반영)
+  - 회차(`playSeq`)가 바뀌면 누적을 비운다 (일정 변경)
 
 **실패 판정**
 - `totalSeats === 0` → `parse_failed`. 좌석맵에 좌석이 하나도 없다는 건 파싱 실패로 본다
@@ -250,7 +287,7 @@ parse(input, site)
 
 설정의 `pageState` 규칙(URL 패턴 + 셀렉터 + 텍스트)을 위에서부터 평가한다. frame 단위로 판정하고 SW가 합친다 (5.2).
 
-| 상태 | 판정 예 `[조사 의존]` |
+| 상태 | 판정 예 `[미확인]` |
 |---|---|
 | `logged_out` | 로그인 페이지 URL, 로그인 버튼 존재 |
 | `queue` | 대기열(NetFunnel 등) 화면 요소 |
@@ -258,24 +295,16 @@ parse(input, site)
 | `no_seat_map` | 좌석맵 frame 없음 (SW 판정) |
 | `selector_mismatch` | 어댑터의 필수 셀렉터·필드 없음 |
 | `parse_failed` | `totalSeats === 0` |
-| `stale` | 10분간 스냅샷·HEARTBEAT 없음 (SW 판정, 5.3) |
+| `stale` | 좌석맵 frame에서 30초간 스냅샷 없음 (SW 판정, 5.3) |
 | `ok` | 위에 해당하지 않음 |
 
-## 9. 새로고침 스케줄러 (scheduler.js)
+## 9. 새로고침 — 만들지 않음
 
-`[조사 의존]` 좌석맵이 저절로 갱신되면 이 모듈은 만들지 않는다. 생존 확인은 별도 모듈(5.3)이 맡는다.
+사전 조사에서 좌석맵이 보이는 구역의 좌석 상태를 **약 3.8초마다 스스로 다시 받는 것**을 확인했다 (research/03, 35초 동안 10회). 그래서 확장은 그 응답을 읽기만 하면 되고, 자동 새로고침(README FR-6~9)은 만들지 않는다.
 
-- 기본 **꺼짐**. 옵션에서 켜야 동작한다 (FR-6)
-- 켜져 있으면 두 곳에 표시한다
-  - 페이지 상단 고정 배너 "자동 새로고침 ON · 60초" (`refresh-banner.js`)
-  - 확장 배지 `R`
-- `chrome.alarms` 사용. 간격은 고정, **최소 30초** (FR-7). 무작위 지연은 넣지 않는다
-- `windows`(시간대) 밖에서는 동작하지 않는다
-- **실행 조건:** 탭 상태 `ok` **그리고** watcher 상태 `WATCHING`. 그 외에는 건너뛴다
-- `queue`가 감지되면 스케줄러를 끄고 알린다 (FR-9)
-- 동작은 설정의 `refresh.action`을 따른다. 그 외 요소는 클릭하지 않는다 (FR-8)
-  - `"button"`: 페이지의 좌석 새로고침 버튼 클릭
-  - `"reload"`: 좌석맵 frame 다시 불러오기
+- 사이트에 보내는 추가 요청이 0이다 (NFR-1)
+- 좌석 화면은 들어갈 때마다 보안문자가 있고 10분 뒤 만료된다. 만료 후 재진입은 사람이 한다 (README 3.3)
+- 보이지 않는 구역은 갱신되지 않는다. 감시하려는 구역이 화면에 보이도록 지도를 맞춰 두는 것은 사용자 몫이다 (README 실행 방법에 안내)
 
 ## 10. 알림 (notifier.js)
 
@@ -305,7 +334,7 @@ parse(input, site)
   - 묶음이 여러 개면 `, `로 잇고 4개를 넘으면 `외 N석`
   - 끝에 `생김` 또는 `사라짐`. 회차 라벨이 있으면 앞에 `[라벨] `
   - 등급·구역·열이 비어 있으면 그 부분은 생략
-- **감시 불능 문구** (`format.formatBlind(reason)`): PageState마다 한국어 한 줄. 예 `queue` → "대기열 화면입니다. 자동 새로고침을 멈췄습니다"
+- **감시 불능 문구** (`format.formatBlind(reason)`): PageState마다 한국어 한 줄. 예 `expired` → "좌석 선택 시간이 끝났습니다. 다시 들어가야 감시할 수 있습니다"
 - **중복 방지:** 같은 문구의 알림은 30초 안에 다시 보내지 않는다. 기억은 `storage.session`(`notified:{문구 해시}` → 시각)에 둔다. SW 재시작에도 유지
 - **알림 ID:** `{kind}:{tabId}:{windowId}:{시각}`. `kind`는 `found`·`gone`·`blind`·`recovered`·`test`. `notifier.parseNotificationId`로 해석
 - **소리:** offscreen 문서가 없으면 만든 뒤 `{target: "offscreen", type: "PLAY", pattern}` 메시지. `found`는 높아지는 3음, `blind`는 낮은 2음
@@ -322,11 +351,11 @@ parse(input, site)
 2. 좌석맵 frame에 `HIGHLIGHT {seatKeys}` 전달
 3. 해당 좌석 요소로 `scrollIntoView({block: "center"})`, 굵은 외곽선 + 깜빡임 CSS
 4. '선택완료' 버튼에도 외곽선. **클릭 이벤트는 발생시키지 않는다**
-5. 캔버스 좌석맵이면 좌석 좌표에 오버레이 표시 `[조사 의존]`
+5. 캔버스 좌석맵이면 좌석 좌표에 오버레이 표시 `[미확인]`
 
 ### 11.2 예매자 정보 채우기 (FR-15)
 
-- `[조사 의존]` NOL이 미리 채우면 이 모듈은 만들지 않는다
+- `[미확인]` NOL이 미리 채우면 이 모듈은 만들지 않는다
 - 동작 조건: 예매자 정보 화면 URL/셀렉터 일치 **그리고** 같은 탭에서 사용자가 좌석을 클릭한 기록(ASSISTING 상태)
 - 비어 있는 칸만 채우고 `input` 이벤트를 발생시킨다. 제출 버튼은 누르지 않는다
 
@@ -339,22 +368,21 @@ parse(input, site)
 ```json
 {
   "site": "nol",
-  "seatMapFrame": { "urlPattern": "TODO: 좌석맵 frame URL 정규식" },
+  "seatMapFrame": { "urlPattern": "^https://tickets\\.interpark\\.com/onestop/seat" },
   "net": {
-    "urlPatterns": ["TODO: 좌석 상태 응답 URL 정규식"],
-    "seatPath": "TODO",
-    "fields": { "id": "TODO", "grade": "TODO", "zone": "TODO", "block": "TODO", "row": "TODO", "col": "TODO", "available": "TODO" }
+    "metaUrlPattern": "/onestop/api/seatMeta\\?",
+    "statusUrlPattern": "/onestop/api/seatStatus\\?",
+    "statusEncoding": "hex-msb"
   },
-  "dom": { "seatSelector": "TODO", "availableSelector": "TODO" },
   "pageState": [
-    { "state": "queue", "selector": "TODO" },
-    { "state": "logged_out", "urlPattern": "TODO" },
-    { "state": "expired", "text": "TODO" }
+    { "state": "queue", "urlPattern": "ent-waiting-api\\.interpark\\.com/" },
+    { "state": "expired", "gqlOperation": "ExpiredSession" }
   ],
-  "refresh": { "action": "button", "selector": "TODO" },
-  "assist": { "confirmButtonSelector": "TODO" }
+  "assist": { "confirmButtonSelector": "TODO: 선택 완료 버튼 셀렉터 (7단계)" }
 }
 ```
+
+`pageState` 규칙은 6단계에서 쓴다. `queue`는 대기열 순번 API 요청, `expired`는 GraphQL `ExpiredSession` 요청으로 판정한다 (research/03).
 
 ### 12.2 사용자 설정 — 옵션 페이지 → `chrome.storage.local` (커밋 안 함)
 
@@ -369,13 +397,12 @@ parse(input, site)
       "adjacent": 2, "regex": null, "alertOnFirst": false
     }
   }],
-  "refresh": { "enabled": false, "intervalSec": 60, "windows": [{ "from": "08:55", "to": "09:30" }] },
   "notify": { "sound": true, "desktop": true, "telegram": { "enabled": false, "token": "", "chatId": "" } },
   "profile": { "name": "", "phone": "", "email": "" }
 }
 ```
 
-설정 로드 시 검증한다: `intervalSec < 30`이면 30으로 올리고 옵션 화면에 경고.
+예전 설정에 남은 `refresh` 키는 검증할 때 버린다.
 
 ### 12.3 설정 검증 (`shared/config-validate.js`)
 
@@ -384,16 +411,13 @@ parse(input, site)
 ```js
 defaultUserConfig() → UserConfig
 validateUserConfig(input: unknown) → { config: UserConfig, warnings: string[] }
-validateSiteConfig(site: unknown) → { missing: string[] }   // 비었거나 "TODO"로 시작하는 필수 항목 경로
+validateSiteConfig(site: unknown) → { missing: string[] }   // 비었거나 "TODO"로 시작하거나 정규식 오류인 필수 항목 경로
 ```
 
 | 항목 | 규칙 |
 |---|---|
 | 입력 전체 | 객체가 아니면 기본값 + 경고 |
 | `targets` | 배열 아니면 `[]`. `goodsCode`가 숫자 문자열이 아니면 그 target 제거 + 경고. `playSeq`는 문자열 배열(빈 문자열 제거). `filter`는 detector의 `normalizeFilter` 규칙 + `regex`가 컴파일되지 않으면 `null` + 경고, `rowRange`는 `from ≤ to`인 정수가 아니면 `null` + 경고 |
-| `refresh.intervalSec` | 정수 아니면 60. 30 미만이면 30 + 경고 (FR-7) |
-| `refresh.windows` | `"HH:MM"` 형식이 아닌 항목 제거 + 경고. `from > to`면 자정을 넘는 구간으로 인정 |
-| `refresh.enabled` | boolean 아니면 `false` |
 | `notify.telegram` | `enabled`인데 `token`·`chatId`가 비면 `enabled: false` + 경고 |
 | `profile` | 문자열 필드만 유지, 앞뒤 공백 제거 |
 | 모르는 키 | 버린다 |
@@ -416,7 +440,6 @@ ES module. `chrome.storage.session`을 감싸는 `createStore(area)` — `area`�
 - `form-model.js`: 폼 값 ↔ 설정 변환 순수 함수 (`configToForm`, `formToConfig`). Node에서 왕복 테스트
 - 저장하면 입력이 사라지는 경우는 **저장하지 않고 오류 표시**: 상품코드 없이 조건만 입력, 열 범위 한쪽만 입력
 - 폼은 첫 대상 공연만 편집하고, `targets[1]` 이후는 저장된 값을 그대로 보존
-- 시간대 구분자는 `-`와 `~` 모두 허용
 - 사용자 설정은 `chrome.storage.local`의 `userConfig` 키 하나에 저장
 - 저장 시 `validateUserConfig` → 고쳐진 값으로 저장하고 경고 목록 표시
 
@@ -424,19 +447,17 @@ ES module. `chrome.storage.session`을 감싸는 `createStore(area)` — `area`�
 
 | 방향 | 타입 | 내용 |
 |---|---|---|
-| ISOLATED → MAIN | `NCA_CONFIG` (`postMessage`) | `{urlPatterns}` |
+| ISOLATED → MAIN | `NCA_CONFIG` (`postMessage`) | `{urlPatterns: [metaUrlPattern, statusUrlPattern]}` |
 | MAIN → ISOLATED | `NCA_NET` (`postMessage`) | `{url, status, body}` (패턴 일치분만) |
 | content → SW | `HELLO` | `{frameUrl}` (연결·재연결 시) |
-| content → SW | `SNAPSHOT` | `Snapshot` |
+| content → SW | `SNAPSHOT` | `{goodsCode, snapshot: Snapshot, newBlocks: string[]}` |
 | content → SW | `PAGE_STATE` | `{state, detail}` |
 | content → SW | `HEARTBEAT` | `{state}` (1분마다) |
 | content → SW | `USER_SEAT_CLICK` | `{seatKey}` (ASSISTING 전환·autofill 조건) |
 | SW → content | `HIGHLIGHT` | `{seatKeys}` |
-| SW → content | `REFRESH` | `{}` |
-| SW → content | `REFRESH_BANNER` | `{enabled, intervalSec}` |
 | SW → content | `AUTOFILL` | `{profile}` |
 | SW → offscreen | `PLAY` | `{pattern: "found" \| "blind"}` |
-| popup → SW | `GET_STATUS` | 응답 `{targets, channels, refreshEnabled, tabs: [{tabId, watch, blindReason}]}` |
+| popup → SW | `GET_STATUS` | 응답 `{targets, channels, tabs: [{tabId, watch, blindReason}]}` |
 | popup → SW | `TEST_NOTIFY` | 응답 `{ok, results: {desktop, sound, telegram}}` |
 | options → SW | `LOG_LIST` | `{from?, to?}` → 응답 `{entries}` |
 
@@ -451,10 +472,10 @@ extension/                    # 확장 루트 (chrome://extensions에서 이 폴
   manifest.json
   background.js               # SW 진입점 (ES module)
   config/ site.nol.json
-  shared/ types.js detector.js config-validate.js format.js page-state-rules.js   # 순수 모듈 (2.1 형식)
-  sw/ tab-registry.js watcher-state.js scheduler.js health.js notifier.js focus.js log.js store.js
+  shared/ types.js detector.js config-validate.js format.js seat-parse.js page-state-rules.js   # 순수 모듈 (2.1 형식)
+  sw/ watch.js tab-registry.js health.js notifier.js focus.js log.js store.js
   content/ net-tap.js         # MAIN world
-  content/ adapters-net.js adapters-dom.js page-state.js highlight.js autofill.js refresh-banner.js content.js
+  content/ page-state.js highlight.js autofill.js content.js
   content/ highlight.css
   offscreen/ offscreen.html offscreen.js   # WebAudio 신호음, 소리 파일 없음
   options/ options.html options.js form-model.js
@@ -465,8 +486,8 @@ test/
   detector.test.js adapters-net.test.js adapters-dom.test.js page-state.test.js config-validate.test.js
 ```
 
-- `shared/`와 `content/adapters-*.js`는 **chrome API에 의존하지 않는다.** `node --test`로 테스트한다.
-- 매니페스트 content script 순서: `shared/*.js` → `content/adapters-*.js` → `page-state.js` → `highlight.js` → `autofill.js` → `refresh-banner.js` → `content.js`(진입점)
+- `shared/`는 **chrome API에 의존하지 않는다.** `node --test`로 테스트한다.
+- 매니페스트 content script 순서: `shared/types.js` → `shared/seat-parse.js` → `page-state.js` → `highlight.js` → `autofill.js` → `content.js`(진입점)
 
 ## 15. 매니페스트
 
@@ -476,10 +497,10 @@ test/
   "minimum_chrome_version": "120",
   "background": { "service_worker": "background.js", "type": "module" },
   "content_scripts": [
-    { "matches": ["TODO"], "js": ["content/net-tap.js"], "world": "MAIN",
-      "all_frames": true, "run_at": "document_start", "match_origin_as_fallback": true },
-    { "matches": ["TODO"], "js": ["shared/…", "content/…", "content/content.js"], "css": ["content/highlight.css"],
-      "all_frames": true, "run_at": "document_start", "match_origin_as_fallback": true }
+    { "matches": ["https://tickets.interpark.com/onestop/*"], "js": ["content/net-tap.js"], "world": "MAIN",
+      "all_frames": true, "run_at": "document_start" },
+    { "matches": ["https://tickets.interpark.com/onestop/*"], "js": ["shared/types.js", "shared/seat-parse.js", "content/content.js"],
+      "all_frames": true, "run_at": "document_start" }
   ]
 }
 ```
@@ -488,14 +509,14 @@ test/
 |---|---|
 | `storage` | 설정, 상태(session), 이벤트 로그(local) |
 | `unlimitedStorage` | 이벤트 로그 장기 보관 (NFR-5) |
-| `alarms` | 새로고침, 생존 확인 |
+| `alarms` | 생존 확인 (5.3) |
 | `notifications` | 크롬 알림 |
 | `offscreen` | 소리 재생 |
-| host / `matches`: `https://nol.yanolja.com/*` + 좌석맵 iframe·예매 팝업 도메인 `[조사 의존]` | content script 주입. **iframe의 도메인도 직접 넣어야 한다** (부모 도메인만으로는 주입되지 않음) |
+| host / `matches`: `https://tickets.interpark.com/onestop/*` | 좌석 화면 content script 주입 (확정, research/03) |
 | host: `https://api.telegram.org/*` | 텔레그램 전송 |
 
 - `tabs` 권한은 넣지 않는다. ID를 아는 탭·창의 `update`에는 필요 없고, NOL 탭의 URL은 host 권한으로 볼 수 있다.
-- `match_origin_as_fallback`은 좌석맵이 `about:blank`/`srcdoc`/`blob:` frame일 때를 위한 것이다.
+- `match_origin_as_fallback`은 쓰지 않는다. 좌석맵은 top frame이고, 이 옵션은 경로가 `/*`인 패턴에서만 허용된다.
 
 ## 16. 이벤트 로그 (log.js, NFR-5)
 
@@ -516,7 +537,7 @@ test/
 
 - 아이콘: `icons/icon{16,32,48,128}.png`
 - 팝업(`popup/`): 현재 상태를 한눈에 보여준다
-  - 대상 공연 수, 켜진 알림 채널, 자동 새로고침 여부
+  - 대상 공연 수, 켜진 알림 채널
   - 감시 중인 탭 목록과 상태 (아직 감지 연결 전이면 "감시 중인 탭 없음 — 감지 기능은 5단계에서 연결")
   - 버튼: "설정 열기", "알림 테스트"
 - 팝업은 SW에 `GET_STATUS` 메시지로 상태를 받는다 (storage 구조를 팝업이 몰라도 되게)
@@ -539,25 +560,27 @@ test/
 | D1 | 크롬 확장 | Playwright + CDP | 크롬 136 제약, 사용자 세션 그대로 사용, 탭·알림 API |
 | D2 | 네트워크 응답 읽기 우선 | DOM 폴링, 픽셀 | 정확도, 캔버스 대응, 추가 요청 0 |
 | D3 | 빌드 없는 JS + JSDoc, content는 classic script | TypeScript, 동적 import | 단순성. content script에서 `import` 불가, 동적 import는 `document_start`에서 경쟁 상태 위험 |
-| D4 | 새로고침 기본 꺼짐, 고정 간격 ≥30초, WATCHING에서만 | 짧은 간격, 무작위 지연 | 서버 부하·약관. 무작위 지연은 탐지 회피라 제외. 좌석 고르는 중 새로고침 방지 |
+| D4 | 자동 새로고침 없음 (r3) | 사용자가 켜는 30초 이상 새로고침 | 좌석맵이 약 3.8초마다 스스로 갱신함을 확인. 추가 요청 0 |
 | D5 | 좌석 클릭·선택완료는 사용자 | 자동 클릭 | README R-X1 |
 | D6 | 픽셀 감시 보류 | 기존 스크립트 포팅 | 좌석맵이 저절로 안 바뀌면 효과 없음. 캔버스일 때만 재검토 |
 | D7 | SW 상태는 `storage.session` | 메모리 | SW가 30초 유휴 후 종료되면 상태가 사라져 취소표를 놓침 |
-| D8 | 생존 판정에 HEARTBEAT 포함 | 스냅샷만 | 새로고침이 꺼진 기본 설정에서 잘못된 감시 불능 알림 방지 |
+| D8 | 생존 판정에 HEARTBEAT 포함 | 스냅샷만 | 결제 등 다른 화면으로 넘어간 경우와 페이지가 죽은 경우를 구분 |
+| D9 | 구역별 최신 상태를 누적해 스냅샷 생성 | 응답 하나 = 스냅샷 하나 | 보이는 구역만 응답에 오므로, 화면 이동 때 "사라짐"을 오인하지 않게 |
+| D10 | 처음 보는 구역의 기존 빈 좌석은 기준으로만 (`newBlocks`) | 처음부터 알림 | 지도를 움직일 때마다 이미 있던 빈 좌석이 "생김"으로 쏟아지지 않게 |
 
-## 19. 조사 후 확정할 것
+## 19. 사전 조사 결과 (2026-11-16)
 
-| 질문 | 영향 받는 절 |
-|---|---|
-| 좌석맵이 저절로 갱신되는가 | 9 (스케줄러 필요 여부) |
-| 좌석 상태 응답의 URL·형식 | 7, 12 (`net` 설정) |
-| 좌석맵이 DOM인가 캔버스인가 | 7, 11.1 |
-| 좌석맵 iframe 도메인, `about:blank`/`srcdoc` 여부 | 5.2, 15 |
-| 예매 화면이 다른 도메인 팝업 창으로 열리는가 (예: `tickets.interpark.com`) | 5.2, 11.1, 15 |
-| 좌석 ID·열·번호·블록(통로) 정보 유무 | 4, 6 |
-| 대기열·만료·로그아웃 화면 모습 | 8 |
-| 예매자 정보 미리 채움 여부 | 11.2 |
-| 회차(`playSeq`) 식별 방법 | 4, 12 |
+| 질문 | 답 | 근거 |
+|---|---|---|
+| 좌석맵이 저절로 갱신되는가 | 예, 약 3.8초 | research/03 |
+| 좌석 상태 응답의 URL·형식 | `seatMeta` + `seatStatus` 비트맵 | research/03 |
+| 좌석맵 frame 도메인 | `tickets.interpark.com/onestop/seat`, top frame | research/03 |
+| 좌석 ID·열·번호·블록 | `seatInfoId`, `rowNo`, `seatNo`, `blockKey`, `colIdx`(통로 판단) | research/03 |
+| 회차 식별 | `playSeq` 쿼리 | research/03 |
+| 대기열·만료 | 대기열 순번 API, GraphQL `ExpiredSession` | research/03 |
+| 좌석맵이 DOM인가 캔버스인가 | `[미확인]` — 강조(7단계)에 필요 | |
+| 선택완료 버튼 셀렉터 | `[미확인]` — 7단계 | |
+| 예매자 정보 미리 채움 | `[미확인]` | |
 
 ## 20. 구현 순서
 
@@ -565,8 +588,8 @@ test/
 2. `shared/config-validate.js` + 테스트, `manifest.json` 뼈대, `sw/store.js`(storage.session 복원·저장), 옵션 페이지
    - 매니페스트의 `content_scripts`는 주입 도메인이 정해지는 5단계에서 추가한다
 3. notifier (크롬 알림, offscreen 소리, 텔레그램), focus, log + 내보내기, 툴바 아이콘·상태 팝업 (10.1, 16.1, 16A)
-4. **사전 조사** → `extension/config/site.nol.json`·매니페스트 `matches` 채우기, fixture 저장
-5. `net-tap.js` + `adapters-net.js` + 테스트 → tab-registry·watcher-state 연결
-6. page-state + health + BLIND 처리
+4. **사전 조사** → `extension/config/site.nol.json` 채우기 (완료, 19절)
+5. `net-tap.js` + `shared/seat-parse.js` + 테스트 → `content.js` → SW `sw/watch.js`(감지·알림·로그 연결) + 매니페스트 content script. fixture는 HAR에서 좌석 응답만 잘라 `fixtures/*.json`
+6. page-state(대기열·만료) + health(30초 stale) + BLIND 처리
 7. highlight → (필요 시) autofill
-8. (필요 시) scheduler + refresh-banner
+8. ~~scheduler + refresh-banner~~ — 만들지 않음 (9절)

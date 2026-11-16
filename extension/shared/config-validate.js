@@ -17,13 +17,8 @@
    * @property {string[]} playSeq
    * @property {Required<Filter>} filter
    *
-   * @typedef {Object} TimeWindow
-   * @property {string} from
-   * @property {string} to
-   *
-   * @typedef {Object} UserConfig
+     * @typedef {Object} UserConfig
    * @property {TargetConfig[]} targets
-   * @property {{ enabled: boolean, intervalSec: number, windows: TimeWindow[] }} refresh
    * @property {{ sound: boolean, desktop: boolean, telegram: { enabled: boolean, token: string, chatId: string } }} notify
    * @property {{ name: string, phone: string, email: string }} profile
    */
@@ -32,7 +27,6 @@
   function defaultUserConfig() {
     return {
       targets: [],
-      refresh: { enabled: false, intervalSec: 60, windows: [] },
       notify: {
         sound: true,
         desktop: true,
@@ -46,9 +40,6 @@
   function isPlainObject(v) {
     return v !== null && typeof v === "object" && !Array.isArray(v);
   }
-
-  /** HH:MM (00:00–23:59) */
-  const HHMM = /^(?:[01]\d|2[0-3]):[0-5]\d$/;
 
   /**
    * @param {unknown} filterInput
@@ -167,56 +158,7 @@
       }
     }
 
-    // ── refresh ──
-    const refreshSrc = isPlainObject(src.refresh)
-      ? /** @type {Record<string, unknown>} */ (src.refresh)
-      : {};
-
-    let enabled = refreshSrc.enabled;
-    if (typeof enabled !== "boolean") {
-      if ("enabled" in refreshSrc) {
-        warnings.push(`refresh.enabled ${JSON.stringify(refreshSrc.enabled)} → false`);
-      }
-      enabled = false;
-    }
-
-    let intervalSec = refreshSrc.intervalSec;
-    if (!Number.isInteger(intervalSec)) {
-      if ("intervalSec" in refreshSrc) {
-        warnings.push(`refresh.intervalSec ${JSON.stringify(refreshSrc.intervalSec)} → 60`);
-      }
-      intervalSec = 60;
-    } else if (/** @type {number} */ (intervalSec) < 30) {
-      warnings.push(`refresh.intervalSec ${intervalSec} → 30 (최소 30초)`);
-      intervalSec = 30;
-    }
-
-    /** @type {TimeWindow[]} */
-    let windows = [];
-    if (!Array.isArray(refreshSrc.windows)) {
-      if ("windows" in refreshSrc) {
-        warnings.push("refresh.windows 배열이 아님 → []");
-      }
-    } else {
-      for (let i = 0; i < refreshSrc.windows.length; i++) {
-        const w = refreshSrc.windows[i];
-        if (!isPlainObject(w)) {
-          warnings.push(`refresh.windows[${i}] 객체가 아님 → 제거`);
-          continue;
-        }
-        const wr = /** @type {Record<string, unknown>} */ (w);
-        const from = wr.from;
-        const to = wr.to;
-        if (typeof from !== "string" || !HHMM.test(from) || typeof to !== "string" || !HHMM.test(to)) {
-          warnings.push(
-            `refresh.windows[${i}] ${JSON.stringify({ from, to })} → 제거 (HH:MM 형식 아님)`,
-          );
-          continue;
-        }
-        // from > to 는 자정을 넘는 구간으로 인정
-        windows.push({ from, to });
-      }
-    }
+    // refresh(자동 새로고침)는 없앴다: 좌석맵이 스스로 갱신한다 (DESIGN 9). 예전 설정의 refresh 키는 모르는 키로 버린다.
 
     // ── notify ──
     const notifySrc = isPlainObject(src.notify)
@@ -247,11 +189,6 @@
     /** @type {UserConfig} */
     const config = {
       targets,
-      refresh: {
-        enabled: /** @type {boolean} */ (enabled),
-        intervalSec: /** @type {number} */ (intervalSec),
-        windows,
-      },
       notify: {
         sound,
         desktop,
@@ -280,73 +217,24 @@
   }
 
   /**
+   * 사이트 설정 점검 (DESIGN 12.1). 비었거나 "TODO"로 시작하거나 정규식이 컴파일되지 않는 필수 항목의 경로를 돌려준다.
    * @param {unknown} site
    * @returns {{ missing: string[] }}
    */
   function validateSiteConfig(site) {
     /** @type {string[]} */
     const missing = [];
+    const s = isPlainObject(site) ? /** @type {Record<string, any>} */ (site) : {};
+    /** @param {string} path */
+    const get = (path) => path.split(".").reduce((o, k) => (isPlainObject(o) ? o[k] : undefined), /** @type {any} */ (s));
 
-    /** @param {string} path @param {unknown} v */
-    function requireString(path, v) {
-      if (isBlankOrTodo(v)) missing.push(path);
+    for (const path of ["seatMapFrame.urlPattern", "net.metaUrlPattern", "net.statusUrlPattern"]) {
+      const v = get(path);
+      if (isBlankOrTodo(v)) { missing.push(path); continue; }
+      try { new RegExp(/** @type {string} */ (v)); } catch { missing.push(path); }
     }
-
-    if (!isPlainObject(site)) {
-      missing.push(
-        "seatMapFrame.urlPattern",
-        "net.urlPatterns",
-        "net.seatPath",
-        "net.fields.id",
-        "net.fields.grade",
-        "net.fields.zone",
-        "net.fields.block",
-        "net.fields.row",
-        "net.fields.col",
-        "net.fields.available",
-        "dom.seatSelector",
-        "dom.availableSelector",
-        "refresh.selector",
-        "assist.confirmButtonSelector",
-      );
-      return { missing };
-    }
-
-    const s = /** @type {Record<string, unknown>} */ (site);
-    const seatMapFrame = isPlainObject(s.seatMapFrame)
-      ? /** @type {Record<string, unknown>} */ (s.seatMapFrame)
-      : {};
-    const net = isPlainObject(s.net) ? /** @type {Record<string, unknown>} */ (s.net) : {};
-    const fields = isPlainObject(net.fields)
-      ? /** @type {Record<string, unknown>} */ (net.fields)
-      : {};
-    const dom = isPlainObject(s.dom) ? /** @type {Record<string, unknown>} */ (s.dom) : {};
-    const refresh = isPlainObject(s.refresh)
-      ? /** @type {Record<string, unknown>} */ (s.refresh)
-      : {};
-    const assist = isPlainObject(s.assist)
-      ? /** @type {Record<string, unknown>} */ (s.assist)
-      : {};
-
-    requireString("seatMapFrame.urlPattern", seatMapFrame.urlPattern);
-
-    if (!Array.isArray(net.urlPatterns) || net.urlPatterns.length === 0) {
-      missing.push("net.urlPatterns");
-    } else {
-      for (let i = 0; i < net.urlPatterns.length; i++) {
-        if (isBlankOrTodo(net.urlPatterns[i])) missing.push(`net.urlPatterns.${i}`);
-      }
-    }
-
-    requireString("net.seatPath", net.seatPath);
-    for (const key of ["id", "grade", "zone", "block", "row", "col", "available"]) {
-      requireString(`net.fields.${key}`, fields[key]);
-    }
-    requireString("dom.seatSelector", dom.seatSelector);
-    requireString("dom.availableSelector", dom.availableSelector);
-    requireString("refresh.selector", refresh.selector);
-    requireString("assist.confirmButtonSelector", assist.confirmButtonSelector);
-
+    if (get("net.statusEncoding") !== "hex-msb") missing.push("net.statusEncoding");
+    if (isBlankOrTodo(get("assist.confirmButtonSelector"))) missing.push("assist.confirmButtonSelector");
     return { missing };
   }
 
