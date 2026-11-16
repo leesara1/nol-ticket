@@ -44,6 +44,7 @@ function makeChrome() {
       onMessage: makeEvent(),
       onInstalled: makeEvent(),
       onStartup: makeEvent(),
+      onConnect: makeEvent(),
     },
     offscreen: {
       Reason: { AUDIO_PLAYBACK: "AUDIO_PLAYBACK" },
@@ -64,13 +65,21 @@ function makeChrome() {
 // Node는 import/export가 없는 .js를 CommonJS로 보고 module.exports에 붙이므로,
 // 브라우저와 같게 classic script로 먼저 평가해 globalThis.NCA를 채운다.
 const vm = require("node:vm");
-for (const f of ["types.js", "detector.js", "config-validate.js", "format.js"]) {
+for (const f of ["types.js", "detector.js", "config-validate.js", "format.js", "seat-parse.js"]) {
   vm.runInThisContext(fs.readFileSync(path.join(EXT, "shared", f), "utf8"), { filename: f });
 }
 
 const chrome = makeChrome();
 globalThis.chrome = chrome;
-globalThis.fetch = async (url, init) => { chrome.calls.fetches.push({ url, init }); return { ok: true, status: 200 }; };
+globalThis.fetch = async (url, init) => {
+  chrome.calls.fetches.push({ url, init });
+  const ext = "chrome-extension://ext-id/";
+  if (String(url).startsWith(ext)) {
+    const text = fs.readFileSync(path.join(EXT, String(url).slice(ext.length)), "utf8");
+    return { ok: true, status: 200, json: async () => JSON.parse(text) };
+  }
+  return { ok: true, status: 200 };
+};
 const loaded = import("../extension/background.js");
 
 /** onMessage 리스너로 보내고 sendResponse 결과를 기다린다 */
@@ -93,6 +102,57 @@ test("리스너가 최상위에서 등록된다", async () => {
   assert.equal(chrome.runtime.onStartup.listeners.length, 1);
   assert.equal(chrome.notifications.onClicked.listeners.length, 1);
   assert.equal(chrome.tabs.onRemoved.listeners.length, 1);
+  assert.equal(chrome.runtime.onConnect.listeners.length, 1);
+});
+
+/** content script 포트 흉내 */
+function connect(name, sender) {
+  const port = { name, sender, onMessage: makeEvent(), sent: [], disconnected: false, disconnect() { this.disconnected = true; }, postMessage(m) { this.sent.push(m); } };
+  chrome.runtime.onConnect.listeners[0](port);
+  return port;
+}
+
+test("content 포트: 좌석 화면 탭이 아니면 끊는다", async () => {
+  await loaded;
+  assert.equal(connect("nca-content", { id: "ext-id", url: "chrome-extension://ext-id/popup/popup.html" }).disconnected, true);
+  assert.equal(connect("nca-content", { id: "other", tab: { id: 1, windowId: 1 } }).disconnected, true);
+  assert.equal(connect("nca-content", { id: "ext-id", tab: { id: 1, windowId: 1 } }).disconnected, false);
+});
+
+test("content 포트: 연결하면 사이트 설정(URL 패턴)을 보내준다", async () => {
+  await loaded;
+  const port = connect("nca-content", { id: "ext-id", url: "https://tickets.interpark.com/onestop/seat", tab: { id: 40, windowId: 1 } });
+  await new Promise((r) => setTimeout(r, 10));
+  const site = JSON.parse(fs.readFileSync(path.join(EXT, "config/site.nol.json"), "utf8"));
+  assert.deepEqual(port.sent[0], { type: "CONFIG", net: { metaUrlPattern: site.net.metaUrlPattern, statusUrlPattern: site.net.statusUrlPattern } });
+});
+
+test("content 포트: 매진 → 좌석 풀림 스냅샷이 오면 '취소표 생김' 알림", async () => {
+  await loaded;
+  const soldout = require(path.join(__dirname, "../fixtures/seat-soldout.json"));
+  const seatParse = require("../extension/shared/seat-parse.js");
+  await chrome.storage.local.set({ userConfig: { targets: [{ goodsCode: "26015783", playSeq: [], filter: { grades: ["VIP"] } }], notify: { sound: false, desktop: true, telegram: { enabled: false, token: "", chatId: "" } }, profile: {} } });
+  const acc = seatParse.createAccumulator();
+  acc.addMeta(soldout.meta[0].url, soldout.meta[0].body);
+  const m1 = acc.addStatus(soldout.status[0].url, soldout.status[0].body, 1);
+  const body = structuredClone(soldout.status[0].body);
+  body.data[0] = "8" + body.data[0].slice(1); // 첫 좌석 풀림
+  const m2 = acc.addStatus(soldout.status[0].url, body, 2);
+
+  const port = connect("nca-content", { id: "ext-id", url: "https://tickets.interpark.com/onestop/seat", tab: { id: 31, windowId: 4 } });
+  const before = chrome.calls.notifications.length;
+  port.onMessage.listeners[0]({ type: "SNAPSHOT", ...m1 });
+  port.onMessage.listeners[0]({ type: "SNAPSHOT", ...m2 });
+  await new Promise((r) => setTimeout(r, 30));
+  const added = chrome.calls.notifications.slice(before);
+  assert.equal(added.length, 1);
+  assert.match(added[0].id, /^found:31:4:\d+$/);
+  assert.match(added[0].o.message, /^VIP석\(현장수령\) FLOOR .+ 생김$/);
+  assert.equal(chrome.storage.session.data["tab:31"].watch, "FOUND");
+  // 뒤 테스트에 영향이 없도록 되돌린다
+  delete chrome.storage.local.data.userConfig;
+  for (const k of Object.keys(chrome.storage.session.data)) if (k.includes(":31")) delete chrome.storage.session.data[k];
+  for (const k of Object.keys(chrome.storage.local.data)) if (k.startsWith("log:")) delete chrome.storage.local.data[k];
 });
 
 test("처음 설치: 기본 설정 저장 + 옵션 페이지 열기", async () => {

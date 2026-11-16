@@ -266,3 +266,24 @@ test("content script처럼 classic script로 순서대로 로드하면 globalThi
   const r = NCA.detector.detect(snap([]), snap([seat({ col: 1 })]), {}, []);
   assert.equal(r.events.length, 1);
 });
+
+// ── 등급·구역 일치 규칙 (DESIGN 6, 실제 데이터 형식) ──────
+
+test("등급: 'R'은 'R석(현장수령)', 'S'는 'S석'과 일치, '시야제한석'은 그대로", () => {
+  const { gradeMatches } = require("../extension/shared/detector.js");
+  assert.equal(gradeMatches("R석(현장수령)", "R"), true);
+  assert.equal(gradeMatches("VIP석(현장수령)", "VIP"), true);
+  assert.equal(gradeMatches("S석", "S"), true);
+  assert.equal(gradeMatches("시야제한석", "시야제한석"), true);
+  assert.equal(gradeMatches("시야제한석", "S"), false);
+  assert.equal(gradeMatches("VIP석(현장수령)", "V"), false);
+});
+
+test("구역: 'A구역'은 'FLOOR A구역', '1층'은 '1층 9구역'과 일치", () => {
+  const { zoneMatches } = require("../extension/shared/detector.js");
+  assert.equal(zoneMatches("FLOOR A구역", "A구역"), true);
+  assert.equal(zoneMatches("1층 9구역", "1층"), true);
+  assert.equal(zoneMatches("1층 9구역", "9구역"), true);
+  assert.equal(zoneMatches("1층 19구역", "9구역"), false);
+  assert.equal(zoneMatches("B구역", "B구역"), true);
+});

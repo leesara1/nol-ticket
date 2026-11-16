@@ -45,7 +45,9 @@
    * @param {{grade: string, zone: string, row: string}} s
    */
   function placeText(s) {
-    return [s.grade ? `${s.grade}석` : "", s.zone, s.row ? `${s.row}열` : ""].filter(Boolean).join(" ");
+    // 실제 등급 이름은 "VIP석(현장수령)"·"전석"처럼 이미 "석"을 포함한다. 없을 때만 붙인다 ("R" → "R석")
+    const grade = !s.grade ? "" : s.grade.includes("석") ? s.grade : `${s.grade}석`;
+    return [grade, s.zone, s.row ? `${s.row}열` : ""].filter(Boolean).join(" ");
   }
 
   /**

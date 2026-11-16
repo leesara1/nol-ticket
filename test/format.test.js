@@ -86,3 +86,9 @@ test("blindText: 사유만", () => {
 test("logToCsv: 빈 로그는 헤더만", () => {
   assert.equal(f.logToCsv([]), "time,kind,goodsCode,playSeq,matched,seats,reason\r\n");
 });
+
+test("실제 등급 이름(이미 '석' 포함)에는 '석'을 덧붙이지 않는다", () => {
+  assert.equal(f.seatsText([seat(10, { grade: "VIP석(현장수령)", zone: "FLOOR A구역", row: "10" })]), "VIP석(현장수령) FLOOR A구역 10열 10번");
+  assert.equal(f.seatsText([seat(3, { grade: "전석", zone: "B구역", row: "1" })]), "전석 B구역 1열 3번");
+  assert.equal(f.seatsText([seat(1, { grade: "시야제한석", zone: "2층 45구역", row: "2" })]), "시야제한석 2층 45구역 2열 1번");
+});

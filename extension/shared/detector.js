@@ -35,14 +35,30 @@
   }
 
   /**
+   * 등급 일치: 같거나, 좌석 등급이 "{입력}석"으로 시작 (DESIGN 6). 예 "R" → "R석(현장수령)"
+   * @param {string} grade @param {string} want
+   */
+  function gradeMatches(grade, want) {
+    return grade === want || grade.startsWith(`${want}석`);
+  }
+
+  /**
+   * 구역 일치: 같거나, 공백으로 나눈 조각 중 하나와 같음 (DESIGN 6). 예 "A구역" → "FLOOR A구역", "1층" → "1층 9구역"
+   * @param {string} zone @param {string} want
+   */
+  function zoneMatches(zone, want) {
+    return zone === want || zone.split(/\s+/).includes(want);
+  }
+
+  /**
    * 좌석 하나가 필터 조건을 만족하는지.
    * @param {Seat} seat
    * @param {Required<Filter>} f
    * @param {RegExp | null} re
    */
   function passesFilter(seat, f, re) {
-    if (f.grades.length > 0 && !f.grades.includes(seat.grade)) return false;
-    if (f.zones.length > 0 && !f.zones.includes(seat.zone)) return false;
+    if (f.grades.length > 0 && !f.grades.some((g) => gradeMatches(seat.grade, g))) return false;
+    if (f.zones.length > 0 && !f.zones.some((z) => zoneMatches(seat.zone, z))) return false;
     if (f.rows && f.rows.length > 0 && !f.rows.includes(seat.row)) return false;
     if (f.rowRange) {
       if (!/^\d+$/.test(seat.row)) return false;
@@ -151,7 +167,7 @@
     return { events, alerted: nextAlerted };
   }
 
-  const api = { detect, normalizeFilter, passesFilter, buildRuns };
+  const api = { detect, normalizeFilter, passesFilter, buildRuns, gradeMatches, zoneMatches };
 
   if (typeof module === "object" && module.exports) module.exports = api;
   else (root.NCA ??= {}).detector = api;

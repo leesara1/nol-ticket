@@ -81,7 +81,9 @@ research/       조사 자료 (raw/ 는 원본 응답)
 
 - 테스트: `node --test` (저장소 루트에서. Node 24는 `node --test test/`처럼 디렉터리를 인자로 받지 않는다)
 - 실제 크롬 점검: `node e2e/e2e.mjs` — headless Chromium에 확장을 불러와 팝업·옵션·알림·소리 경로를 확인한다. Chromium은 `~/.cache/ms-playwright/chromium-*`에서 자동으로 찾는다 (또는 `CHROME` 환경변수). NOL 사이트에는 접속하지 않는다
+  - 좌석 감지 전체 경로: `node e2e/seat-e2e.mjs` — 로컬 가짜 좌석 화면(HTTPS, `--host-resolver-rules`)으로 매진 → 좌석 풀림 → 알림을 확인한다. openssl 필요
   - `test/` 아래에 `.mjs`를 두면 `node --test`가 테스트로 잡으므로 e2e는 `e2e/`에 둔다
+  - content script는 확장 파일을 `fetch`로 읽을 수 없다. 필요한 설정은 SW가 포트로 보낸다 (실제 크롬에서만 드러남)
   - 단위 테스트의 가짜 chrome과 실제 크롬은 다르게 동작할 수 있다 (예: 탭으로 열린 옵션 페이지도 `sender.tab`이 있음). 확장 API를 쓰는 변경은 e2e도 돌린다
 - 빌드: 없음. `extension/` 폴더를 `chrome://extensions` → "압축해제된 확장 프로그램 로드"로 불러온다. 자세한 순서는 README "실행 방법"
 - `extension/shared/*.js`는 DESIGN 2.1 형식(classic script + `module.exports` 겸용)을 지킨다. `import`/`export` 문법을 쓰지 않는다.

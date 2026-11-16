@@ -6,12 +6,14 @@ import "./shared/types.js";
 import "./shared/detector.js";
 import "./shared/config-validate.js";
 import "./shared/format.js";
+import "./shared/seat-parse.js";
 import { createStore } from "./sw/store.js";
 import { createLog } from "./sw/log.js";
 import { createNotifier, parseNotificationId } from "./sw/notifier.js";
 import { focusTab } from "./sw/focus.js";
+import { createWatcher } from "./sw/watch.js";
 
-const { configValidate, format } = /** @type {any} */ (globalThis).NCA;
+const { configValidate, format, detector, seatParse } = /** @type {any} */ (globalThis).NCA;
 
 const store = createStore(chrome.storage.session);
 const log = createLog(chrome.storage.local, { dayKey: format.dayKey });
@@ -156,5 +158,47 @@ chrome.tabs.onRemoved.addListener((tabId) => {
   store.clearTab(tabId).catch((e) => console.error("[nca] clearTab 실패", e));
 });
 
-// 이후 단계에서 추가: runtime.onConnect(content 포트), alarms.onAlarm(health·scheduler).
-// 모두 이 파일 최상위에 등록한다.
+// ── 좌석 화면 content script 포트 (DESIGN 7.1, 13) ───────
+
+const watcher = createWatcher({
+  store,
+  log,
+  notifier,
+  focus: (tabId, windowId) => focusTab(chrome, tabId, windowId),
+  loadUserConfig,
+  detector,
+  seatParse,
+  format,
+});
+
+/** @type {Promise<any> | null} */
+let siteConfig = null;
+/** 사이트 설정(extension/config/site.nol.json). SW는 자기 파일을 읽을 수 있다. */
+function loadSiteConfig() {
+  siteConfig ??= fetch(chrome.runtime.getURL("config/site.nol.json"))
+    .then((r) => r.json())
+    .catch((e) => { siteConfig = null; throw e; });
+  return siteConfig;
+}
+
+chrome.runtime.onConnect.addListener((port) => {
+  if (port.name !== "nca-content") return;
+  const tab = port.sender?.tab;
+  // 좌석 화면 탭에서 온 포트만 받는다 (확장 내부 페이지·다른 확장 제외)
+  if (!tab || tab.id === undefined || port.sender?.id !== chrome.runtime.id) { port.disconnect(); return; }
+  const ref = { id: tab.id, windowId: tab.windowId };
+  // content script는 확장 파일을 직접 못 읽으므로 사이트 설정을 보내준다 (DESIGN 13)
+  loadSiteConfig().then(
+    (site) => { try { port.postMessage({ type: "CONFIG", net: { metaUrlPattern: site.net.metaUrlPattern, statusUrlPattern: site.net.statusUrlPattern } }); } catch { /* 이미 끊김 */ } },
+    (e) => console.error("[nca] 사이트 설정을 읽지 못했습니다", e),
+  );
+  port.onMessage.addListener((msg) => {
+    if (msg?.type === "SNAPSHOT" && msg.snapshot && Array.isArray(msg.snapshot.available)) {
+      watcher.handleSnapshot(ref, msg).catch((e) => console.error("[nca] 스냅샷 처리 실패", e));
+    } else if (msg?.type === "BLIND" && typeof msg.reason === "string") {
+      watcher.handleBlind(ref, msg).catch((e) => console.error("[nca] 감시 불능 처리 실패", e));
+    }
+  });
+});
+
+// 이후 단계에서 추가: alarms.onAlarm(health, 30초 stale 판정). 이 파일 최상위에 등록한다.

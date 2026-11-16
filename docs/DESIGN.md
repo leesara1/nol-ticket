@@ -449,6 +449,7 @@ ES module. `chrome.storage.session`을 감싸는 `createStore(area)` — `area`�
 |---|---|---|
 | ISOLATED → MAIN | `NCA_CONFIG` (`postMessage`) | `{urlPatterns: [metaUrlPattern, statusUrlPattern]}` |
 | MAIN → ISOLATED | `NCA_NET` (`postMessage`) | `{url, status, body}` (패턴 일치분만) |
+| SW → content | `CONFIG` | `{net: {metaUrlPattern, statusUrlPattern}}` — 포트가 연결되면 바로 보낸다. content script는 확장 파일을 `fetch`로 읽을 수 없고, `web_accessible_resources`로 공개하면 사이트가 확장 설치를 알아챌 수 있어 쓰지 않는다 (실제 크롬 점검에서 확인, 2026-11-16) |
 | content → SW | `HELLO` | `{frameUrl}` (연결·재연결 시) |
 | content → SW | `SNAPSHOT` | `{goodsCode, snapshot: Snapshot, newBlocks: string[]}` |
 | content → SW | `PAGE_STATE` | `{state, detail}` |
