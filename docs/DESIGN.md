@@ -281,10 +281,10 @@ parse(input, site)
 
 | 이벤트 | 소리 | 크롬 알림 | 텔레그램 |
 |---|---|---|---|
-| 조건 일치 좌석 생김 | ✅ 3회 | ✅ `requireInteraction: true` | ✅ |
-| 좌석 사라짐 | | ✅ | ✅ |
-| 감시 불능 / 복구 | ✅ 1회 (다른 음) | ✅ | ✅ |
-| 생존 신호 (선택) | | | ✅ 하루 1회 요약 |
+| 조건 일치 좌석 생김 | O 3회 | O `requireInteraction: true` | O |
+| 좌석 사라짐 | | O | O |
+| 감시 불능 / 복구 | O 1회 (다른 음) | O | O |
+| 생존 신호 (선택) | | | O 하루 1회 요약 |
 
 - 메시지 형식: `[12/31 19:00] R석 1층 A구역 7열 12·13번 (2연석) 생김`
 - **알림 ID에 `tabId`와 `windowId`를 넣는다** (예: `found:123:45:<시각>`). SW가 재시작된 뒤에도 알림 클릭으로 올바른 탭을 찾기 위해서다
@@ -515,6 +515,7 @@ test/
 
 1. `shared/types.js`, `shared/detector.js` + 테스트 (조사 없이 가능)
 2. `shared/config-validate.js` + 테스트, `manifest.json` 뼈대, `sw/store.js`(storage.session 복원·저장), 옵션 페이지
+   - 매니페스트의 `content_scripts`는 주입 도메인이 정해지는 5단계에서 추가한다
 3. notifier (크롬 알림, offscreen 소리, 텔레그램), focus, log + 내보내기
 4. **사전 조사** → `extension/config/site.nol.json`·매니페스트 `matches` 채우기, fixture 저장
 5. `net-tap.js` + `adapters-net.js` + 테스트 → tab-registry·watcher-state 연결

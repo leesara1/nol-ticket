@@ -1,0 +1,25 @@
+{
+  "site": "nol",
+  "seatMapFrame": { "urlPattern": "TODO: 좌석맵 frame URL 정규식" },
+  "net": {
+    "urlPatterns": ["TODO: 좌석 상태 응답 URL 정규식"],
+    "seatPath": "TODO",
+    "fields": {
+      "id": "TODO",
+      "grade": "TODO",
+      "zone": "TODO",
+      "block": "TODO",
+      "row": "TODO",
+      "col": "TODO",
+      "available": "TODO"
+    }
+  },
+  "dom": { "seatSelector": "TODO", "availableSelector": "TODO" },
+  "pageState": [
+    { "state": "queue", "selector": "TODO" },
+    { "state": "logged_out", "urlPattern": "TODO" },
+    { "state": "expired", "text": "TODO" }
+  ],
+  "refresh": { "action": "button", "selector": "TODO" },
+  "assist": { "confirmButtonSelector": "TODO" }
+}

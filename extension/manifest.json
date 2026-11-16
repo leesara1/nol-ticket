@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "NOL 취소표 알리미",
+  "short_name": "nol-cancel-alert",
+  "version": "0.1.0",
+  "description": "NOL 티켓 취소표를 감지해 알리고 좌석을 강조합니다. 좌석 선택과 결제는 사용자가 직접 합니다.",
+  "minimum_chrome_version": "120",
+  "background": { "service_worker": "background.js", "type": "module" },
+  "options_page": "options/options.html",
+  "action": { "default_title": "NOL 취소표 알리미" },
+  "permissions": ["storage", "unlimitedStorage", "alarms", "notifications", "offscreen"],
+  "host_permissions": ["https://nol.yanolja.com/*", "https://api.telegram.org/*"]
+}

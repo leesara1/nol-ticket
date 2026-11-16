@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NOL 취소표 알리미 설정</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <main>
+    <h1>NOL 취소표 알리미 설정</h1>
+    <p class="note">좌석 클릭·선택완료·보안문자·결제는 직접 하셔야 합니다. 이 확장은 감지·알림·강조만 합니다.</p>
+
+    <form id="form" novalidate>
+      <fieldset>
+        <legend>대상 공연</legend>
+        <label>상품코드 <input name="goodsCode" inputmode="numeric" placeholder="26015783"></label>
+        <label>회차(playSeq) <input name="playSeq" placeholder="쉼표로 구분, 비우면 전체"></label>
+        <label>등급 <input name="grades" placeholder="예: R, VIP (비우면 전체)"></label>
+        <label>구역 <input name="zones" placeholder="예: 1층 A구역 (비우면 전체)"></label>
+        <div class="row">
+          <label>열 범위 시작 <input name="rowFrom" type="number" min="1"></label>
+          <label>열 범위 끝 <input name="rowTo" type="number" min="1"></label>
+        </div>
+        <label>열 목록 <input name="rows" placeholder="문자 열일 때. 예: 가, 나"></label>
+        <label>연석 수 <input name="adjacent" type="number" min="1" value="1"></label>
+        <label>좌석 정규식 <input name="regex" placeholder="라벨 형식: 등급|구역|블록|열|번호"></label>
+        <label class="check"><input name="alertOnFirst" type="checkbox"> 감시 시작 시 이미 비어 있는 좌석도 알림</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>자동 새로고침</legend>
+        <p class="note">좌석맵이 저절로 갱신되지 않을 때만 켜세요. 최소 30초, 지정한 시간대에만 동작합니다.</p>
+        <label class="check"><input name="refreshEnabled" type="checkbox"> 사용</label>
+        <label>간격(초) <input name="intervalSec" type="number" min="30" value="60"></label>
+        <label>시간대 <textarea name="windows" rows="3" placeholder="한 줄에 하나. 예: 08:55-09:30"></textarea></label>
+      </fieldset>
+
+      <fieldset>
+        <legend>알림</legend>
+        <label class="check"><input name="sound" type="checkbox"> 소리</label>
+        <label class="check"><input name="desktop" type="checkbox"> 크롬 알림</label>
+        <label class="check"><input name="telegramEnabled" type="checkbox"> 텔레그램</label>
+        <label>봇 토큰 <input name="telegramToken" type="password" autocomplete="off"></label>
+        <label>chat_id <input name="telegramChatId" autocomplete="off"></label>
+      </fieldset>
+
+      <fieldset>
+        <legend>예매자 정보 (빈 칸 채우기용, 이 PC에만 저장)</legend>
+        <label>이름 <input name="profileName" autocomplete="off"></label>
+        <label>전화번호 <input name="profilePhone" autocomplete="off"></label>
+        <label>이메일 <input name="profileEmail" type="email" autocomplete="off"></label>
+      </fieldset>
+
+      <div class="actions">
+        <button type="submit">저장</button>
+        <span id="status" role="status"></span>
+      </div>
+      <ul id="warnings" class="warnings" hidden></ul>
+    </form>
+  </main>
+
+  <script src="../shared/types.js"></script>
+  <script src="../shared/detector.js"></script>
+  <script src="../shared/config-validate.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>

@@ -79,5 +79,5 @@ research/       조사 자료 (raw/ 는 원본 응답)
 ## 명령어
 
 - 테스트: `node --test` (저장소 루트에서. Node 24는 `node --test test/`처럼 디렉터리를 인자로 받지 않는다)
-- 빌드: 없음. `extension/` 폴더를 `chrome://extensions` → "압축해제된 확장 프로그램 로드"로 불러온다 (매니페스트는 2단계에서 추가)
+- 빌드: 없음. `extension/` 폴더를 `chrome://extensions` → "압축해제된 확장 프로그램 로드"로 불러온다. 자세한 순서는 README "실행 방법"
 - `extension/shared/*.js`는 DESIGN 2.1 형식(classic script + `module.exports` 겸용)을 지킨다. `import`/`export` 문법을 쓰지 않는다.
