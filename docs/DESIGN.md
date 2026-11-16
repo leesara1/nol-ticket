@@ -210,6 +210,19 @@ detect(prev: Snapshot | null, curr: Snapshot, filter: Filter, alerted: Set<strin
 
 **열 범위(`rowRange`):** 열이 숫자면 `{from, to}` 숫자 비교. "가", "AA" 같은 문자 열은 `rowRange` 대신 `rows: ["가", "나"]` 목록이나 정규식으로 지정한다.
 
+**필터 세부 규칙**
+- 빈 배열·`null`인 조건은 제한 없음으로 본다.
+- `rowRange`가 있으면 숫자가 아닌 열은 통과하지 못한다.
+- `regex`는 좌석 라벨 `"{grade}|{zone}|{block}|{row}|{col}"`과 비교한다. 예: `"^R\\|1층 A구역\\|"`, `"\\|(7|8|9)\\|\\d+$"`
+- `adjacent` 기본값은 1 (단일 좌석도 알림).
+
+**이벤트 생성 규칙**
+- `appeared` + `matched: true`: 조건 일치 연석 묶음마다 하나. 묶음 전체(이미 비어 있던 좌석 포함)를 담는다.
+- `appeared` + `matched: false`: 조건 일치 묶음에 들지 않은 새 좌석 전체를 하나로 묶는다. 알림에는 쓰지 않고 로그(NFR-5)에만 쓴다.
+- `disappeared`: **이전에 알린 좌석(`alerted`) 중 사라진 것**만 하나로 묶는다. 알리지 않은 좌석이 사라진 건 알릴 필요가 없다.
+- `prev.playSeq !== curr.playSeq`이면 `prev = null`로 취급한다.
+- 입력(`prev`, `curr`, `alerted`)은 변경하지 않고 새 `alerted`를 반환한다.
+
 ## 7. 소스 어댑터
 
 모든 어댑터는 같은 계약을 따른다.
