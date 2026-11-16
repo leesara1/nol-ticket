@@ -1,0 +1,16 @@
+# 비밀값
+.env
+*.env
+
+# 사이트 원본 페이지·네트워크 기록 (공개 저장소에 올리지 않음)
+research/raw/*.html
+fixtures/*.har
+fixtures/**/*.har
+
+# Node / Python
+node_modules/
+__pycache__/
+*.pyc
+
+# 픽셀 감시 결과 이미지
+screen_alert_results/
