@@ -24,6 +24,7 @@ const sample = () => validateUserConfig({
   ],
   notify: { sound: true, desktop: false, telegram: { enabled: true, token: "t", chatId: "c" } },
   profile: { name: "홍길동", phone: "010", email: "a@b.c" },
+  assist: { autoZoom: false },
 }).config;
 
 test("기본 설정은 왕복해도 그대로", () => {

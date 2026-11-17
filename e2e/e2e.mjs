@@ -139,7 +139,7 @@ try {
   // 팝업
   const pop = await openPage(`chrome-extension://${extId}/popup/popup.html`);
   await send("Emulation.setDeviceMetricsOverride", { width: 340, height: 420, deviceScaleFactor: 1, mobile: false }, pop);
-  const tabsText = await waitFor(pop, "document.getElementById('tabs').textContent.includes('감시') && document.getElementById('tabs').textContent");
+  const tabsText = await waitFor(pop, "(t => (t.includes('감시') || t.includes('좌석 화면')) && t)(document.getElementById('tabs').textContent)");
   check("팝업 상태 표시", !!tabsText, tabsText ?? "");
   await shot(pop, "popup-1.png");
   await evalIn(pop, "document.getElementById('test').click(), true");

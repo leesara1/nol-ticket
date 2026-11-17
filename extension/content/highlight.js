@@ -4,6 +4,8 @@
 //   → 사이트가 확대·이동하면 같이 움직인다. pointer-events: none이라 클릭은 사이트로 그대로 간다
 // - 화면 위쪽에 고정 안내, '선택 완료' 버튼에 외곽선
 // - 클릭 이벤트는 만들지 않는다 (좌석 클릭·선택완료는 사용자가 한다)
+// - 자동 확대(설정, DESIGN 11.1.1): 1순위 좌석의 화면 좌표에서 확대 컨테이너에 휠 이벤트를 보내 사이트 자체 확대 기능을 쓴다.
+//   좌석 요소에는 어떤 이벤트도 보내지 않는다. 배율이 실제로 커지는지 확인하고, 반응이 없으면 멈춘다
 "use strict";
 
 (function (root) {
@@ -15,7 +17,8 @@
 
   /**
    * @typedef {{ key: string, x: number, y: number, best: boolean }} Target
-   * @typedef {{ seatMapSelector: string, seatSvgSelector: string, confirmButtonSelector: string, confirmButtonText?: string }} AssistConfig
+   * @typedef {{ seatMapSelector: string, seatSvgSelector: string, confirmButtonSelector: string, confirmButtonText?: string,
+ *   zoomWrapperSelector?: string, zoomContentSelector?: string, zoomScale?: number }} AssistConfig
    */
 
   /** @param {AssistConfig} assist */
@@ -79,6 +82,7 @@
         if (ov.querySelector(`[data-nca-key="${CSS.escape(t.key)}"]`)) continue;
         const g = document.createElementNS(SVG_NS, "g");
         g.setAttribute("data-nca-key", t.key);
+        if (t.best) g.setAttribute("data-nca-best", "1");
         const color = t.best ? "#e11d48" : "#f59e0b";
         const r = t.best ? 22 : 13;
         // 바깥 링: 커졌다 작아지며 깜빡임 (SVG 애니메이션)
@@ -163,7 +167,7 @@
 
     /**
      * SW가 보낸 강조 계획 적용.
-     * @param {{ add?: Target[], remove?: string[], banner?: string | null }} plan
+     * @param {{ add?: Target[], remove?: string[], banner?: string | null, autoZoom?: boolean }} plan
      */
     function apply(plan) {
       for (const k of plan.remove ?? []) targets.delete(k);
@@ -185,6 +189,73 @@
       }
       observe();
       render();
+      // 새 1순위가 생겼을 때만 한 번 확대 (사용자가 지도를 조작 중이어도 다시 끌어오지 않도록)
+      if (plan.autoZoom && (plan.add ?? []).some((t) => t.best)) {
+        zoomToBest().then((r) => {
+          lastZoom = r;
+          if (r === "unsupported" && bannerText && !bannerText.includes("눌러 확대")) {
+            bannerText = bannerText.replace(/ — 깜빡이는 곳을 누르세요$/, " — 깜빡이는 곳을 눌러 확대하세요");
+            render();
+          }
+        });
+      }
+    }
+    /** @type {string | null} 마지막 자동 확대 결과 (진단용) */
+    let lastZoom = null;
+
+    // ── 자동 확대 ──
+    let zooming = false;
+
+    /** 확대 컨테이너의 현재 배율 (transform scale) */
+    function currentScale() {
+      const el = assist.zoomContentSelector ? /** @type {HTMLElement | null} */ (document.querySelector(assist.zoomContentSelector)) : null;
+      const m = /scale\(([\d.]+)\)/.exec(el?.style.transform ?? "");
+      return m ? Number(m[1]) : null;
+    }
+
+    /** 1순위 표시의 화면 좌표 */
+    function bestPoint() {
+      const dot = document.querySelector(`#${OVERLAY_ID} g[data-nca-best="1"] circle:last-child`);
+      if (!dot) return null;
+      const r = dot.getBoundingClientRect();
+      return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+    }
+
+    const wait = (/** @type {number} */ ms) => new Promise((res) => setTimeout(res, ms));
+
+    /**
+     * 1순위 좌석 위치를 중심으로 확대한다. 결과를 돌려준다 (테스트·진단용).
+     * @returns {Promise<"done" | "already" | "unsupported" | "no-target">}
+     */
+    async function zoomToBest() {
+      if (zooming) return "already";
+      const wrapper = assist.zoomWrapperSelector ? document.querySelector(assist.zoomWrapperSelector) : null;
+      const goal = Number(assist.zoomScale) || 3;
+      if (!wrapper || currentScale() === null) return "unsupported";
+      zooming = true;
+      try {
+        let flat = 0;
+        let ctrl = false; // 일반 휠로 반응이 없으면 Ctrl+휠(확대 제스처)로 한 번 더 시도
+        for (let i = 0; i < 8; i++) {
+          const before = /** @type {number} */ (currentScale());
+          if (before >= goal) return "done";
+          const p = bestPoint();
+          if (!p) return "no-target";
+          wrapper.dispatchEvent(new WheelEvent("wheel", {
+            bubbles: true, cancelable: true, clientX: p.x, clientY: p.y, deltaY: -120, deltaMode: 0, ctrlKey: ctrl,
+          }));
+          await wait(150);
+          const after = currentScale() ?? before;
+          if (after > before) { flat = 0; continue; }
+          flat++;
+          if (flat === 1 && !ctrl) { ctrl = true; continue; }
+          if (flat >= 2) return "unsupported";
+        }
+        return "done";
+      } finally {
+        zooming = false;
+        schedule();
+      }
     }
 
     function clear() {
@@ -193,7 +264,7 @@
       render();
     }
 
-    return { apply, clear, size: () => targets.size };
+    return { apply, clear, size: () => targets.size, lastZoom: () => lastZoom };
   }
 
   (root.NCA ??= {}).createHighlighter = createHighlighter;

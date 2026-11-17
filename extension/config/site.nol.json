@@ -16,6 +16,9 @@
     "seatMapSelector": "[class*='SeatMap_seatMap__']",
     "seatSvgSelector": "[class*='SeatMap_seatGroup__'] svg",
     "confirmButtonSelector": "button[class*='EntButton_primary__']",
-    "confirmButtonText": "선택 완료"
+    "confirmButtonText": "선택 완료",
+    "zoomWrapperSelector": "[class*='EntZoomableWrapper_wrapper__']",
+    "zoomContentSelector": "[class*='EntZoomableWrapper_content__']",
+    "zoomScale": 3
   }
 }

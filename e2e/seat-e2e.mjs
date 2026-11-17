@@ -78,6 +78,23 @@ const PAGE = `<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>
     return fetch("/onestop/gql", { method: "POST", headers: { "content-type": "application/json" },
       body: JSON.stringify({ operationName, query: "query { x }", variables: {} }) }).then((r) => r.text());
   }
+  // 사이트처럼: 지도 위 휠 → 마우스 위치를 중심으로 확대 (EntZoomableWrapper 흉내)
+  window.__clicks = 0;
+  document.addEventListener("click", () => { window.__clicks++; }, true);
+  document.addEventListener("pointerdown", () => { window.__clicks++; }, true);
+  (() => {
+    const wrapper = document.querySelector("[class*=EntZoomableWrapper_wrapper__]");
+    const content = document.querySelector("[class*=EntZoomableWrapper_content__]");
+    let s = 1, tx = 0, ty = 0;
+    wrapper.addEventListener("wheel", (e) => {
+      e.preventDefault();
+      const r = wrapper.getBoundingClientRect();
+      const px = e.clientX - r.left, py = e.clientY - r.top;
+      const ns = Math.min(4, e.deltaY < 0 ? s * 1.5 : s / 1.5);
+      tx = px - (px - tx) * (ns / s); ty = py - (py - ty) * (ns / s); s = ns;
+      content.style.transform = "translate(" + tx + "px, " + ty + "px) scale(" + s + ")";
+    }, { passive: false });
+  })();
   // 실제 화면처럼: 입장 때 세션 만료 확인 질의(false), 보안문자 확인 등 다른 GraphQL도 호출
   window.__checkExpired = () => gql("ExpiredSession");
   (async () => {
@@ -246,6 +263,18 @@ try {
   check("안내 배너", /^취소표: VIP석\(현장수령\) FLOOR A구역 10열 10·11번 \(2연석\) — 깜빡이는 곳을 누르세요/.test(banner ?? ""), String(banner));
   const btn = await evalIn(page, "(() => { const b = document.querySelector('button[class*=EntButton_primary__]'); return { hl: b.classList.contains('nca-confirm-highlight'), disabled: b.disabled }; })()");
   check("선택완료 버튼 강조 (누르지 않음: 그대로 disabled)", btn.hl === true && btn.disabled === true, JSON.stringify(btn));
+  // 자동 확대: 배율이 목표(3)까지 커지고, 1순위 좌석이 지도 영역 안에 보이며, 클릭은 한 번도 없어야 한다
+  const zoom = await waitFor(page, `(() => {
+    const m = /scale\\(([\\d.]+)\\)/.exec(document.querySelector("[class*=EntZoomableWrapper_content__]").style.transform);
+    const scale = m ? Number(m[1]) : 0;
+    if (scale < 3) return null;
+    const w = document.querySelector("[class*=EntZoomableWrapper_wrapper__]").closest("section").getBoundingClientRect();
+    const d = document.querySelector('#nca-overlay g[data-nca-best="1"] circle:last-child').getBoundingClientRect();
+    const cx = d.left + d.width / 2, cy = d.top + d.height / 2;
+    return { scale, inside: cx > w.left && cx < w.right && cy > w.top && cy < w.bottom, clicks: window.__clicks };
+  })()`, 6000);
+  check("자동 확대: 좌석 위치를 중심으로 배율 3 이상", !!zoom && zoom.scale >= 3 && zoom.inside === true, JSON.stringify(zoom));
+  check("자동 확대 중 클릭·포인터 이벤트 없음", zoom?.clicks === 0, JSON.stringify(zoom));
   const shot = await send("Page.captureScreenshot", { format: "png" }, page).catch(() => null);
   if (shot) { const out = path.join(os.tmpdir(), "nca-seat-e2e-highlight.png"); fs.writeFileSync(out, Buffer.from(shot.data, "base64")); log("스크린샷:", out); }
   const logs = await evalIn(swS, "chrome.storage.local.get(null).then(d => Object.entries(d).filter(([k]) => k.startsWith('log:')).flatMap(([, v]) => v))");

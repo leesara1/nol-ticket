@@ -18,6 +18,16 @@
   /** 좌석 화면 주소 패턴 (CONFIG로 받음). 이 주소가 아니면 좌석 응답을 무시한다 */
   /** @type {RegExp | null} */
   let seatPageRe = null;
+  /** 진단 (팝업 표시용): 연결·설정·받은 응답 수·마지막 오류 */
+  const diag = { config: false, net: 0, meta: 0, status: 0, offSeat: 0, lastError: "" };
+  let diagSent = "";
+  function sendDiag() {
+    const d = JSON.stringify(diag);
+    if (d === diagSent) return;
+    diagSent = d;
+    send({ type: "DIAG", diag: { ...diag, url: location.pathname } });
+  }
+  setInterval(sendDiag, 5000);
   /** 마지막으로 본 좌석 응답의 공연·회차 (GraphQL 응답에는 없으므로) */
   let last = { goodsCode: "", playSeq: "" };
 
@@ -84,7 +94,9 @@
     } catch {
       return;
     }
+    diag.config = true;
     postConfig();
+    sendDiag();
   }
 
   /** @param {any} d */
@@ -96,7 +108,9 @@
     if (event.source !== window || event.origin !== ORIGIN) return;
     const d = event.data;
     if (d?.type === "NCA_TAP_READY") { postConfig(); return; }
-    if (!cfg || !validNet(d) || d.status !== 200) return;
+    if (!cfg || !validNet(d)) return;
+    diag.net++;
+    if (d.status !== 200) { diag.lastError = `HTTP ${d.status}`; return; }
 
     // 세션 만료 확인 응답 (입장 때마다 false로 오고, 만료면 true)
     if (cfg.gql && cfg.gql.test(d.url)) {
@@ -107,16 +121,20 @@
     }
 
     // 좌석 화면을 벗어난 뒤(결제 단계 등)에 오는 좌석 응답은 감시에 쓰지 않는다
-    if (seatPageRe && !seatPageRe.test(location.href)) return;
+    if (seatPageRe && !seatPageRe.test(location.href)) { diag.offSeat++; return; }
 
     if (cfg.meta.test(d.url)) {
+      diag.meta++;
       const r = acc.addMeta(d.url, d.body);
+      if ("error" in r) diag.lastError = `${r.error}: ${r.detail}`;
       if ("error" in r) send({ type: "BLIND", reason: r.error, detail: r.detail, ...ids(d.url) });
       return;
     }
     if (cfg.status.test(d.url)) {
+      diag.status++;
       const r = acc.addStatus(d.url, d.body);
       if ("error" in r) {
+        diag.lastError = `${r.error}: ${r.detail}`;
         send({ type: "BLIND", reason: r.error, detail: r.detail, ...ids(d.url) });
         return;
       }
@@ -157,6 +175,14 @@
     }, 2000);
   }
 
-  // 연결하면 SW가 바로 CONFIG를 보낸다
+  // 연결하면 SW가 바로 CONFIG를 보낸다.
+  // SW가 막 시작되는 중이면 CONFIG를 못 받을 수 있으므로, 3초마다 최대 5번 다시 연결해 다시 받는다
   try { connect(); } catch (e) { console.error("[nca] 확장과 연결하지 못했습니다", e); }
+  let configRetries = 0;
+  const configTimer = setInterval(() => {
+    if (cfg || ++configRetries > 5) { clearInterval(configTimer); return; }
+    try { port?.disconnect(); } catch { /* 무시 */ }
+    port = null;
+    try { connect(); } catch { /* 다음 시도 */ }
+  }, 3000);
 })();

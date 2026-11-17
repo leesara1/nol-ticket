@@ -20,7 +20,14 @@ test("defaultUserConfig: 12.2 구조, targets는 빈 배열", () => {
       telegram: { enabled: false, token: "", chatId: "" },
     },
     profile: { name: "", phone: "", email: "" },
+    assist: { autoZoom: true },
   });
+});
+
+test("assist.autoZoom: boolean만, 없으면 켜짐", () => {
+  assert.equal(validateUserConfig({ assist: { autoZoom: false } }).config.assist.autoZoom, false);
+  assert.equal(validateUserConfig({ assist: { autoZoom: "no" } }).config.assist.autoZoom, true);
+  assert.equal(validateUserConfig({}).config.assist.autoZoom, true);
 });
 
 // ── 입력 전체 ────────────────────────────────────────────

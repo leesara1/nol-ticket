@@ -21,6 +21,7 @@
    * @property {TargetConfig[]} targets
    * @property {{ sound: boolean, desktop: boolean, telegram: { enabled: boolean, token: string, chatId: string } }} notify
    * @property {{ name: string, phone: string, email: string }} profile
+   * @property {{ autoZoom: boolean }} assist   좌석이 풀리면 그 위치로 지도 확대 (DESIGN 11.1.1)
    */
 
   /** @returns {UserConfig} */
@@ -33,6 +34,7 @@
         telegram: { enabled: false, token: "", chatId: "" },
       },
       profile: { name: "", phone: "", email: "" },
+      assist: { autoZoom: true },
     };
   }
 
@@ -198,6 +200,11 @@
         name: strField(profileSrc.name),
         phone: strField(profileSrc.phone),
         email: strField(profileSrc.email),
+      },
+      assist: {
+        autoZoom: isPlainObject(src.assist) && typeof /** @type {any} */ (src.assist).autoZoom === "boolean"
+          ? /** @type {any} */ (src.assist).autoZoom
+          : defaults.assist.autoZoom,
       },
     };
 

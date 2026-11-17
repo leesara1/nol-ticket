@@ -228,7 +228,27 @@ test("GET_STATUS: 설정과 감시 탭 요약", async () => {
   assert.equal(r.ok, true);
   assert.deepEqual(r.targets, []);
   assert.deepEqual(r.channels, { sound: true, desktop: true, telegram: false });
-  assert.deepEqual(r.tabs, [{ tabId: 9, watch: "BLIND", blindReason: "expired" }]);
+  assert.deepEqual(r.tabs, [{ tabId: 9, watch: "BLIND", blindReason: "expired", goodsCode: "" }]);
+  assert.deepEqual(r.untracked, []);
+});
+
+test("대상이 아닌 공연의 좌석 화면 → 팝업에 표시 → ADD_TARGET으로 추가", async () => {
+  await chrome.storage.session.set({ "tab:61": { watch: "IDLE", blindReason: null, frames: {}, seatMapFrameId: null, lastOkAt: 1, goodsCode: "26013198", playSeq: "010", windowId: 1 } });
+  let r = await send({ type: "GET_STATUS" });
+  assert.deepEqual(r.untracked, [{ tabId: 61, goodsCode: "26013198", playSeq: "010" }]);
+  assert.deepEqual(await send({ type: "ADD_TARGET", goodsCode: "26013198", alertOnFirst: true }), { ok: true });
+  assert.deepEqual(await send({ type: "ADD_TARGET", goodsCode: "x1" }), { ok: false, error: "상품코드 형식이 아님" });
+  r = await send({ type: "GET_STATUS" });
+  assert.deepEqual(r.targets, ["26013198"]);
+  assert.deepEqual(r.untracked, []);
+  const saved = chrome.storage.local.data.userConfig.targets[0];
+  assert.equal(saved.filter.alertOnFirst, true);
+  assert.equal(saved.filter.adjacent, 1);
+  // 두 번 눌러도 중복 추가 안 됨
+  await send({ type: "ADD_TARGET", goodsCode: "26013198" });
+  assert.equal(chrome.storage.local.data.userConfig.targets.length, 1);
+  delete chrome.storage.local.data.userConfig;
+  delete chrome.storage.session.data["tab:61"];
 });
 
 test("TEST_NOTIFY: 크롬 알림 + offscreen 소리, 텔레그램 꺼짐", async () => {

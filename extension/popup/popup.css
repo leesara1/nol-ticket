@@ -41,3 +41,6 @@ button.secondary { background: transparent; color: var(--fg); border: 1px solid 
 button:disabled { opacity: 0.6; cursor: default; }
 #result { min-height: 1.5em; margin: 8px 0 0; }
 .note { color: var(--muted); font-size: 12px; margin: 8px 0 0; }
+.untracked { display: grid; gap: 6px; padding: 8px; margin: 4px 0; border: 1px solid var(--line); border-radius: 6px; }
+.untracked button { flex: none; }
+.diag li { font-size: 12px; color: var(--muted); }

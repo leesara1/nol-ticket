@@ -88,17 +88,39 @@ async function handleMessage(msg) {
     case "GET_STATUS": {
       const c = await loadUserConfig();
       const tabIds = await store.listTabIds();
+      const targetCodes = new Set(c.targets.map((/** @type {any} */ t) => t.goodsCode));
       const tabs = [];
+      /** 좌석 화면에 있지만 감시 대상이 아닌 공연 (팝업에서 바로 추가) */
+      const untracked = [];
+      /** 좌석 화면 탭 진단 (연결·응답 수) */
+      const diag = [];
       for (const tabId of tabIds) {
         const t = await store.getTab(tabId);
-        if (t.watch !== "IDLE") tabs.push({ tabId, watch: t.watch, blindReason: t.blindReason });
+        if (t.watch !== "IDLE") tabs.push({ tabId, watch: t.watch, blindReason: t.blindReason, goodsCode: t.goodsCode ?? "" });
+        if (t.diag) diag.push({ tabId, ...t.diag, goodsCode: t.goodsCode ?? "", watch: t.watch });
+        else if (t.goodsCode && !targetCodes.has(t.goodsCode) && !untracked.some((u) => u.goodsCode === t.goodsCode)) {
+          untracked.push({ tabId, goodsCode: t.goodsCode, playSeq: t.playSeq ?? "" });
+        }
       }
       return {
         ok: true,
-        targets: c.targets.map((/** @type {any} */ t) => t.goodsCode),
+        targets: [...targetCodes],
         channels: { sound: c.notify.sound, desktop: c.notify.desktop, telegram: c.notify.telegram.enabled },
         tabs,
+        untracked,
+        diag,
       };
+    }
+    case "ADD_TARGET": {
+      // 팝업 "이 공연 감시하기": 조건 없이(모든 좌석, 1석부터) 추가. 조건은 설정에서 바꾼다
+      if (typeof msg.goodsCode !== "string" || !/^\d+$/.test(msg.goodsCode)) return { ok: false, error: "상품코드 형식이 아님" };
+      const c = await loadUserConfig();
+      if (!c.targets.some((/** @type {any} */ t) => t.goodsCode === msg.goodsCode)) {
+        c.targets.push({ goodsCode: msg.goodsCode, playSeq: [], filter: detector.normalizeFilter({ alertOnFirst: !!msg.alertOnFirst }) });
+        const { config } = configValidate.validateUserConfig(c);
+        await chrome.storage.local.set({ userConfig: config });
+      }
+      return { ok: true };
     }
     case "TEST_NOTIFY": {
       const { results } = await notifier.notify("test", "알림 테스트입니다. 이 알림이 보이면 설정이 정상입니다.", { force: true });
@@ -197,6 +219,7 @@ chrome.runtime.onConnect.addListener((port) => {
   if (!tab || tab.id === undefined || port.sender?.id !== chrome.runtime.id) { port.disconnect(); return; }
   const ref = { id: tab.id, windowId: tab.windowId };
   contentPorts.set(tab.id, port);
+  store.updateTab(tab.id, (t) => { t.diag = { ...(t.diag ?? {}), connectedAt: Date.now() }; }).catch(() => {});
   // content script는 확장 파일을 직접 못 읽으므로 사이트 설정을 보내준다 (DESIGN 13)
   loadSiteConfig().then(
     (site) => {
@@ -217,6 +240,13 @@ chrome.runtime.onConnect.addListener((port) => {
       watcher.handleSnapshot(ref, msg).catch((e) => console.error("[nca] 스냅샷 처리 실패", e));
     } else if (msg?.type === "BLIND" && typeof msg.reason === "string") {
       watcher.handleBlind(ref, msg).catch((e) => console.error("[nca] 감시 불능 처리 실패", e));
+    } else if (msg?.type === "DIAG" && msg.diag && typeof msg.diag === "object") {
+      const d = msg.diag;
+      const clean = {
+        config: !!d.config, net: Number(d.net) || 0, meta: Number(d.meta) || 0, status: Number(d.status) || 0,
+        offSeat: Number(d.offSeat) || 0, lastError: String(d.lastError ?? "").slice(0, 200), url: String(d.url ?? "").slice(0, 100),
+      };
+      store.updateTab(ref.id, (t) => { t.diag = { ...(t.diag ?? {}), ...clean, at: Date.now() }; }).catch(() => {});
     } else if (msg?.type === "LEAVE") {
       watcher.handleLeave(ref).catch((e) => console.error("[nca] 이탈 처리 실패", e));
     }

@@ -23,6 +23,7 @@
  * @property {string} profileName
  * @property {string} profilePhone
  * @property {string} profileEmail
+ * @property {boolean} autoZoom
  */
 
 (function (root) {
@@ -61,6 +62,7 @@
       profileName: c.profile.name ?? "",
       profilePhone: c.profile.phone ?? "",
       profileEmail: c.profile.email ?? "",
+      autoZoom: c.assist?.autoZoom !== false,
     };
   }
 
@@ -115,6 +117,7 @@
           telegram: { enabled: v.telegramEnabled, token: v.telegramToken.trim(), chatId: v.telegramChatId.trim() },
         },
         profile: { name: v.profileName, phone: v.profilePhone, email: v.profileEmail },
+        assist: { autoZoom: v.autoZoom },
       },
     };
   }

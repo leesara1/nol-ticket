@@ -80,7 +80,16 @@ export function createWatcher(deps) {
       const config = await deps.loadUserConfig();
       const snap = msg.snapshot;
       const target = config.targets.find((/** @type {any} */ t) => t.goodsCode === msg.goodsCode);
-      if (!target) return { ignored: "대상 공연 아님" };
+      if (!target) {
+        await deps.store.updateTab(tab.id, (t) => {
+          t.watch = "IDLE";
+          t.goodsCode = msg.goodsCode;
+          t.playSeq = snap.playSeq;
+          t.windowId = tab.windowId;
+          t.lastOkAt = now();
+        });
+        return { ignored: "대상 공연 아님" };
+      }
       if (target.playSeq.length > 0 && !target.playSeq.includes(snap.playSeq)) return { ignored: "대상 회차 아님" };
 
       const prevRaw = await deps.store.getPrev(tab.id, snap.playSeq);
@@ -115,7 +124,7 @@ export function createWatcher(deps) {
       // 강조는 알림보다 먼저 보낸다 (탭을 앞으로 가져왔을 때 이미 표시돼 있도록)
       if (deps.assistPlan && deps.highlight) {
         const plan = deps.assistPlan.planHighlight(events);
-        if (plan.add.length > 0 || plan.remove.length > 0) deps.highlight(tab.id, plan);
+        if (plan.add.length > 0 || plan.remove.length > 0) deps.highlight(tab.id, { ...plan, autoZoom: config.assist?.autoZoom !== false });
       }
       for (const e of found) {
         await deps.notifier.notify("found", deps.format.formatSeatEvent(e), { tabId: tab.id, windowId: tab.windowId });

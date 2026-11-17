@@ -21,6 +21,7 @@
  * @property {string} [goodsCode]   마지막 스냅샷의 공연 (응답 끊김 알림·대상 확인용)
  * @property {string} [playSeq]
  * @property {number} [windowId]    알림 클릭 시 포커스용
+ * @property {any} [diag]            진단 (팝업 표시용): 연결 시각, 설정 수신, 받은 응답 수, 마지막 오류
  *
  * @typedef {Object} StorageArea  chrome.storage.StorageArea 중 쓰는 부분
  * @property {(keys?: string | string[] | null) => Promise<Record<string, any>>} get
